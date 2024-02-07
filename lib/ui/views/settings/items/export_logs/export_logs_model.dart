@@ -1,0 +1,28 @@
+import 'package:glass_down_v2/app/app.locator.dart';
+import 'package:glass_down_v2/app/app.snackbar.dart';
+import 'package:glass_down_v2/models/errors/io_error.dart';
+import 'package:glass_down_v2/services/logs_service.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
+
+class ExportLogsModel extends BaseViewModel {
+  final _logs = locator<LogsService>();
+  final _snackbar = locator<SnackbarService>();
+
+  Future<void> exportLogs() async {
+    try {
+      await _logs.exportLogs();
+      _snackbar.showCustomSnackBar(
+        title: 'Logs',
+        message: 'Logs exported to Documents folder',
+        variant: SnackbarType.info,
+      );
+    } catch (e) {
+      _snackbar.showCustomSnackBar(
+        title: 'Error',
+        message: e is IOError ? e.message : e.toString(),
+        variant: SnackbarType.info,
+      );
+    }
+  }
+}
