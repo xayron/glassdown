@@ -12,7 +12,7 @@ void setupSnackbarUi() {
     config: SnackbarConfig(
       snackPosition: SnackPosition.TOP,
       closeSnackbarOnMainButtonTapped: true,
-      animationDuration: const Duration(milliseconds: 1000),
+      animationDuration: const Duration(milliseconds: 400),
       snackStyle: SnackStyle.FLOATING,
       borderRadius: 15,
       dismissDirection: DismissDirection.horizontal,
@@ -26,21 +26,13 @@ void setupSnackbarUi() {
     config: SnackbarConfig(
       snackPosition: SnackPosition.TOP,
       closeSnackbarOnMainButtonTapped: true,
-      animationDuration: const Duration(milliseconds: 1000),
+      animationDuration: const Duration(milliseconds: 400),
       snackStyle: SnackStyle.FLOATING,
       borderRadius: 15,
       dismissDirection: DismissDirection.horizontal,
       isDismissible: true,
       showProgressIndicator: true,
-    ),
-  );
-
-  snackbar.registerSnackbarConfig(
-    SnackbarConfig(
-      snackPosition: SnackPosition.BOTTOM,
-      closeSnackbarOnMainButtonTapped: true,
-      animationDuration: const Duration(milliseconds: 500),
-      snackStyle: SnackStyle.FLOATING,
+      margin: const EdgeInsets.symmetric(horizontal: 12),
     ),
   );
 }
