@@ -1,4 +1,5 @@
 import 'package:glass_down_v2/app/app.locator.dart';
+import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:glass_down_v2/ui/views/types/types_view.dart';
@@ -12,7 +13,8 @@ class VersionCardModel extends BaseViewModel {
 
   void openTypesView(AppInfo app) {
     if (!_settings.isConnected) {
-      _snackbar.showSnackbar(
+      _snackbar.showCustomSnackBar(
+        variant: SnackbarType.info,
         title: 'Error',
         message: 'You have no internet connection',
       );
