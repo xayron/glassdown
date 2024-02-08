@@ -76,10 +76,10 @@ jobs:
           separator: ':'
 
       - name: Add version to APK - arm64
-        run: mv ${{ steps.signed_files.outputs._0 }} glass_down-arm64-v8a-${{ needs.version.outputs.app-version }}.apk
+        run: mv build/app/outputs/apk/release/app-arm64-v8a-release-signed.apk glass_down-arm64-v8a-${{ needs.version.outputs.app-version }}.apk
 
       - name: Add version to APK - arm32
-        run: mv ${{ steps.signed_files.outputs._1 }} glass_down-armeabi-v7a-${{ needs.version.outputs.app-version }}.apk
+        run: mv build/app/outputs/apk/release/app-armeabi-v7a-release-signed.apk glass_down-armeabi-v7a-${{ needs.version.outputs.app-version }}.apk
 
       - name: Publish release APK
         uses: "marvinpinto/action-automatic-releases@v1.2.1"
