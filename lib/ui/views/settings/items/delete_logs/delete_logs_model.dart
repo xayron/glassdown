@@ -14,7 +14,7 @@ class DeleteLogsModel extends BaseViewModel {
       await _logs.deleteLogs();
       _snackbar.showCustomSnackBar(
         title: 'Logs',
-        message: 'Logs exported',
+        message: 'Logs deleted',
         variant: SnackbarType.info,
       );
     } catch (e) {

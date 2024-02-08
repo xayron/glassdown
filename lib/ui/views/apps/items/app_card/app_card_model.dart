@@ -15,7 +15,8 @@ class AppCardModel extends BaseViewModel {
 
   void openVersionsView(AppInfo app) {
     if (!_settings.isConnected) {
-      _snackbar.showSnackbar(
+      _snackbar.showCustomSnackBar(
+        variant: SnackbarType.info,
         title: 'Error',
         message: 'You have no internet connection',
       );

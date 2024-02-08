@@ -46,18 +46,23 @@ class AddAppDialog extends StackedView<AddAppDialogModel> with $AddAppDialog {
           RichText(
             text: TextSpan(
               text: viewModel.message,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
               children: [
                 TextSpan(
                   text: viewModel.urlMessage,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.w300,
+                    fontWeight: FontWeight.w400,
+                    color: Theme.of(context).colorScheme.onBackground,
                   ),
                 ),
                 TextSpan(
                   text: viewModel.appMessage,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.onBackground,
                   ),
                 ),
               ],

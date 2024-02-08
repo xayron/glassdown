@@ -2,6 +2,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:glass_down_v2/app/app.router.dart';
 import 'package:glass_down_v2/ui/theme/theme_builder_model.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -31,10 +32,12 @@ class ThemeBuilder extends StackedView<ThemeBuilderModel> {
           theme: ThemeData(
             colorScheme: lightScheme,
             useMaterial3: true,
+            fontFamily: GoogleFonts.robotoFlex().fontFamily,
           ),
           darkTheme: ThemeData(
             colorScheme: darkScheme,
             useMaterial3: true,
+            fontFamily: GoogleFonts.robotoFlex().fontFamily,
           ),
           initialRoute: Routes.homeView,
           onGenerateRoute: StackedRouter().onGenerateRoute,
