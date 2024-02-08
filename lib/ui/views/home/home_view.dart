@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:glass_down_v2/ui/views/apps/apps_view.dart';
 import 'package:glass_down_v2/ui/views/settings/settings_view.dart';
@@ -15,14 +16,23 @@ class HomeView extends StackedView<HomeViewModel> {
       case 1:
         return const SettingsView();
       default:
-        return const Placeholder();
+        return const AppsView();
     }
   }
 
   @override
   Widget builder(BuildContext context, HomeViewModel viewModel, Widget? child) {
     return Scaffold(
-      body: getViewForIndex(viewModel.currentIndex),
+      body: PageTransitionSwitcher(
+        transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
+          return FadeThroughTransition(
+            animation: primaryAnimation,
+            secondaryAnimation: secondaryAnimation,
+            child: child,
+          );
+        },
+        child: getViewForIndex(viewModel.currentIndex),
+      ),
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (value) {
           viewModel.setIndex(value);
