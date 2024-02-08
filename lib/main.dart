@@ -40,7 +40,7 @@ class MainApp extends StatelessWidget {
     ]);
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
-        systemStatusBarContrastEnforced: false,
+        systemStatusBarContrastEnforced: true,
         systemNavigationBarColor: Colors.transparent,
         systemNavigationBarDividerColor: Colors.transparent,
         systemNavigationBarIconBrightness: Brightness.dark,
