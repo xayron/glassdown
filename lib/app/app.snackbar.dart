@@ -17,6 +17,7 @@ void setupSnackbarUi() {
       borderRadius: 15,
       dismissDirection: DismissDirection.horizontal,
       isDismissible: true,
+      margin: const EdgeInsets.symmetric(horizontal: 12),
     ),
   );
 
