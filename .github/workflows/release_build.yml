@@ -59,12 +59,6 @@ jobs:
       - name: Start release build
         run: flutter build apk --split-per-abi --target-platform android-arm,android-arm64
 
-      - name: Add version to APK - arm64
-        run: mv build/app/outputs/apk/release/app-arm64-v8a-release.apk build/app/outputs/apk/release/glass_down-arm64-v8a-${{ needs.version.outputs.app-version }}.apk
-
-      - name: Add version to APK - arm32
-        run: mv build/app/outputs/apk/release/app-armeabi-v7a-release.apk build/app/outputs/apk/release/glass_down-armeabi-v7a-${{ needs.version.outputs.app-version }}.apk
-
       - name: Sign APK
         id: sign_apk
         uses: ilharp/sign-android-release@v1
@@ -81,13 +75,19 @@ jobs:
           msg: ${{ steps.sign_apk.outputs.signedFiles }}
           separator: ':'
 
+      - name: Add version to APK - arm64
+        run: mv ${{ steps.signed_files.outputs._0 }} glass_down-arm64-v8a-${{ needs.version.outputs.app-version }}.apk
+
+      - name: Add version to APK - arm32
+        run: mv ${{ steps.signed_files.outputs._1 }} glass_down-armeabi-v7a-${{ needs.version.outputs.app-version }}.apk
+
       - name: Publish release APK
         uses: "marvinpinto/action-automatic-releases@v1.2.1"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            ${{ steps.signed_files.outputs._0 }}
-            ${{ steps.signed_files.outputs._1 }}
+            glass_down-arm64-v8a-${{ needs.version.outputs.app-version }}.apk
+            glass_down-armeabi-v7a-${{ needs.version.outputs.app-version }}.apk
             
 
