@@ -112,7 +112,7 @@ class SettingsService
     _savePref<int>(SettingsKey.pagesAmount, value);
   }
 
-  bool _autoRemove = true;
+  bool _autoRemove = false;
   bool get autoRemove => _autoRemove;
   void setAutoRemove(bool value) {
     _autoRemove = value;
