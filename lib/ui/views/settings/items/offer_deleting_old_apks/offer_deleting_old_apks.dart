@@ -21,7 +21,7 @@ class OfferDeletingOldApks extends StackedView<OfferDeletingOldApksModel> {
           : null,
       child: ItemWrapper(
         enabled: !viewModel.autoRemove,
-        mainText: 'Offer old versions deletion',
+        mainText: 'Offer deleting old versions',
         secondaryText:
             'Ask for deletion of old APKs before downloading new one',
         trailingWidget: Switch(
