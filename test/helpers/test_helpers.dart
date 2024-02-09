@@ -6,6 +6,7 @@ import 'package:glass_down_v2/services/scraper_service.dart';
 import 'package:glass_down_v2/services/paths_service.dart';
 import 'package:glass_down_v2/services/apps_service.dart';
 import 'package:glass_down_v2/services/logs_service.dart';
+import 'package:glass_down_v2/services/deleter_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -18,6 +19,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<PathsService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<AppsService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<LogsService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<DeleterService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -28,6 +30,7 @@ void registerServices() {
   getAndRegisterPathsService();
   getAndRegisterAppsService();
   getAndRegisterLogsService();
+  getAndRegisterDeleterService();
 // @stacked-mock-register
 }
 
@@ -106,6 +109,13 @@ MockLogsService getAndRegisterLogsService() {
   _removeRegistrationIfExists<LogsService>();
   final service = MockLogsService();
   locator.registerSingleton<LogsService>(service);
+  return service;
+}
+
+MockDeleterService getAndRegisterDeleterService() {
+  _removeRegistrationIfExists<DeleterService>();
+  final service = MockDeleterService();
+  locator.registerSingleton<DeleterService>(service);
   return service;
 }
 // @stacked-mock-create
