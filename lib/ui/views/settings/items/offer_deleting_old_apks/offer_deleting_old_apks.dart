@@ -14,17 +14,22 @@ class OfferDeletingOldApks extends StackedView<OfferDeletingOldApksModel> {
     Widget? child,
   ) {
     return InkWell(
-      onTap: () {
-        viewModel.updateValue(!viewModel.offerRemoval);
-      },
+      onTap: !viewModel.autoRemove
+          ? () {
+              viewModel.updateValue(!viewModel.offerRemoval);
+            }
+          : null,
       child: ItemWrapper(
+        enabled: !viewModel.autoRemove,
         mainText: 'Offer old versions deletion',
         secondaryText:
             'Ask for deletion of old APKs before downloading new one',
         trailingWidget: Switch(
-          onChanged: (value) {
-            viewModel.updateValue(value);
-          },
+          onChanged: !viewModel.autoRemove
+              ? (value) {
+                  viewModel.updateValue(value);
+                }
+              : null,
           value: viewModel.offerRemoval,
         ),
       ),
