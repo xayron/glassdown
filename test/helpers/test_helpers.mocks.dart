@@ -12,6 +12,7 @@ import 'package:flutter/material.dart' as _i6;
 import 'package:glass_down_v2/models/app_info.dart' as _i2;
 import 'package:glass_down_v2/models/errors/io_error.dart' as _i13;
 import 'package:glass_down_v2/services/apps_service.dart' as _i12;
+import 'package:glass_down_v2/services/deleter_service.dart' as _i15;
 import 'package:glass_down_v2/services/logs_service.dart' as _i14;
 import 'package:glass_down_v2/services/paths_service.dart' as _i11;
 import 'package:glass_down_v2/services/scraper_service.dart' as _i9;
@@ -1061,3 +1062,8 @@ class MockLogsService extends _i1.Mock implements _i14.LogsService {
         returnValueForMissingStub: _i7.Future<_i13.IOError?>.value(),
       ) as _i7.Future<_i13.IOError?>);
 }
+
+/// A class which mocks [DeleterService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDeleterService extends _i1.Mock implements _i15.DeleterService {}
