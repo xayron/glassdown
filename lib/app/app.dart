@@ -16,6 +16,8 @@ import 'package:glass_down_v2/ui/views/download_status/download_status_view.dart
 import 'package:glass_down_v2/ui/dialogs/about_app/about_app_dialog.dart';
 import 'package:glass_down_v2/ui/dialogs/delete_old_apks/delete_old_apks_dialog.dart';
 import 'package:glass_down_v2/services/deleter_service.dart';
+import 'package:glass_down_v2/services/updater_service.dart';
+import 'package:glass_down_v2/ui/bottom_sheets/updater/updater_sheet.dart';
 // @stacked-import
 
 @StackedApp(
@@ -39,11 +41,13 @@ import 'package:glass_down_v2/services/deleter_service.dart';
     LazySingleton(classType: AppsService),
     LazySingleton(classType: LogsService),
     LazySingleton(classType: DeleterService),
+    LazySingleton(classType: UpdaterService),
 // @stacked-service
   ],
   bottomsheets: [
     StackedBottomsheet(classType: NoticeSheet),
-    // @stacked-bottom-sheet
+    StackedBottomsheet(classType: UpdaterSheet),
+// @stacked-bottom-sheet
   ],
   dialogs: [
     StackedDialog(classType: AddAppDialog),

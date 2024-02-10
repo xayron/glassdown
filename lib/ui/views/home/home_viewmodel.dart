@@ -14,6 +14,10 @@ class HomeViewModel extends StreamViewModel with IndexTrackingStateHelper {
         .onPermanentlyDeniedCallback(() => openAppSettings())
         .onDeniedCallback(() => openAppSettings())
         .request();
+    await Permission.requestInstallPackages
+        .onPermanentlyDeniedCallback(() => openAppSettings())
+        .onDeniedCallback(() => openAppSettings())
+        .request();
   }
 
   @override
