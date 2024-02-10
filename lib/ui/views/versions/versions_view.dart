@@ -18,7 +18,7 @@ class VersionsView extends StackedView<VersionsViewModel> {
     Widget? child,
   ) {
     return PopScope(
-      canPop: viewModel.canPop,
+      canPop: true,
       onPopInvoked: (_) => viewModel.cancel(),
       child: Scaffold(
           body: CustomScrollView(
@@ -41,7 +41,7 @@ class VersionsView extends StackedView<VersionsViewModel> {
             const SliverToBoxAdapter(
               child: LinearProgressIndicator(),
             ),
-          if (viewModel.hasError)
+          if (viewModel.hasError && viewModel.modelError is! DioException)
             SliverFillRemaining(
               hasScrollBody: false,
               child: Column(

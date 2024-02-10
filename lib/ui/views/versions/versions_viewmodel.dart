@@ -3,15 +3,14 @@ import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/services/scraper_service.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 const versionErrKey = 'version-err';
 
 class VersionsViewModel extends BaseViewModel {
   final _scraper = locator<ScraperService>();
   final _token = CancelToken();
-
-  bool _canPop = false;
-  bool get canPop => _canPop;
+  final _nav = locator<NavigationService>();
 
   AppInfo? _app;
   AppInfo? get appWithLinks => _app;
@@ -20,7 +19,6 @@ class VersionsViewModel extends BaseViewModel {
     try {
       setBusy(true);
       _app = await _scraper.getVersionList(app, _token);
-      _canPop = true;
     } catch (e) {
       setError(e);
     } finally {
@@ -30,7 +28,6 @@ class VersionsViewModel extends BaseViewModel {
 
   void cancel() {
     _token.cancel();
-    _canPop = true;
-    rebuildUi();
+    _nav.previousRoute;
   }
 }
