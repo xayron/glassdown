@@ -2,28 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:glass_down_v2/ui/widgets/settings/common/item_wrapper.dart';
 import 'package:stacked/stacked.dart';
 
-import 'delete_logs_model.dart';
+import 'check_updates_model.dart';
 
-class DeleteLogs extends StackedView<DeleteLogsModel> {
-  const DeleteLogs({super.key});
+class CheckUpdates extends StackedView<CheckUpdatesModel> {
+  const CheckUpdates({super.key});
 
   @override
   Widget builder(
     BuildContext context,
-    DeleteLogsModel viewModel,
+    CheckUpdatesModel viewModel,
     Widget? child,
   ) {
     return InkWell(
-      onTap: () => viewModel.deleteLogs(),
+      onTap: () => viewModel.checkUpdates(),
       child: const ItemWrapper(
-        mainText: 'Delete logs',
+        mainText: 'Check for updates',
       ),
     );
   }
 
   @override
-  DeleteLogsModel viewModelBuilder(
+  CheckUpdatesModel viewModelBuilder(
     BuildContext context,
   ) =>
-      DeleteLogsModel();
+      CheckUpdatesModel();
 }

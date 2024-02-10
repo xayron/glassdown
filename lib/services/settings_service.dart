@@ -16,6 +16,8 @@ enum SettingsKey {
   excludeBundles,
   excludeUnstable,
   pagesAmount,
+  autoRemove,
+  offerRemoval,
 }
 
 // ignore: constant_identifier_names
@@ -39,6 +41,8 @@ class SettingsService
       _excludeUnstable,
       _architecture,
       _pagesAmount,
+      _autoRemove,
+      _offerRemoval,
     ]);
   }
 
@@ -106,6 +110,22 @@ class SettingsService
     _pagesAmount = value;
     notifyListeners();
     _savePref<int>(SettingsKey.pagesAmount, value);
+  }
+
+  bool _autoRemove = false;
+  bool get autoRemove => _autoRemove;
+  void setAutoRemove(bool value) {
+    _autoRemove = value;
+    notifyListeners();
+    _savePref<bool>(SettingsKey.autoRemove, value);
+  }
+
+  bool _offerRemoval = true;
+  bool get offerRemoval => _offerRemoval;
+  void setOfferRemoval(bool value) {
+    _offerRemoval = value;
+    notifyListeners();
+    _savePref<bool>(SettingsKey.offerRemoval, value);
   }
 
   @override

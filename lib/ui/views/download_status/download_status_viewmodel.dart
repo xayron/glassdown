@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 import 'package:dio/dio.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
+import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/services/scraper_service.dart';
 import 'package:glass_down_v2/ui/views/home/home_view.dart';
@@ -12,23 +13,27 @@ class DownloadStatusViewModel extends ReactiveViewModel {
   final _nav = locator<NavigationService>();
   final _token = CancelToken();
   final _snackbar = locator<SnackbarService>();
-  CancelableOperation<void>? operation;
+  CancelableOperation<bool>? operation;
 
   bool _canPop = false;
-  bool get canPop => _canPop;
+  bool get canPop {
+    if (operation != null && operation!.isCompleted) {
+      return true;
+    }
+    return _canPop;
+  }
 
   Status get pageStatus => _scraper.pageStatus;
   Status get linkStatus => _scraper.linkStatus;
   Status get apkStatus => _scraper.apkStatus;
   double? get downloadProgress => _scraper.downloadProgress;
   Status get saveStatus => _scraper.saveStatus;
+  bool get success => operation?.isCompleted ?? false;
 
   Future<void> cancel() async {
     try {
-      _token.cancel();
       await operation?.cancel();
       _canPop = true;
-      // rebuildUi();
     } catch (e) {
       setError(e);
     }
@@ -38,16 +43,17 @@ class DownloadStatusViewModel extends ReactiveViewModel {
     if (home) {
       _nav.clearStackAndShowView(const HomeView());
     } else {
-      _nav.back();
+      _nav.previousRoute;
     }
     _scraper.clearStatuses();
   }
 
-  void runDownload(AppInfo app) {
+  Future<void> runDownload(AppInfo app) async {
     try {
-      operation = CancelableOperation.fromFuture(
+      operation = CancelableOperation<bool>.fromFuture(
         _scraper.getSelectedApk(app, _token),
         onCancel: () {
+          _token.cancel();
           showSnackbar('Download canceled');
         },
       );
@@ -57,7 +63,11 @@ class DownloadStatusViewModel extends ReactiveViewModel {
   }
 
   void showSnackbar(String msg) {
-    _snackbar.showSnackbar(message: msg);
+    _snackbar.showCustomSnackBar(
+      variant: SnackbarType.info,
+      title: 'Warning',
+      message: msg,
+    );
   }
 
   @override

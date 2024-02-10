@@ -139,10 +139,7 @@ class AppsService with ListenableServiceMixin {
         'importAppList',
         e.toString(),
       );
-      if (e is IOError) {
-        return e;
-      }
-      return IOError(e.toString());
+      rethrow;
     }
   }
 
