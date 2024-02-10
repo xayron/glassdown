@@ -14,7 +14,7 @@ class CheckUpdatesModel extends BaseViewModel {
   Future<void> checkUpdates() async {
     try {
       final result = await _updater.checkUpdates();
-      if (!result) {
+      if (result) {
         await _sheet.showCustomSheet(
           variant: BottomSheetType.updater,
         );
