@@ -107,9 +107,9 @@ class UpdaterService with ListenableServiceMixin {
       throw UpdateError("Couldn't get version tags");
     }
 
-    // if (newVersion <= version) {
-    //   return false;
-    // }
+    if (newVersion <= version) {
+      return false;
+    }
 
     return true;
   }
