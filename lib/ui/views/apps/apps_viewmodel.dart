@@ -21,7 +21,7 @@ class AppsViewModel extends ReactiveViewModel {
   List<ListenableServiceMixin> get listenableServices => [_appsService];
 
   Future<void> checkUpdates() async {
-    if (_updater.updateData == null) {
+    if (_updater.updateData != null) {
       return;
     }
     final result = await _updater.checkUpdates();
