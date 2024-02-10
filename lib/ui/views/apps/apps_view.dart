@@ -67,5 +67,6 @@ class AppsView extends StackedView<AppsViewModel> {
   void onViewModelReady(AppsViewModel viewModel) {
     super.onViewModelReady(viewModel);
     viewModel.allApps();
+    viewModel.checkUpdates();
   }
 }
