@@ -5,12 +5,14 @@ import 'package:glass_down_v2/ui/views/settings/items/app_theme/app_theme.dart';
 import 'package:glass_down_v2/ui/views/settings/items/custom_theme/custom_theme.dart';
 import 'package:glass_down_v2/ui/views/settings/items/delete_apps/delete_apps.dart';
 import 'package:glass_down_v2/ui/views/settings/items/delete_logs/delete_logs.dart';
+import 'package:glass_down_v2/ui/views/settings/items/delete_old_versions/delete_old_versions.dart';
 import 'package:glass_down_v2/ui/views/settings/items/exclude_bundles/exclude_bundles.dart';
 import 'package:glass_down_v2/ui/views/settings/items/exclude_unstable/exclude_unstable.dart';
 import 'package:glass_down_v2/ui/views/settings/items/export_apps/export_apps.dart';
 import 'package:glass_down_v2/ui/views/settings/items/export_logs/export_logs.dart';
 import 'package:glass_down_v2/ui/views/settings/items/import_apps/import_apps.dart';
 import 'package:glass_down_v2/ui/views/settings/items/monet_theme/monet_theme.dart';
+import 'package:glass_down_v2/ui/views/settings/items/offer_deleting_old_apks/offer_deleting_old_apks.dart';
 import 'package:glass_down_v2/ui/views/settings/items/pages_count/pages_count.dart';
 import 'package:glass_down_v2/ui/widgets/settings/common/group_header.dart';
 import 'package:stacked/stacked.dart';
@@ -60,6 +62,8 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   AppArchitecture(),
                   PagesCount(),
                   GroupHeader(name: 'Apps'),
+                  DeleteOldVersions(),
+                  OfferDeletingOldApks(),
                   ImportApps(),
                   ExportApps(),
                   DeleteApps(),

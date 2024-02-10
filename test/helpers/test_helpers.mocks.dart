@@ -11,10 +11,13 @@ import 'package:dio/dio.dart' as _i10;
 import 'package:flutter/material.dart' as _i6;
 import 'package:glass_down_v2/models/app_info.dart' as _i2;
 import 'package:glass_down_v2/models/errors/io_error.dart' as _i13;
+import 'package:glass_down_v2/models/update_info.dart' as _i17;
 import 'package:glass_down_v2/services/apps_service.dart' as _i12;
+import 'package:glass_down_v2/services/deleter_service.dart' as _i15;
 import 'package:glass_down_v2/services/logs_service.dart' as _i14;
 import 'package:glass_down_v2/services/paths_service.dart' as _i11;
 import 'package:glass_down_v2/services/scraper_service.dart' as _i9;
+import 'package:glass_down_v2/services/updater_service.dart' as _i16;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i5;
 import 'package:stacked_services/stacked_services.dart' as _i4;
@@ -1060,4 +1063,126 @@ class MockLogsService extends _i1.Mock implements _i14.LogsService {
         returnValue: _i7.Future<_i13.IOError?>.value(),
         returnValueForMissingStub: _i7.Future<_i13.IOError?>.value(),
       ) as _i7.Future<_i13.IOError?>);
+}
+
+/// A class which mocks [DeleterService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDeleterService extends _i1.Mock implements _i15.DeleterService {
+  @override
+  _i7.Future<_i13.IOError?> deleteOldVersions(_i2.AppInfo? app) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteOldVersions,
+          [app],
+        ),
+        returnValue: _i7.Future<_i13.IOError?>.value(),
+        returnValueForMissingStub: _i7.Future<_i13.IOError?>.value(),
+      ) as _i7.Future<_i13.IOError?>);
+}
+
+/// A class which mocks [UpdaterService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUpdaterService extends _i1.Mock implements _i16.UpdaterService {
+  @override
+  set updateData(dynamic _updateData) => super.noSuchMethod(
+        Invocation.setter(
+          #updateData,
+          _updateData,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  double get downloadProgress => (super.noSuchMethod(
+        Invocation.getter(#downloadProgress),
+        returnValue: 0.0,
+        returnValueForMissingStub: 0.0,
+      ) as double);
+
+  @override
+  int get listenersCount => (super.noSuchMethod(
+        Invocation.getter(#listenersCount),
+        returnValue: 0,
+        returnValueForMissingStub: 0,
+      ) as int);
+
+  @override
+  _i7.Future<void> downloadUpdate(({String? name, String? url})? version) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #downloadUpdate,
+          [version],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
+  _i7.Future<bool> checkUpdates() => (super.noSuchMethod(
+        Invocation.method(
+          #checkUpdates,
+          [],
+        ),
+        returnValue: _i7.Future<bool>.value(false),
+        returnValueForMissingStub: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
+
+  @override
+  _i7.Future<bool> shouldUpdate() => (super.noSuchMethod(
+        Invocation.method(
+          #shouldUpdate,
+          [],
+        ),
+        returnValue: _i7.Future<bool>.value(false),
+        returnValueForMissingStub: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
+
+  @override
+  _i7.Future<_i17.UpdateInfo?> getReleaseInfo() => (super.noSuchMethod(
+        Invocation.method(
+          #getReleaseInfo,
+          [],
+        ),
+        returnValue: _i7.Future<_i17.UpdateInfo?>.value(),
+        returnValueForMissingStub: _i7.Future<_i17.UpdateInfo?>.value(),
+      ) as _i7.Future<_i17.UpdateInfo?>);
+
+  @override
+  void listenToReactiveValues(List<dynamic>? reactiveValues) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #listenToReactiveValues,
+          [reactiveValues],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addListener(void Function()? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void removeListener(void Function()? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 }

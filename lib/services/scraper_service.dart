@@ -184,7 +184,10 @@ class ScraperService with ListenableServiceMixin {
         links.addAll(extraLinks);
       }
 
-      return app.copyWith(links: links.nonNulls.toList());
+      final linksList = links.nonNulls.toList();
+      linksList.sort((a, b) => b.name.compareTo(a.name));
+
+      return app.copyWith(links: linksList);
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
