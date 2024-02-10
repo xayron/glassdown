@@ -3,13 +3,12 @@ import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/services/scraper_service.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 class TypesViewModel extends BaseViewModel {
   final _scraper = locator<ScraperService>();
   final _token = CancelToken();
-
-  bool _canPop = false;
-  bool get canPop => _canPop;
+  final _nav = locator<NavigationService>();
 
   AppInfo? _app;
   AppInfo? get appTypes => _app;
@@ -18,7 +17,6 @@ class TypesViewModel extends BaseViewModel {
     try {
       setBusy(true);
       _app = await _scraper.getApkType(app, _token);
-      _canPop = true;
     } catch (e) {
       setError(e);
     } finally {
@@ -28,7 +26,6 @@ class TypesViewModel extends BaseViewModel {
 
   void cancel() {
     _token.cancel();
-    _canPop = true;
-    rebuildUi();
+    _nav.previousRoute;
   }
 }
