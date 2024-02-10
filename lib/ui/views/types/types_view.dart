@@ -18,7 +18,7 @@ class TypesView extends StackedView<TypesViewModel> {
     Widget? child,
   ) {
     return PopScope(
-      canPop: viewModel.canPop,
+      canPop: true,
       onPopInvoked: (_) => viewModel.cancel(),
       child: Scaffold(
           body: CustomScrollView(
