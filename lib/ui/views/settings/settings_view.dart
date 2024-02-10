@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:glass_down_v2/ui/views/settings/items/about_app/about_app.dart';
 import 'package:glass_down_v2/ui/views/settings/items/app_architecture/app_architecture.dart';
 import 'package:glass_down_v2/ui/views/settings/items/app_theme/app_theme.dart';
+import 'package:glass_down_v2/ui/views/settings/items/check_updates/check_updates.dart';
 import 'package:glass_down_v2/ui/views/settings/items/custom_theme/custom_theme.dart';
 import 'package:glass_down_v2/ui/views/settings/items/delete_apps/delete_apps.dart';
 import 'package:glass_down_v2/ui/views/settings/items/delete_logs/delete_logs.dart';
@@ -71,6 +72,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   ExportLogs(),
                   DeleteLogs(),
                   GroupHeader(name: 'About'),
+                  CheckUpdates(),
                   AboutApp(),
                 ],
               ),
