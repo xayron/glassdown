@@ -1,5 +1,4 @@
 import 'package:glass_down_v2/services/local_db_service.dart';
-import 'package:glass_down_v2/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:glass_down_v2/ui/views/home/home_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -45,7 +44,6 @@ import 'package:glass_down_v2/ui/bottom_sheets/updater/updater_sheet.dart';
 // @stacked-service
   ],
   bottomsheets: [
-    StackedBottomsheet(classType: NoticeSheet),
     StackedBottomsheet(classType: UpdaterSheet),
 // @stacked-bottom-sheet
   ],
