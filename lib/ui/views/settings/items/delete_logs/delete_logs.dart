@@ -17,7 +17,6 @@ class DeleteLogs extends StackedView<DeleteLogsModel> {
       onTap: () => viewModel.deleteLogs(),
       child: const ItemWrapper(
         mainText: 'Delete logs',
-        secondaryText: 'Load JSON with app list',
       ),
     );
   }
