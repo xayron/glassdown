@@ -150,6 +150,19 @@ class SettingsService
     } else {
       _monetEnabled = _prefs.getBool(SettingsKey.monet.name) ?? true;
     }
+
+    _excludeBundles = _prefs.getBool(SettingsKey.excludeBundles.name) ?? true;
+    _excludeUnstable = _prefs.getBool(SettingsKey.excludeUnstable.name) ?? true;
+
+    final arch = _prefs.getString(SettingsKey.arch.name);
+    _architecture = arch != null
+        ? Architecture.values.byName(arch)
+        : Architecture.arm64_v8a;
+
+    _pagesAmount = _prefs.getInt(SettingsKey.pagesAmount.name) ?? 1;
+
+    _autoRemove = _prefs.getBool(SettingsKey.autoRemove.name) ?? false;
+    _offerRemoval = _prefs.getBool(SettingsKey.offerRemoval.name) ?? true;
   }
 
   Future<void> _savePref<T extends Object>(SettingsKey key, T value) async {
