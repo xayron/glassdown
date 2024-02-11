@@ -4,3 +4,6 @@ This Flutter app allows you to download APKs straight to your phone without tedi
 
 ### Adding app
 See https://github.com/Sinneida/glassdown/wiki/Adding-app
+
+### Screenshots
+https://github.com/Sinneida/glassdown/wiki/Screenshots 
