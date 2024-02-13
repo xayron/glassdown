@@ -54,6 +54,35 @@ class LocalDbService implements InitializableDependency {
     }
   }
 
+  Future<int> editApp(
+    VersionLink appData,
+    String? imageUrl,
+    AppInfo app,
+  ) async {
+    try {
+      final editedApp = await _db.appInfoModels.get(app.dbId);
+      if (editedApp == null) {
+        throw DbError('Cannot get existing app from db');
+      }
+      final result = await _db.writeTxn<int>(() async {
+        editedApp
+          ..name = appData.name
+          ..appUrl = appData.url
+          ..logoUrl = imageUrl;
+        return await _db.appInfoModels.put(editedApp);
+      });
+      return result;
+    } catch (e) {
+      const message = 'Adding app failed';
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        getFunctionName(),
+        '$message: ${e.toString()}',
+      );
+      rethrow;
+    }
+  }
+
   Future<List<AppInfoModel>> importApps(List<AppInfo> apps) async {
     final List<AppInfoModel> models = [];
     for (final app in apps) {

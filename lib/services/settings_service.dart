@@ -18,6 +18,8 @@ enum SettingsKey {
   pagesAmount,
   autoRemove,
   offerRemoval,
+  exportLogsPath,
+  exportAppsPath,
 }
 
 // ignore: constant_identifier_names
@@ -43,6 +45,7 @@ class SettingsService
       _pagesAmount,
       _autoRemove,
       _offerRemoval,
+      _exportLogsPath,
     ]);
   }
 
@@ -128,6 +131,22 @@ class SettingsService
     _savePref<bool>(SettingsKey.offerRemoval, value);
   }
 
+  String _exportLogsPath = '/storage/emulated/0/Documents';
+  String get exportLogsPath => _exportLogsPath;
+  void setExportLogsPath(String value) {
+    _exportLogsPath = value;
+    notifyListeners();
+    _savePref<String>(SettingsKey.exportLogsPath, value);
+  }
+
+  String _exportAppsPath = '/storage/emulated/0/Documents';
+  String get exportAppsPath => _exportAppsPath;
+  void setExportAppsPath(String value) {
+    _exportAppsPath = value;
+    notifyListeners();
+    _savePref<String>(SettingsKey.exportAppsPath, value);
+  }
+
   @override
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -148,21 +167,28 @@ class SettingsService
       _monetEnabled = false;
       _supportMonet = false;
     } else {
-      _monetEnabled = _prefs.getBool(SettingsKey.monet.name) ?? true;
+      _monetEnabled = _prefs.getBool(SettingsKey.monet.name) ?? _monetEnabled;
     }
 
-    _excludeBundles = _prefs.getBool(SettingsKey.excludeBundles.name) ?? true;
-    _excludeUnstable = _prefs.getBool(SettingsKey.excludeUnstable.name) ?? true;
+    _excludeBundles =
+        _prefs.getBool(SettingsKey.excludeBundles.name) ?? _excludeBundles;
+    _excludeUnstable =
+        _prefs.getBool(SettingsKey.excludeUnstable.name) ?? _excludeUnstable;
 
     final arch = _prefs.getString(SettingsKey.arch.name);
     _architecture = arch != null
         ? Architecture.values.byName(arch)
         : Architecture.arm64_v8a;
 
-    _pagesAmount = _prefs.getInt(SettingsKey.pagesAmount.name) ?? 1;
+    _pagesAmount = _prefs.getInt(SettingsKey.pagesAmount.name) ?? _pagesAmount;
 
-    _autoRemove = _prefs.getBool(SettingsKey.autoRemove.name) ?? false;
-    _offerRemoval = _prefs.getBool(SettingsKey.offerRemoval.name) ?? true;
+    _autoRemove = _prefs.getBool(SettingsKey.autoRemove.name) ?? _autoRemove;
+    _offerRemoval =
+        _prefs.getBool(SettingsKey.offerRemoval.name) ?? _offerRemoval;
+    _exportLogsPath =
+        _prefs.getString(SettingsKey.exportLogsPath.name) ?? _exportLogsPath;
+    _exportAppsPath =
+        _prefs.getString(SettingsKey.exportAppsPath.name) ?? _exportAppsPath;
   }
 
   Future<void> _savePref<T extends Object>(SettingsKey key, T value) async {

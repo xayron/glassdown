@@ -6,9 +6,10 @@ import 'app_card_model.dart';
 
 // ignore: must_be_immutable
 class AppCard extends StackedView<AppCardModel> {
-  AppCard({super.key, required this.app});
+  AppCard({super.key, required this.app, required this.showEditDialog});
 
   AppInfo app;
+  Future<void> Function(AppInfo) showEditDialog;
 
   @override
   Widget builder(
@@ -20,12 +21,37 @@ class AppCard extends StackedView<AppCardModel> {
       background: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: Theme.of(context).colorScheme.errorContainer,
+          color: Theme.of(context).colorScheme.tertiaryContainer,
+        ),
+        child: const Padding(
+          padding: EdgeInsets.only(left: 16),
+          child: Row(
+            children: [Icon(Icons.edit)],
+          ),
         ),
       ),
-      onDismissed: (_) {
-        viewModel.dismissApp(app);
+      secondaryBackground: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Theme.of(context).colorScheme.errorContainer,
+        ),
+        child: const Padding(
+          padding: EdgeInsets.only(right: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [Icon(Icons.delete)],
+          ),
+        ),
+      ),
+      onDismissed: (direction) async {
+        if (direction == DismissDirection.endToStart) {
+          viewModel.dismissApp(app);
+        }
+        if (direction == DismissDirection.startToEnd) {
+          showEditDialog(app);
+        }
       },
+      direction: DismissDirection.horizontal,
       key: UniqueKey(),
       child: Card(
         clipBehavior: Clip.antiAlias,
@@ -41,8 +67,6 @@ class AppCard extends StackedView<AppCardModel> {
                 )
               : null,
           title: Text(app.name),
-          // subtitle: const Text('Suggested version: ?'),
-          // trailing: const Icon(Icons.keyboard_double_arrow_right),
         ),
       ),
     );
