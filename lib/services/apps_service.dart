@@ -7,6 +7,7 @@ import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/models/errors/db_error.dart';
 import 'package:glass_down_v2/models/errors/io_error.dart';
+import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as p;
 import 'package:glass_down_v2/services/local_db_service.dart';
@@ -20,6 +21,7 @@ class AppsService with ListenableServiceMixin {
 
   final _db = locator<LocalDbService>();
   final _scraper = locator<ScraperService>();
+  final _settings = locator<SettingsService>();
   final List<AppInfo> apps = [];
 
   void comparator() => apps.sort((a, b) => a.name.compareTo(b.name));
@@ -96,7 +98,7 @@ class AppsService with ListenableServiceMixin {
 
   IOError? exportAppList() {
     try {
-      final Directory downloadsDir = Directory('/storage/emulated/0/Download');
+      final Directory downloadsDir = Directory(_settings.exportAppsPath);
       final appListPath = p.join(downloadsDir.path,
           'glass_down_apps-${DateFormat('dd_MM_yyyy-HH_mm').format(DateTime.now())}.json');
 

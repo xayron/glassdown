@@ -2,14 +2,18 @@ import 'dart:io';
 
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/models/errors/io_error.dart';
+import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
 class LogsService {
+  final _settings = locator<SettingsService>();
+
   Future<IOError?> exportLogs() async {
     try {
-      final Directory documentsDir = Directory('/storage/emulated/0/Documents');
+      final Directory documentsDir = Directory(_settings.exportLogsPath);
       final appDataDir = await getExternalStorageDirectory();
       final Directory dir = Directory('${appDataDir?.path}/Logs');
 
