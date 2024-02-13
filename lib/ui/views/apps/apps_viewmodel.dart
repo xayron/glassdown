@@ -10,15 +10,18 @@ import 'package:stacked_services/stacked_services.dart';
 
 class AppsViewModel extends ReactiveViewModel {
   final _dialogService = locator<DialogService>();
-  final _appsService = locator<AppsService>();
+  final _apps = locator<AppsService>();
   final _snackbar = locator<SnackbarService>();
   final _sheet = locator<BottomSheetService>();
   final _updater = locator<UpdaterService>();
 
-  List<AppInfo> get apps => _appsService.apps;
+  List<AppInfo> get apps => _apps.apps;
+
+  bool _loading = false;
+  bool get loading => _loading;
 
   @override
-  List<ListenableServiceMixin> get listenableServices => [_appsService];
+  List<ListenableServiceMixin> get listenableServices => [_apps];
 
   Future<void> checkUpdates() async {
     if (_updater.updateData != null) {
@@ -36,7 +39,7 @@ class AppsViewModel extends ReactiveViewModel {
     );
   }
 
-  Future<void> showDialog() async {
+  Future<void> showAddDialog() async {
     try {
       final response =
           await _dialogService.showCustomDialog<VersionLink?, void>(
@@ -45,10 +48,10 @@ class AppsViewModel extends ReactiveViewModel {
       if (response != null && response.data != null) {
         _snackbar.showCustomSnackBar(
           title: 'App',
-          message: 'Saving app, please wait...',
+          message: 'Saving app...',
           variant: SnackbarType.progress,
         );
-        await _appsService.addApp(response.data!);
+        await _apps.addApp(response.data!);
       }
       rebuildUi();
     } catch (e) {
@@ -60,7 +63,38 @@ class AppsViewModel extends ReactiveViewModel {
   }
 
   Future<void> allApps() async {
-    await _appsService.loadAppsFromDb();
+    await _apps.loadAppsFromDb();
     rebuildUi();
+  }
+
+  Future<void> showEditDialog(AppInfo app) async {
+    try {
+      final response =
+          await _dialogService.showCustomDialog<VersionLink?, AppInfo>(
+        variant: DialogType.addApp,
+        data: app,
+      );
+      _loading = true;
+      rebuildUi();
+      if (response != null && response.data != null) {
+        final result = await _apps.editApp(response.data!, app);
+        if (!result) {
+          _snackbar.showCustomSnackBar(
+            title: 'Error',
+            message: 'App already exists',
+            variant: SnackbarType.info,
+          );
+        }
+      }
+      allApps();
+      _loading = false;
+      rebuildUi();
+    } catch (e) {
+      _snackbar.showCustomSnackBar(
+        variant: SnackbarType.info,
+        title: 'Error',
+        message: e.toString(),
+      );
+    }
   }
 }

@@ -16,7 +16,7 @@ class AppsView extends StackedView<AppsViewModel> {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          viewModel.showDialog();
+          viewModel.showAddDialog();
         },
         label: const Text('Add app'),
         icon: const Icon(Icons.add),
@@ -37,6 +37,10 @@ class AppsView extends StackedView<AppsViewModel> {
               ),
             ),
           ),
+          if (viewModel.loading)
+            const SliverToBoxAdapter(
+              child: LinearProgressIndicator(),
+            ),
           SliverList(
             delegate: SliverChildListDelegate([
               ListView(
@@ -47,6 +51,7 @@ class AppsView extends StackedView<AppsViewModel> {
                   for (final app in viewModel.apps)
                     AppCard(
                       app: app,
+                      showEditDialog: viewModel.showEditDialog,
                     ),
                 ],
               ),
