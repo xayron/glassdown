@@ -20,6 +20,7 @@ enum SettingsKey {
   offerRemoval,
   exportLogsPath,
   exportAppsPath,
+  apkSavePath,
 }
 
 // ignore: constant_identifier_names
@@ -147,6 +148,14 @@ class SettingsService
     _savePref<String>(SettingsKey.exportAppsPath, value);
   }
 
+  String _apkSavePath = '/storage/emulated/0/Downloads';
+  String get apkSavePath => _apkSavePath;
+  void setApkSavePath(String value) {
+    _apkSavePath = value;
+    notifyListeners();
+    _savePref<String>(SettingsKey.apkSavePath, value);
+  }
+
   @override
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -189,6 +198,8 @@ class SettingsService
         _prefs.getString(SettingsKey.exportLogsPath.name) ?? _exportLogsPath;
     _exportAppsPath =
         _prefs.getString(SettingsKey.exportAppsPath.name) ?? _exportAppsPath;
+    _apkSavePath =
+        _prefs.getString(SettingsKey.apkSavePath.name) ?? _apkSavePath;
   }
 
   Future<void> _savePref<T extends Object>(SettingsKey key, T value) async {
