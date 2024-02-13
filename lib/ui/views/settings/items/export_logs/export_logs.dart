@@ -15,9 +15,13 @@ class ExportLogs extends StackedView<ExportLogsModel> {
   ) {
     return InkWell(
       onTap: () => viewModel.exportLogs(),
-      child: const ItemWrapper(
+      child: ItemWrapper(
         mainText: 'Export logs',
-        secondaryText: 'Saved in Documents folder',
+        secondaryText: 'To: ${viewModel.exportLogsPath}',
+        trailingWidget: FilledButton.tonal(
+          onPressed: () => viewModel.pickFolder(context),
+          child: const Text('Change path'),
+        ),
       ),
     );
   }

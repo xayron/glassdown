@@ -9,6 +9,8 @@ import 'package:stacked_services/stacked_services.dart';
 
 import 'add_app_dialog_model.dart';
 
+typedef IsEdit = bool;
+
 @FormView(
   fields: [
     FormTextField(
@@ -22,7 +24,7 @@ import 'add_app_dialog_model.dart';
   ],
 )
 class AddAppDialog extends StackedView<AddAppDialogModel> with $AddAppDialog {
-  final DialogRequest<void> request;
+  final DialogRequest<dynamic> request;
   final Function(DialogResponse) completer;
 
   const AddAppDialog({
@@ -37,38 +39,43 @@ class AddAppDialog extends StackedView<AddAppDialogModel> with $AddAppDialog {
     AddAppDialogModel viewModel,
     Widget? child,
   ) {
+    final app = (request.data != null && request.data is AppInfo)
+        ? request.data as AppInfo
+        : null;
+
     return AlertDialog(
-      title: const Text('Add new app'),
+      title: Text(app != null ? 'Edit app' : 'Add new app'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Text(viewModel.message),
-          RichText(
-            text: TextSpan(
-              text: viewModel.message,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
+          if (app == null) ...[
+            RichText(
+              text: TextSpan(
+                text: viewModel.message,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+                children: [
+                  TextSpan(
+                    text: viewModel.urlMessage,
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w400,
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                  ),
+                  TextSpan(
+                    text: viewModel.appMessage,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                  ),
+                ],
               ),
-              children: [
-                TextSpan(
-                  text: viewModel.urlMessage,
-                  style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.w400,
-                    color: Theme.of(context).colorScheme.onBackground,
-                  ),
-                ),
-                TextSpan(
-                  text: viewModel.appMessage,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.onBackground,
-                  ),
-                ),
-              ],
             ),
-          ),
-          verticalSpaceMedium,
+            verticalSpaceMedium,
+          ],
           TextFormField(
             controller: appNameController,
             decoration: const InputDecoration(
@@ -111,17 +118,20 @@ class AddAppDialog extends StackedView<AddAppDialogModel> with $AddAppDialog {
             onPressed: () {
               final VersionLink data = (
                 name: viewModel.appNameValue!.trim(),
-                url: viewModel.appUrlValue!.trim(),
+                url: viewModel.appUrlValue!.trim().toLowerCase(),
               );
               viewModel.clearForm();
               completer(
                 DialogResponse<VersionLink>(confirmed: true, data: data),
               );
             },
-            child: const Text('Add'),
+            child: Text(app != null ? 'Edit' : 'Add'),
           )
         else
-          const FilledButton(onPressed: null, child: Text('Add')),
+          FilledButton(
+            onPressed: null,
+            child: Text(app != null ? 'Edit' : 'Add'),
+          ),
       ],
     );
   }
@@ -133,6 +143,13 @@ class AddAppDialog extends StackedView<AddAppDialogModel> with $AddAppDialog {
   @override
   void onViewModelReady(AddAppDialogModel viewModel) {
     super.onViewModelReady(viewModel);
+    final app = (request.data != null && request.data is AppInfo)
+        ? request.data as AppInfo
+        : null;
+    if (app != null) {
+      appNameController.text = app.name;
+      appUrlController.text = app.appUrl;
+    }
     syncFormWithViewModel(viewModel);
   }
 }

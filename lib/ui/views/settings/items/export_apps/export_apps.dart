@@ -15,9 +15,13 @@ class ExportApps extends StackedView<ExportAppsModel> {
   ) {
     return InkWell(
       onTap: () => viewModel.exportApps(),
-      child: const ItemWrapper(
+      child: ItemWrapper(
         mainText: 'Export apps',
-        secondaryText: 'Saved in Downloads folder',
+        secondaryText: 'To: ${viewModel.exportAppsPath}',
+        trailingWidget: FilledButton.tonal(
+          onPressed: () => viewModel.pickFolder(context),
+          child: const Text('Change path'),
+        ),
       ),
     );
   }
