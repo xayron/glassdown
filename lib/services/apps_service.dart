@@ -58,6 +58,24 @@ class AppsService with ListenableServiceMixin {
     }
   }
 
+  Future<bool> editApp(VersionLink protoApp, AppInfo app) async {
+    try {
+      if (_checkIfAppExists(protoApp.url) && protoApp.url != app.appUrl) {
+        return false;
+      }
+      final appImage = await _scraper.getAppImage(protoApp);
+      await _db.editApp(protoApp, appImage, app);
+      return true;
+    } catch (e) {
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        'addApp',
+        e is DbError ? e.message : e.toString(),
+      );
+      rethrow;
+    }
+  }
+
   Future<void> removeApp(AppInfo app) async {
     try {
       await _db.removeApp(app);
