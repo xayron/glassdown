@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glass_down_v2/ui/views/settings/items/about_app/about_app.dart';
+import 'package:glass_down_v2/ui/views/settings/items/apk_save_path/apk_save_path.dart';
 import 'package:glass_down_v2/ui/views/settings/items/app_architecture/app_architecture.dart';
 import 'package:glass_down_v2/ui/views/settings/items/app_theme/app_theme.dart';
 import 'package:glass_down_v2/ui/views/settings/items/check_updates/check_updates.dart';
@@ -65,6 +66,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   GroupHeader(name: 'Apps'),
                   DeleteOldVersions(),
                   OfferDeletingOldApks(),
+                  ApkSavePath(),
                   ImportApps(),
                   ExportApps(),
                   DeleteApps(),
