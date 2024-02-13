@@ -31,13 +31,15 @@ class AppCardModel extends BaseViewModel {
   Future<void> dismissApp(AppInfo app) async {
     await _apps.removeApp(app);
     _snackbar.showSnackbar(
+      title: 'Info',
       message: '${app.name} deleted',
       duration: const Duration(seconds: 3),
       mainButtonTitle: 'Undo',
       onMainButtonTapped: () async {
         await _apps.addApp((name: app.name, url: app.appUrl));
         _snackbar.showCustomSnackBar(
-          message: 'Restoring app, please wait...',
+          title: 'Info',
+          message: 'Restoring app...',
           duration: const Duration(seconds: 3),
           variant: SnackbarType.progress,
         );
