@@ -1,7 +1,7 @@
 name: glass_down_v2
 description: "Simple app which allows downloading specific APK version of provided apps."
 publish_to: "none"
-version: 1.2.2+1
+version: 1.3.0+1
 
 environment:
   sdk: ">=3.0.3 <4.0.0"
