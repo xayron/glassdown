@@ -32,7 +32,7 @@ class ProgressCard extends StackedView<ProgressCardModel> {
     final trailingValue = progress == 100
         ? const OkChip()
         : progress != null
-            ? Text('${progress?.toStringAsFixed(1)}%')
+            ? Text('${progress?.toStringAsFixed(0)}%')
             : null;
 
     return ListTile(
