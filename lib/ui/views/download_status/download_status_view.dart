@@ -79,12 +79,12 @@ class DownloadStatusView extends StackedView<DownloadStatusViewModel> {
                       StatusCard(
                         title: 'Fetching download page',
                         complete: viewModel.pageStatus.$1,
-                        subTitle: viewModel.pageStatus.$2,
+                        // subTitle: viewModel.pageStatus.$2,
                       ),
                       StatusCard(
                         title: 'Fetching download link',
                         complete: viewModel.linkStatus.$1,
-                        subTitle: viewModel.linkStatus.$2,
+                        // subTitle: viewModel.linkStatus.$2,
                       ),
                       ProgressCard(
                         title: 'Downloading APK',
@@ -94,7 +94,7 @@ class DownloadStatusView extends StackedView<DownloadStatusViewModel> {
                       StatusCard(
                         title: 'Saving APK',
                         complete: viewModel.saveStatus.$1,
-                        subTitle: viewModel.saveStatus.$2,
+                        // subTitle: viewModel.saveStatus.$2,
                       ),
                     ],
                   ),

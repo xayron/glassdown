@@ -87,7 +87,7 @@ class UpdaterSheet extends StackedView<UpdaterSheetModel> {
                         value: viewModel.progress.toInt() / 100,
                       ),
                       trailing: Text(
-                        '${viewModel.progress.toStringAsFixed((1))}%',
+                        '${viewModel.progress.toStringAsFixed((0))}%',
                       ),
                     ),
                   ],
