@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
@@ -9,7 +10,6 @@ import 'package:glass_down_v2/services/logs_service.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:filesystem_picker/filesystem_picker.dart';
 
 class ExportLogsModel extends ReactiveViewModel {
   final _logs = locator<LogsService>();
@@ -28,12 +28,7 @@ class ExportLogsModel extends ReactiveViewModel {
 
   Future<void> pickFolder(BuildContext context) async {
     try {
-      final result = await FilesystemPicker.openDialog(
-        context: context,
-        rootDirectory: Directory('/storage/emulated/0'),
-        fsType: FilesystemType.folder,
-        contextActions: [FilesystemPickerNewFolderContextAction()],
-      );
+      final result = await FilePicker.platform.getDirectoryPath();
       if (result == null) {
         throw IOError('Path has not been picked');
       }
