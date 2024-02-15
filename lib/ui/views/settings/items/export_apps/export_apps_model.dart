@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:filesystem_picker/filesystem_picker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
@@ -28,12 +28,7 @@ class ExportAppsModel extends ReactiveViewModel {
 
   Future<void> pickFolder(BuildContext context) async {
     try {
-      final result = await FilesystemPicker.openDialog(
-        context: context,
-        rootDirectory: Directory('/storage/emulated/0'),
-        fsType: FilesystemType.folder,
-        contextActions: [FilesystemPickerNewFolderContextAction()],
-      );
+      final result = await FilePicker.platform.getDirectoryPath();
       if (result == null) {
         throw IOError('Path has not been picked');
       }

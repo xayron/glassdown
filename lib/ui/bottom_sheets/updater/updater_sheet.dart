@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:glass_down_v2/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -46,13 +47,8 @@ class UpdaterSheet extends StackedView<UpdaterSheetModel> {
                 borderRadius: BorderRadius.circular(15),
                 elevation: 1,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: Text(
-                      viewModel.updateInfo!.changelog,
-                    ),
-                  ),
+                  padding: const EdgeInsets.all(0),
+                  child: Markdown(data: viewModel.updateInfo!.changelog),
                 ),
               ),
             ),
@@ -91,7 +87,7 @@ class UpdaterSheet extends StackedView<UpdaterSheetModel> {
                         value: viewModel.progress.toInt() / 100,
                       ),
                       trailing: Text(
-                        '${viewModel.progress.toStringAsFixed((1))}%',
+                        '${viewModel.progress.toStringAsFixed((0))}%',
                       ),
                     ),
                   ],
