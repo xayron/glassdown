@@ -444,6 +444,7 @@ class MockBottomSheetService extends _i1.Mock
     Duration? enterBottomSheetDuration,
     bool? ignoreSafeArea,
     bool? useRootNavigator = false,
+    double? elevation = 1.0,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -461,6 +462,7 @@ class MockBottomSheetService extends _i1.Mock
             #enterBottomSheetDuration: enterBottomSheetDuration,
             #ignoreSafeArea: ignoreSafeArea,
             #useRootNavigator: useRootNavigator,
+            #elevation: elevation,
           },
         ),
         returnValue: _i7.Future<_i4.SheetResponse<dynamic>?>.value(),
@@ -483,6 +485,7 @@ class MockBottomSheetService extends _i1.Mock
     String? additionalButtonTitle,
     bool? takesInput = false,
     _i8.Color? barrierColor = const _i8.Color(2315255808),
+    double? elevation = 1.0,
     bool? barrierDismissible = true,
     bool? isScrollControlled = false,
     String? barrierLabel = r'',
@@ -512,6 +515,7 @@ class MockBottomSheetService extends _i1.Mock
             #additionalButtonTitle: additionalButtonTitle,
             #takesInput: takesInput,
             #barrierColor: barrierColor,
+            #elevation: elevation,
             #barrierDismissible: barrierDismissible,
             #isScrollControlled: isScrollControlled,
             #barrierLabel: barrierLabel,
@@ -971,6 +975,23 @@ class MockAppsService extends _i1.Mock implements _i12.AppsService {
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
+
+  @override
+  _i7.Future<bool> editApp(
+    ({String name, String url})? protoApp,
+    _i2.AppInfo? app,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #editApp,
+          [
+            protoApp,
+            app,
+          ],
+        ),
+        returnValue: _i7.Future<bool>.value(false),
+        returnValueForMissingStub: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
 
   @override
   _i7.Future<void> removeApp(_i2.AppInfo? app) => (super.noSuchMethod(

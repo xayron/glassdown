@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:glass_down_v2/models/errors/update_error.dart';
 import 'package:glass_down_v2/models/update_info.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:stacked/stacked.dart';
@@ -56,7 +56,7 @@ class UpdaterService with ListenableServiceMixin {
       raf.writeFromSync(app.data!);
       raf.closeSync();
 
-      OpenFile.open(file.path);
+      OpenFilex.open(file.path);
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
