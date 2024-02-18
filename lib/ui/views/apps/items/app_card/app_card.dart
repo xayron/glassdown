@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:glass_down_v2/models/app_info.dart';
 import 'package:stacked/stacked.dart';
@@ -63,7 +64,9 @@ class AppCard extends StackedView<AppCardModel> {
           leading: app.imageUrl != null
               ? CircleAvatar(
                   radius: 18,
-                  backgroundImage: Image.network(app.imageUrl!).image,
+                  backgroundImage: CachedNetworkImageProvider(
+                    app.imageUrl!,
+                  ),
                 )
               : null,
           title: Text(app.name),
