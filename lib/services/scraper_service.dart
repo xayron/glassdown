@@ -427,7 +427,7 @@ class ScraperService with ListenableServiceMixin {
       );
 
       final name =
-          '${app.pickedVersion?.name.replaceAll(RegExp(r'[ :]+'), '_') ?? app.name}_${_settings.architecture.normalize()}';
+          '${app.name.toLowerCase().replaceAll(RegExp(r'[ .:]+'), '_')}_${app.pickedVersion?.name.replaceAll('.', '_')}_${_settings.architecture.normalize()}';
       final file = File(
         '${savePlace.path}/$name.apk',
       );
