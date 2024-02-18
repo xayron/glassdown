@@ -24,7 +24,9 @@ class AppsService with ListenableServiceMixin {
   final _settings = locator<SettingsService>();
   final List<AppInfo> apps = [];
 
-  void comparator() => apps.sort((a, b) => a.name.compareTo(b.name));
+  void comparator() => apps.sort(
+        (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+      );
 
   Future<void> loadAppsFromDb() async {
     apps.clear();
