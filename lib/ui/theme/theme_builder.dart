@@ -39,7 +39,7 @@ class ThemeBuilder extends StackedView<ThemeBuilderModel> {
             useMaterial3: true,
             fontFamily: GoogleFonts.robotoFlex().fontFamily,
           ),
-          initialRoute: Routes.permissionsView,
+          initialRoute: Routes.homeView,
           onGenerateRoute: StackedRouter().onGenerateRoute,
           navigatorKey: StackedService.navigatorKey,
           navigatorObservers: [

@@ -1,5 +1,4 @@
 import 'package:glass_down_v2/app/app.locator.dart';
-import 'package:glass_down_v2/app/app.router.dart';
 import 'package:glass_down_v2/ui/views/home/home_view.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:stacked/stacked.dart';
@@ -22,16 +21,13 @@ class PermissionsViewModel extends BaseViewModel {
         await Permission.manageExternalStorage.status.isGranted;
     final installGranted =
         await Permission.requestInstallPackages.status.isGranted;
-    if (storageGranted && installGranted) {
-      _nav.replaceWithTransition(const HomeView());
-    }
     _storage = storageGranted;
     _install = installGranted;
     rebuildUi();
   }
 
   Future<void> goHome() async {
-    _nav.replaceWithHomeView();
+    _nav.clearStackAndShowView(const HomeView());
   }
 
   Future<void> requestStoragePermission() async {

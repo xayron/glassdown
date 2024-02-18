@@ -5,6 +5,6 @@ void setupNavigationConfig() {
   final navigator = locator<NavigationService>();
 
   navigator.config(
-    defaultTransitionStyle: Transition.rightToLeft,
+    defaultTransitionStyle: Transition.rightToLeftWithFade,
   );
 }
