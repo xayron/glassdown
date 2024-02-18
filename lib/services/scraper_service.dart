@@ -57,6 +57,18 @@ class ScraperService with ListenableServiceMixin {
     }
   }
 
+  String _trimVersion(String currentName) {
+    final names = currentName.split(' ');
+    final List<String> version = [];
+    for (final fragment in names.reversed) {
+      version.add(fragment);
+      if (fragment.startsWith(RegExp(r'^[0-9]'))) {
+        break;
+      }
+    }
+    return version.reversed.join(' ');
+  }
+
   final _dio = Dio(
     BaseOptions(
       baseUrl: 'https://www.apkmirror.com/',
@@ -143,7 +155,7 @@ class ScraperService with ListenableServiceMixin {
         links = apkList.map(
           (e) {
             return (
-              name: e.text,
+              name: _trimVersion(e.text),
               url: e.attributes['href'] ?? '',
             );
           },
@@ -155,7 +167,7 @@ class ScraperService with ListenableServiceMixin {
                 e.outerHtml.contains('alpha') || e.outerHtml.contains('beta');
             if (!isUnstable) {
               return (
-                name: e.text,
+                name: _trimVersion(e.text),
                 url: e.attributes['href'] ?? '',
               );
             }
@@ -185,7 +197,9 @@ class ScraperService with ListenableServiceMixin {
       }
 
       final linksList = links.nonNulls.toList();
-      linksList.sort((a, b) => b.name.compareTo(a.name));
+      linksList.sort((a, b) {
+        return _trimVersion(b.name).compareTo(_trimVersion(a.name));
+      });
 
       return app.copyWith(links: linksList);
     } catch (e) {
