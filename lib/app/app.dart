@@ -17,6 +17,7 @@ import 'package:glass_down_v2/ui/dialogs/delete_old_apks/delete_old_apks_dialog.
 import 'package:glass_down_v2/services/deleter_service.dart';
 import 'package:glass_down_v2/services/updater_service.dart';
 import 'package:glass_down_v2/ui/bottom_sheets/updater/updater_sheet.dart';
+import 'package:glass_down_v2/ui/views/permissions/permissions_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -25,6 +26,7 @@ import 'package:glass_down_v2/ui/bottom_sheets/updater/updater_sheet.dart';
     MaterialRoute(page: VersionsView),
     MaterialRoute(page: TypesView),
     MaterialRoute(page: DownloadStatusView),
+    MaterialRoute(page: PermissionsView),
 // @stacked-route
   ],
   dependencies: [

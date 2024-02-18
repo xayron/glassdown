@@ -22,7 +22,7 @@ class UpdaterSheet extends StackedView<UpdaterSheetModel> {
     Widget? child,
   ) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: const BorderRadius.only(

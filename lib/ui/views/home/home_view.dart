@@ -58,6 +58,6 @@ class HomeView extends StackedView<HomeViewModel> {
   @override
   void onViewModelReady(HomeViewModel viewModel) {
     super.onViewModelReady(viewModel);
-    viewModel.handlePermissions();
+    viewModel.init();
   }
 }
