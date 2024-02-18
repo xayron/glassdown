@@ -30,7 +30,7 @@ class TypesView extends StackedView<TypesViewModel> {
             flexibleSpace: FlexibleSpaceBar(
               titlePadding: const EdgeInsets.only(bottom: 16, left: 20),
               title: Text(
-                'Types',
+                app.name,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
