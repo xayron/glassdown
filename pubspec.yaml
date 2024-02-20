@@ -51,7 +51,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: false
-  image_path: "assets/icon/icon.png"
+  image_path: "assets/icon/glass_down_2.png"
 
 flutter:
   uses-material-design: true
