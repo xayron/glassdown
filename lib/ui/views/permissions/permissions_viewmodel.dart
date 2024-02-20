@@ -1,3 +1,4 @@
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:glass_down_v2/ui/views/home/home_view.dart';
@@ -29,7 +30,20 @@ class PermissionsViewModel extends BaseViewModel {
   }
 
   Future<void> goHome() async {
+    await createAppDir();
     _nav.clearStackAndShowView(const HomeView());
+  }
+
+  Future<void> createAppDir() async {
+    try {
+      await _settings.ensureAppDirExists();
+    } catch (e) {
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        'createAppDir',
+        e.toString(),
+      );
+    }
   }
 
   Future<void> requestStoragePermission() async {

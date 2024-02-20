@@ -34,7 +34,7 @@ extension Replacer on Architecture {
   }
 }
 
-const defaultDirPath = '/storage/emulated/0/Downloads/GlassDown';
+const defaultDirPath = '/storage/emulated/0/Download/GlassDown';
 
 class SettingsService
     with ListenableServiceMixin
@@ -206,10 +206,11 @@ class SettingsService
         _prefs.getString(SettingsKey.apkSavePath.name) ?? _apkSavePath;
   }
 
-  void ensureAppDirExists() {
+  Future<void> ensureAppDirExists() async {
     final defaultDir = Directory(defaultDirPath);
-    if (!defaultDir.existsSync()) {
-      defaultDir.createSync();
+    final isDefaultDir = await defaultDir.exists();
+    if (isDefaultDir) {
+      await defaultDir.create();
     }
   }
 
