@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/models/errors/io_error.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
-import 'package:path_provider/path_provider.dart';
 
 class PathsService {
   final _settings = locator<SettingsService>();
@@ -12,15 +11,12 @@ class PathsService {
     try {
       Directory? downloadsDir = Directory(_settings.apkSavePath);
       if (!downloadsDir.existsSync()) {
-        downloadsDir = await getExternalStorageDirectory();
-        if (downloadsDir == null) {
-          throw IOError('Failed to obtain directory to save');
-        }
+        downloadsDir.createSync();
       }
 
       return downloadsDir;
     } catch (e) {
-      rethrow;
+      throw IOError(e.toString());
     }
   }
 }
