@@ -13,6 +13,7 @@ import 'package:glass_down_v2/models/app_info.dart' as _i2;
 import 'package:glass_down_v2/models/errors/io_error.dart' as _i13;
 import 'package:glass_down_v2/models/update_info.dart' as _i17;
 import 'package:glass_down_v2/services/apps_service.dart' as _i12;
+import 'package:glass_down_v2/services/database_service.dart' as _i18;
 import 'package:glass_down_v2/services/deleter_service.dart' as _i15;
 import 'package:glass_down_v2/services/logs_service.dart' as _i14;
 import 'package:glass_down_v2/services/paths_service.dart' as _i11;
@@ -1207,3 +1208,8 @@ class MockUpdaterService extends _i1.Mock implements _i16.UpdaterService {
         returnValueForMissingStub: null,
       );
 }
+
+/// A class which mocks [DatabaseService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDatabaseService extends _i1.Mock implements _i18.DatabaseService {}
