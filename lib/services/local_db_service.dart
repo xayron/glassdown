@@ -2,12 +2,14 @@ import 'package:flutter_logs/flutter_logs.dart';
 import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/models/database/app_info_model.dart';
 import 'package:glass_down_v2/models/errors/db_error.dart';
+import 'package:glass_down_v2/services/db_interface.dart';
 import 'package:glass_down_v2/util/function_name.dart';
 import 'package:isar/isar.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:path_provider/path_provider.dart';
 
-class LocalDbService implements InitializableDependency {
+class LocalDbService
+    implements InitializableDependency, IDatabase<AppInfoModel> {
   late final Isar _db;
 
   @override
@@ -19,6 +21,7 @@ class LocalDbService implements InitializableDependency {
     );
   }
 
+  @override
   Future<List<AppInfoModel>> getAllApps() async {
     try {
       return _db.appInfoModels.where().sortByName().findAll();
@@ -33,6 +36,7 @@ class LocalDbService implements InitializableDependency {
     }
   }
 
+  @override
   Future<int> addApp(VersionLink appData, String? imageUrl) async {
     try {
       final result = await _db.writeTxn<int>(() async {
@@ -54,6 +58,7 @@ class LocalDbService implements InitializableDependency {
     }
   }
 
+  @override
   Future<int> editApp(
     VersionLink appData,
     String? imageUrl,
@@ -83,6 +88,7 @@ class LocalDbService implements InitializableDependency {
     }
   }
 
+  @override
   Future<List<AppInfoModel>> importApps(List<AppInfo> apps) async {
     final List<AppInfoModel> models = [];
     for (final app in apps) {
@@ -101,6 +107,7 @@ class LocalDbService implements InitializableDependency {
     return models;
   }
 
+  @override
   Future<bool> removeApp(AppInfo app) async {
     try {
       return await _db.writeTxn<bool>(() async {
@@ -117,6 +124,7 @@ class LocalDbService implements InitializableDependency {
     }
   }
 
+  @override
   Future<void> deleteAllApps() async {
     try {
       await _db.writeTxn(() async => await _db.clear());

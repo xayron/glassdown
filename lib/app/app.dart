@@ -18,6 +18,7 @@ import 'package:glass_down_v2/services/deleter_service.dart';
 import 'package:glass_down_v2/services/updater_service.dart';
 import 'package:glass_down_v2/ui/bottom_sheets/updater/updater_sheet.dart';
 import 'package:glass_down_v2/ui/views/permissions/permissions_view.dart';
+import 'package:glass_down_v2/services/database_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -43,6 +44,7 @@ import 'package:glass_down_v2/ui/views/permissions/permissions_view.dart';
     LazySingleton(classType: LogsService),
     LazySingleton(classType: DeleterService),
     LazySingleton(classType: UpdaterService),
+    LazySingleton(classType: DatabaseService),
 // @stacked-service
   ],
   bottomsheets: [

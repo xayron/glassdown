@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:glass_down_v2/services/custom_themes_service.dart';
@@ -31,6 +33,8 @@ extension Replacer on Architecture {
     return name.replaceAll('_', '-');
   }
 }
+
+const defaultDirPath = '/storage/emulated/0/Download/GlassDown';
 
 class SettingsService
     with ListenableServiceMixin
@@ -132,7 +136,7 @@ class SettingsService
     _savePref<bool>(SettingsKey.offerRemoval, value);
   }
 
-  String _exportLogsPath = '/storage/emulated/0/Documents';
+  String _exportLogsPath = defaultDirPath;
   String get exportLogsPath => _exportLogsPath;
   void setExportLogsPath(String value) {
     _exportLogsPath = value;
@@ -140,7 +144,7 @@ class SettingsService
     _savePref<String>(SettingsKey.exportLogsPath, value);
   }
 
-  String _exportAppsPath = '/storage/emulated/0/Documents';
+  String _exportAppsPath = defaultDirPath;
   String get exportAppsPath => _exportAppsPath;
   void setExportAppsPath(String value) {
     _exportAppsPath = value;
@@ -148,7 +152,7 @@ class SettingsService
     _savePref<String>(SettingsKey.exportAppsPath, value);
   }
 
-  String _apkSavePath = '/storage/emulated/0/Downloads';
+  String _apkSavePath = defaultDirPath;
   String get apkSavePath => _apkSavePath;
   void setApkSavePath(String value) {
     _apkSavePath = value;
@@ -200,6 +204,14 @@ class SettingsService
         _prefs.getString(SettingsKey.exportAppsPath.name) ?? _exportAppsPath;
     _apkSavePath =
         _prefs.getString(SettingsKey.apkSavePath.name) ?? _apkSavePath;
+  }
+
+  Future<void> ensureAppDirExists() async {
+    final defaultDir = Directory(defaultDirPath);
+    final isDefaultDir = await defaultDir.exists();
+    if (isDefaultDir) {
+      await defaultDir.create();
+    }
   }
 
   Future<void> _savePref<T extends Object>(SettingsKey key, T value) async {
