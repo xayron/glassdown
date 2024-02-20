@@ -1,7 +1,7 @@
 name: glass_down_v2
 description: "Simple app which allows downloading specific APK version of provided apps."
 publish_to: "none"
-version: 1.4.0+1
+version: 1.5.0-dev1+1
 
 environment:
   sdk: ">=3.0.3 <4.0.0"
@@ -12,14 +12,14 @@ dependencies:
   cached_network_image: ^3.3.1
   dart_mappable: ^4.2.0
   device_info_plus: ^9.1.2
-  dio: ^5.4.0
+  dio: ^5.4.1
   dynamic_color: ^1.6.9
   file_picker: ^6.1.1
   flutter:
     sdk: flutter
   flutter_archive: ^6.0.0
   flutter_logs: ^2.1.11
-  flutter_markdown: ^0.6.19
+  flutter_markdown: ^0.6.20
   google_fonts: ^6.1.0
   html: ^0.15.4
   internet_connection_checker_plus: ^2.2.0
