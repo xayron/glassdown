@@ -20,6 +20,7 @@ dependencies:
   flutter_archive: ^6.0.0
   flutter_logs: ^2.1.11
   flutter_markdown: ^0.6.20
+  flutter_native_splash: ^2.3.10
   google_fonts: ^6.1.0
   html: ^0.15.4
   internet_connection_checker_plus: ^2.2.0
@@ -54,3 +55,10 @@ flutter_launcher_icons:
 
 flutter:
   uses-material-design: true
+
+flutter_native_splash:
+  color: "#0490ff"
+  image: assets/glass_down_2.png
+  android_12:
+    image: assets/glass_down_2_icon.png
+    color: "#0490ff"

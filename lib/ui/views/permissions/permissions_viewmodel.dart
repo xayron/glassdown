@@ -29,7 +29,6 @@ class PermissionsViewModel extends BaseViewModel {
   }
 
   Future<void> goHome() async {
-    _settings.ensureAppDirExists();
     _nav.clearStackAndShowView(const HomeView());
   }
 
