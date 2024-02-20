@@ -6,7 +6,9 @@
 name: GlassDown Dev Release
             
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - "v*dev*"
     
 
 jobs:
