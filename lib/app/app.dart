@@ -19,6 +19,7 @@ import 'package:glass_down_v2/services/updater_service.dart';
 import 'package:glass_down_v2/ui/bottom_sheets/updater/updater_sheet.dart';
 import 'package:glass_down_v2/ui/views/permissions/permissions_view.dart';
 import 'package:glass_down_v2/services/database_service.dart';
+import 'package:glass_down_v2/services/font_importer_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -45,6 +46,7 @@ import 'package:glass_down_v2/services/database_service.dart';
     LazySingleton(classType: DeleterService),
     LazySingleton(classType: UpdaterService),
     LazySingleton(classType: DatabaseService),
+    LazySingleton(classType: FontImporterService),
 // @stacked-service
   ],
   bottomsheets: [
