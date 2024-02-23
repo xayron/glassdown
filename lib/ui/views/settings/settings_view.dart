@@ -17,6 +17,7 @@ import 'package:glass_down_v2/ui/views/settings/items/import_font/import_font.da
 import 'package:glass_down_v2/ui/views/settings/items/monet_theme/monet_theme.dart';
 import 'package:glass_down_v2/ui/views/settings/items/offer_deleting_old_apks/offer_deleting_old_apks.dart';
 import 'package:glass_down_v2/ui/views/settings/items/pages_count/pages_count.dart';
+import 'package:glass_down_v2/ui/views/settings/items/use_custom_font/use_custom_font.dart';
 import 'package:glass_down_v2/ui/widgets/settings/common/group_header.dart';
 import 'package:stacked/stacked.dart';
 
@@ -59,6 +60,10 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   const AppTheme(),
                   const MonetTheme(),
                   const CustomTheme(),
+                  if (viewModel.devOptions) ...[
+                    const UseCustomFont(),
+                    const ImportFont()
+                  ],
                   const GroupHeader(name: 'Filters'),
                   const ExcludeBundles(),
                   const ExcludeUnstable(),
@@ -75,7 +80,6 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   const ExportLogs(),
                   const DeleteLogs(),
                   const GroupHeader(name: 'About'),
-                  if (viewModel.devOptions) const ImportFont(),
                   const CheckUpdates(),
                   const AboutApp(),
                 ],
