@@ -437,7 +437,7 @@ class ScraperService with ListenableServiceMixin {
         'Saving to: ${file.path}',
       );
 
-      final raf = file.openSync(mode: FileMode.writeOnly);
+      final raf = await file.open(mode: FileMode.writeOnly);
 
       FlutterLogs.logInfo(
         runtimeType.toString(),
@@ -445,8 +445,8 @@ class ScraperService with ListenableServiceMixin {
         'Opened file for writing...',
       );
 
-      raf.writeFromSync(apk!);
-      raf.closeSync();
+      await raf.writeFrom(apk!);
+      await raf.close();
 
       FlutterLogs.logInfo(
         runtimeType.toString(),

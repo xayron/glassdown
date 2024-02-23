@@ -23,6 +23,7 @@ enum SettingsKey {
   exportLogsPath,
   exportAppsPath,
   apkSavePath,
+  useImportedFont,
 }
 
 // ignore: constant_identifier_names
@@ -158,6 +159,21 @@ class SettingsService
     _apkSavePath = value;
     notifyListeners();
     _savePref<String>(SettingsKey.apkSavePath, value);
+  }
+
+  bool _useImportedFont = false;
+  bool get useImportedFont => _useImportedFont;
+  void setUseImportedFont(bool value) {
+    _useImportedFont = value;
+    notifyListeners();
+    _savePref<bool>(SettingsKey.useImportedFont, value);
+  }
+
+  bool _devOptions = false;
+  bool get devOptions => _devOptions;
+  void setDevOptions(bool val) {
+    _devOptions = val;
+    notifyListeners();
   }
 
   @override

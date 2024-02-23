@@ -11,6 +11,7 @@ class ThemeBuilderModel extends ReactiveViewModel {
   ThemeMode get themeMode => _settings.themeMode;
   bool get monetEnabled => _settings.monetEnabled;
   MainColor get customTheme => _settings.customColor;
+  bool get useImportedFont => _settings.useImportedFont;
 
   @override
   List<ListenableServiceMixin> get listenableServices => [_settings];

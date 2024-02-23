@@ -13,9 +13,11 @@ import 'package:glass_down_v2/ui/views/settings/items/exclude_unstable/exclude_u
 import 'package:glass_down_v2/ui/views/settings/items/export_apps/export_apps.dart';
 import 'package:glass_down_v2/ui/views/settings/items/export_logs/export_logs.dart';
 import 'package:glass_down_v2/ui/views/settings/items/import_apps/import_apps.dart';
+import 'package:glass_down_v2/ui/views/settings/items/import_font/import_font.dart';
 import 'package:glass_down_v2/ui/views/settings/items/monet_theme/monet_theme.dart';
 import 'package:glass_down_v2/ui/views/settings/items/offer_deleting_old_apks/offer_deleting_old_apks.dart';
 import 'package:glass_down_v2/ui/views/settings/items/pages_count/pages_count.dart';
+import 'package:glass_down_v2/ui/views/settings/items/use_custom_font/use_custom_font.dart';
 import 'package:glass_down_v2/ui/widgets/settings/common/group_header.dart';
 import 'package:stacked/stacked.dart';
 
@@ -53,29 +55,33 @@ class SettingsView extends StackedView<SettingsViewModel> {
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                children: const [
-                  GroupHeader(name: 'Theme'),
-                  AppTheme(),
-                  MonetTheme(),
-                  CustomTheme(),
-                  GroupHeader(name: 'Filters'),
-                  ExcludeBundles(),
-                  ExcludeUnstable(),
-                  AppArchitecture(),
-                  PagesCount(),
-                  GroupHeader(name: 'Apps'),
-                  DeleteOldVersions(),
-                  OfferDeletingOldApks(),
-                  ApkSavePath(),
-                  ImportApps(),
-                  ExportApps(),
-                  DeleteApps(),
-                  GroupHeader(name: 'Logs'),
-                  ExportLogs(),
-                  DeleteLogs(),
-                  GroupHeader(name: 'About'),
-                  CheckUpdates(),
-                  AboutApp(),
+                children: [
+                  const GroupHeader(name: 'Theme'),
+                  const AppTheme(),
+                  const MonetTheme(),
+                  const CustomTheme(),
+                  if (viewModel.devOptions) ...[
+                    const UseCustomFont(),
+                    const ImportFont()
+                  ],
+                  const GroupHeader(name: 'Filters'),
+                  const ExcludeBundles(),
+                  const ExcludeUnstable(),
+                  const AppArchitecture(),
+                  const PagesCount(),
+                  const GroupHeader(name: 'Apps'),
+                  const DeleteOldVersions(),
+                  const OfferDeletingOldApks(),
+                  const ApkSavePath(),
+                  const ImportApps(),
+                  const ExportApps(),
+                  const DeleteApps(),
+                  const GroupHeader(name: 'Logs'),
+                  const ExportLogs(),
+                  const DeleteLogs(),
+                  const GroupHeader(name: 'About'),
+                  const CheckUpdates(),
+                  const AboutApp(),
                 ],
               ),
             ]),

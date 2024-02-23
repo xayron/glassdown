@@ -125,7 +125,12 @@ class AppsService with ListenableServiceMixin {
 
   Future<IOError?> importAppList() async {
     try {
-      final result = await FilePicker.platform.pickFiles();
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowMultiple: false,
+        allowedExtensions: ['json'],
+        dialogTitle: 'Pick file to import',
+      );
 
       if (result == null) {
         throw IOError('No file picked');

@@ -4,10 +4,12 @@ import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class AboutAppModel extends BaseViewModel {
+class AboutAppModel extends ReactiveViewModel {
   final _dialogService = locator<DialogService>();
   final _settings = locator<SettingsService>();
   final _snackbar = locator<SnackbarService>();
+
+  bool get devOptions => _settings.devOptions;
 
   final loadingMsg = 'Loading...';
   AppPackageInfo? _info;
@@ -16,6 +18,16 @@ class AboutAppModel extends BaseViewModel {
   String get name => info?.appName ?? loadingMsg;
   String get version => info?.version ?? loadingMsg;
   String get buildNumber => info?.buildNumber ?? loadingMsg;
+
+  void setDevOptions(bool val) => _settings.setDevOptions(val);
+
+  String getDevOptionsSnackMessage() {
+    if (devOptions) {
+      return "You've enabled developer options. Please be careful with it!";
+    } else {
+      return 'Developer options disabled.';
+    }
+  }
 
   Future<void> getPackageInfo() async {
     _info = await _settings.getPackageInfo();
@@ -36,4 +48,7 @@ class AboutAppModel extends BaseViewModel {
       );
     }
   }
+
+  @override
+  List<ListenableServiceMixin> get listenableServices => [_settings];
 }
