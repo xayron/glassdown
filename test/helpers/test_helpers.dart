@@ -9,6 +9,7 @@ import 'package:glass_down_v2/services/logs_service.dart';
 import 'package:glass_down_v2/services/deleter_service.dart';
 import 'package:glass_down_v2/services/updater_service.dart';
 import 'package:glass_down_v2/services/database_service.dart';
+import 'package:glass_down_v2/services/font_importer_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -24,6 +25,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<DeleterService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<UpdaterService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<DatabaseService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<FontImporterService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {

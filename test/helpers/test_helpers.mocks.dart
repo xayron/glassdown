@@ -10,11 +10,13 @@ import 'dart:ui' as _i8;
 import 'package:dio/dio.dart' as _i10;
 import 'package:flutter/material.dart' as _i6;
 import 'package:glass_down_v2/models/app_info.dart' as _i2;
+import 'package:glass_down_v2/models/database/app_info_table.dart' as _i19;
 import 'package:glass_down_v2/models/errors/io_error.dart' as _i13;
 import 'package:glass_down_v2/models/update_info.dart' as _i17;
 import 'package:glass_down_v2/services/apps_service.dart' as _i12;
 import 'package:glass_down_v2/services/database_service.dart' as _i18;
 import 'package:glass_down_v2/services/deleter_service.dart' as _i15;
+import 'package:glass_down_v2/services/font_importer_service.dart' as _i20;
 import 'package:glass_down_v2/services/logs_service.dart' as _i14;
 import 'package:glass_down_v2/services/paths_service.dart' as _i11;
 import 'package:glass_down_v2/services/scraper_service.dart' as _i9;
@@ -1212,4 +1214,111 @@ class MockUpdaterService extends _i1.Mock implements _i16.UpdaterService {
 /// A class which mocks [DatabaseService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDatabaseService extends _i1.Mock implements _i18.DatabaseService {}
+class MockDatabaseService extends _i1.Mock implements _i18.DatabaseService {
+  @override
+  _i7.Future<int> addApp(
+    ({String name, String url})? appData,
+    String? imageUrl,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addApp,
+          [
+            appData,
+            imageUrl,
+          ],
+        ),
+        returnValue: _i7.Future<int>.value(0),
+        returnValueForMissingStub: _i7.Future<int>.value(0),
+      ) as _i7.Future<int>);
+
+  @override
+  _i7.Future<void> deleteAllApps() => (super.noSuchMethod(
+        Invocation.method(
+          #deleteAllApps,
+          [],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
+  _i7.Future<int> editApp(
+    ({String name, String url})? appData,
+    String? imageUrl,
+    _i2.AppInfo? app,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #editApp,
+          [
+            appData,
+            imageUrl,
+            app,
+          ],
+        ),
+        returnValue: _i7.Future<int>.value(0),
+        returnValueForMissingStub: _i7.Future<int>.value(0),
+      ) as _i7.Future<int>);
+
+  @override
+  _i7.Future<List<_i19.AppInfoItem>> getAllApps() => (super.noSuchMethod(
+        Invocation.method(
+          #getAllApps,
+          [],
+        ),
+        returnValue:
+            _i7.Future<List<_i19.AppInfoItem>>.value(<_i19.AppInfoItem>[]),
+        returnValueForMissingStub:
+            _i7.Future<List<_i19.AppInfoItem>>.value(<_i19.AppInfoItem>[]),
+      ) as _i7.Future<List<_i19.AppInfoItem>>);
+
+  @override
+  _i7.Future<List<_i19.AppInfoItem>> importApps(List<_i2.AppInfo>? apps) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #importApps,
+          [apps],
+        ),
+        returnValue:
+            _i7.Future<List<_i19.AppInfoItem>>.value(<_i19.AppInfoItem>[]),
+        returnValueForMissingStub:
+            _i7.Future<List<_i19.AppInfoItem>>.value(<_i19.AppInfoItem>[]),
+      ) as _i7.Future<List<_i19.AppInfoItem>>);
+
+  @override
+  _i7.Future<void> init() => (super.noSuchMethod(
+        Invocation.method(
+          #init,
+          [],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
+  _i7.Future<bool> removeApp(_i2.AppInfo? app) => (super.noSuchMethod(
+        Invocation.method(
+          #removeApp,
+          [app],
+        ),
+        returnValue: _i7.Future<bool>.value(false),
+        returnValueForMissingStub: _i7.Future<bool>.value(false),
+      ) as _i7.Future<bool>);
+}
+
+/// A class which mocks [FontImporterService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFontImporterService extends _i1.Mock
+    implements _i20.FontImporterService {
+  @override
+  _i7.Future<void> showImportFontDialog() => (super.noSuchMethod(
+        Invocation.method(
+          #showImportFontDialog,
+          [],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+}
