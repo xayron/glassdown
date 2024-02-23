@@ -160,6 +160,12 @@ class SettingsService
     _savePref<String>(SettingsKey.apkSavePath, value);
   }
 
+  bool _devOptions = false;
+  bool get devOptions => _devOptions;
+  void setDevOptions(bool val) {
+    _devOptions = val;
+  }
+
   @override
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
