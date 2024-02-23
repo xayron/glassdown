@@ -7,8 +7,6 @@ name: GlassDown Tag Release
             
 on:
   push:
-    branches:
-      - main
     tags:
       - "v*!dev*"
     
