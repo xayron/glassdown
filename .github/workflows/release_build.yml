@@ -7,8 +7,8 @@ name: GlassDown Tag Release
             
 on:
   push:
-    tags:
-      - "^(?!.*-dev).*$"
+    tags-ignore:
+      - "v*dev*"
     
 
 jobs:
