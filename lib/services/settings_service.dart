@@ -220,12 +220,14 @@ class SettingsService
         _prefs.getString(SettingsKey.exportAppsPath.name) ?? _exportAppsPath;
     _apkSavePath =
         _prefs.getString(SettingsKey.apkSavePath.name) ?? _apkSavePath;
+    _useImportedFont =
+        _prefs.getBool(SettingsKey.useImportedFont.name) ?? _useImportedFont;
   }
 
   Future<void> ensureAppDirExists() async {
     final defaultDir = Directory(defaultDirPath);
     final isDefaultDir = await defaultDir.exists();
-    if (isDefaultDir) {
+    if (!isDefaultDir) {
       await defaultDir.create();
     }
   }

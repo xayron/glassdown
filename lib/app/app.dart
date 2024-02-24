@@ -16,7 +16,6 @@ import 'package:glass_down_v2/ui/dialogs/about_app/about_app_dialog.dart';
 import 'package:glass_down_v2/ui/dialogs/delete_old_apks/delete_old_apks_dialog.dart';
 import 'package:glass_down_v2/services/deleter_service.dart';
 import 'package:glass_down_v2/services/updater_service.dart';
-import 'package:glass_down_v2/ui/bottom_sheets/updater/updater_sheet.dart';
 import 'package:glass_down_v2/ui/views/permissions/permissions_view.dart';
 import 'package:glass_down_v2/services/database_service.dart';
 import 'package:glass_down_v2/services/font_importer_service.dart';
@@ -50,7 +49,6 @@ import 'package:glass_down_v2/services/font_importer_service.dart';
 // @stacked-service
   ],
   bottomsheets: [
-    StackedBottomsheet(classType: UpdaterSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [
