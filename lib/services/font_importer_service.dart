@@ -103,7 +103,7 @@ class FontImporterService {
     try {
       final importedFonts = await _getImportedFonts();
 
-      if (importedFonts == null) {
+      if (importedFonts == null || importedFonts.len == 0) {
         return;
       }
 

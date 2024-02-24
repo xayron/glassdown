@@ -58,4 +58,10 @@ class ThemeBuilder extends StackedView<ThemeBuilderModel> {
   viewModelBuilder(BuildContext context) {
     return ThemeBuilderModel();
   }
+
+  @override
+  void onViewModelReady(ThemeBuilderModel viewModel) {
+    super.onViewModelReady(viewModel);
+    viewModel.loadCustomFont();
+  }
 }
