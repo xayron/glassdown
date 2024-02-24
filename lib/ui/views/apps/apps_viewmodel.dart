@@ -1,10 +1,10 @@
-import 'package:glass_down_v2/app/app.bottomsheets.dart';
 import 'package:glass_down_v2/app/app.dialogs.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/services/apps_service.dart';
 import 'package:glass_down_v2/services/updater_service.dart';
+import 'package:glass_down_v2/ui/bottom_sheets/updater/update_sheet.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -12,7 +12,6 @@ class AppsViewModel extends ReactiveViewModel {
   final _dialogService = locator<DialogService>();
   final _apps = locator<AppsService>();
   final _snackbar = locator<SnackbarService>();
-  final _sheet = locator<BottomSheetService>();
   final _updater = locator<UpdaterService>();
 
   List<AppInfo> get apps => _apps.apps;
@@ -29,14 +28,8 @@ class AppsViewModel extends ReactiveViewModel {
     }
     final result = await _updater.checkUpdates();
     if (result) {
-      await showUpdateDialog();
+      showUpdaterSheet();
     }
-  }
-
-  Future<void> showUpdateDialog() async {
-    await _sheet.showCustomSheet(
-      variant: BottomSheetType.updater,
-    );
   }
 
   Future<void> showAddDialog() async {
