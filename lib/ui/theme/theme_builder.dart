@@ -32,12 +32,16 @@ class ThemeBuilder extends StackedView<ThemeBuilderModel> {
           theme: ThemeData(
             colorScheme: lightScheme,
             useMaterial3: true,
-            fontFamily: GoogleFonts.robotoFlex().fontFamily,
+            fontFamily: viewModel.useImportedFont
+                ? 'CustomFont'
+                : GoogleFonts.robotoFlex().fontFamily,
           ),
           darkTheme: ThemeData(
             colorScheme: darkScheme,
             useMaterial3: true,
-            fontFamily: GoogleFonts.robotoFlex().fontFamily,
+            fontFamily: viewModel.useImportedFont
+                ? 'CustomFont'
+                : GoogleFonts.robotoFlex().fontFamily,
           ),
           initialRoute: Routes.homeView,
           onGenerateRoute: StackedRouter().onGenerateRoute,
@@ -53,5 +57,11 @@ class ThemeBuilder extends StackedView<ThemeBuilderModel> {
   @override
   viewModelBuilder(BuildContext context) {
     return ThemeBuilderModel();
+  }
+
+  @override
+  void onViewModelReady(ThemeBuilderModel viewModel) {
+    super.onViewModelReady(viewModel);
+    viewModel.loadCustomFont();
   }
 }

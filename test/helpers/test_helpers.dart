@@ -8,6 +8,8 @@ import 'package:glass_down_v2/services/apps_service.dart';
 import 'package:glass_down_v2/services/logs_service.dart';
 import 'package:glass_down_v2/services/deleter_service.dart';
 import 'package:glass_down_v2/services/updater_service.dart';
+import 'package:glass_down_v2/services/database_service.dart';
+import 'package:glass_down_v2/services/font_importer_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -22,6 +24,8 @@ import 'test_helpers.mocks.dart';
   MockSpec<LogsService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<DeleterService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<UpdaterService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<DatabaseService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<FontImporterService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -34,6 +38,7 @@ void registerServices() {
   getAndRegisterLogsService();
   getAndRegisterDeleterService();
   getAndRegisterUpdaterService();
+  getAndRegisterDatabaseService();
 // @stacked-mock-register
 }
 
@@ -126,6 +131,13 @@ MockUpdaterService getAndRegisterUpdaterService() {
   _removeRegistrationIfExists<UpdaterService>();
   final service = MockUpdaterService();
   locator.registerSingleton<UpdaterService>(service);
+  return service;
+}
+
+MockDatabaseService getAndRegisterDatabaseService() {
+  _removeRegistrationIfExists<DatabaseService>();
+  final service = MockDatabaseService();
+  locator.registerSingleton<DatabaseService>(service);
   return service;
 }
 // @stacked-mock-create

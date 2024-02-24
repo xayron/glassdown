@@ -7,7 +7,7 @@ import 'package:stacked/stacked.dart';
 
 enum PickedVersion { arm64, arm32 }
 
-class UpdaterSheetModel extends ReactiveViewModel {
+class UpdateSheetModel extends ReactiveViewModel {
   final _updater = locator<UpdaterService>();
   double get progress => _updater.downloadProgress;
 

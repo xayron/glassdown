@@ -100,7 +100,11 @@ class UpdaterService with ListenableServiceMixin {
 
     final String tagName = data['tag_name'];
 
-    final version = int.tryParse(package.version.split('.').join());
+    if (package.version.contains('dev')) {}
+    final currentVersion = package.version.contains('dev')
+        ? package.version.split('-')[0]
+        : package.version;
+    final version = int.tryParse(currentVersion.split('.').join());
     final newVersion = int.tryParse(tagName.substring(1).split('.').join());
 
     if (version == null || newVersion == null) {

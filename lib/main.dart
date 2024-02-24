@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_logs/flutter_logs.dart';
-import 'package:glass_down_v2/app/app.bottomsheets.dart';
 import 'package:glass_down_v2/app/app.dialogs.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/app/app.navigation.dart';
@@ -24,7 +23,6 @@ Future<void> main() async {
   await setupLocator();
   setupSnackbarUi();
   setupDialogUi();
-  setupBottomSheetUi();
   setupNavigationConfig();
   runApp(const MainApp());
 }
@@ -40,7 +38,7 @@ class MainApp extends StatelessWidget {
     ]);
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
-        systemStatusBarContrastEnforced: true,
+        systemStatusBarContrastEnforced: false,
         systemNavigationBarColor: Colors.transparent,
         systemNavigationBarDividerColor: Colors.transparent,
         systemNavigationBarIconBrightness: Brightness.dark,
