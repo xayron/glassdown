@@ -15,8 +15,27 @@ class ImportFont extends StackedView<ImportFontModel> {
   ) {
     return InkWell(
       onTap: () => viewModel.showImportFontDialog(),
-      child: const ItemWrapper(
+      child: ItemWrapper(
         mainText: 'Import font',
+        trailingWidget: IconButton.filledTonal(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('How to import?'),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(viewModel.fontImportMessage),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+          icon: const Icon(Icons.info_outline),
+        ),
       ),
     );
   }

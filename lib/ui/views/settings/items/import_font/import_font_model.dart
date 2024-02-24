@@ -8,6 +8,9 @@ class ImportFontModel extends BaseViewModel {
   final _snackbar = locator<SnackbarService>();
   final _fontImporter = locator<FontImporterService>();
 
+  final fontImportMessage =
+      'Put the fonts you want to use into zip file. If you want to use a new ones, just load different font zip, it will overwrite the previous ones.';
+
   Future<void> showImportFontDialog() async {
     try {
       await _fontImporter.showImportFontDialog();
