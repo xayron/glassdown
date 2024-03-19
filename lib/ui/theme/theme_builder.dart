@@ -63,6 +63,5 @@ class ThemeBuilder extends StackedView<ThemeBuilderModel> {
   void onViewModelReady(ThemeBuilderModel viewModel) {
     super.onViewModelReady(viewModel);
     viewModel.loadCustomFont();
-    viewModel.migrateData();
   }
 }

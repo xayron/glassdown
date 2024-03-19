@@ -1,5 +1,3 @@
-import 'package:glass_down_v2/services/local_db_service.dart';
-import 'package:glass_down_v2/services/migration_service.dart';
 import 'package:glass_down_v2/ui/views/home/home_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -36,7 +34,6 @@ import 'package:glass_down_v2/services/font_importer_service.dart';
     LazySingleton(classType: NavigationService),
     LazySingleton(classType: SnackbarService),
     LazySingleton(classType: CustomThemesService),
-    InitializableSingleton(classType: LocalDbService),
     InitializableSingleton(classType: SettingsService),
     LazySingleton(classType: ScraperService),
     LazySingleton(classType: PathsService),
@@ -46,7 +43,6 @@ import 'package:glass_down_v2/services/font_importer_service.dart';
     LazySingleton(classType: UpdaterService),
     LazySingleton(classType: DatabaseService),
     LazySingleton(classType: FontImporterService),
-    Singleton(classType: MigrationService),
 // @stacked-service
   ],
   dialogs: [

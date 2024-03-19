@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/services/custom_themes_service.dart';
 import 'package:glass_down_v2/services/font_importer_service.dart';
-import 'package:glass_down_v2/services/migration_service.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:stacked/stacked.dart';
 
@@ -10,7 +9,6 @@ class ThemeBuilderModel extends ReactiveViewModel {
   final _settings = locator<SettingsService>();
   final _themes = locator<CustomThemesService>();
   final _fontImporter = locator<FontImporterService>();
-  final _migrator = locator<MigrationService>();
 
   ThemeMode get themeMode => _settings.themeMode;
   bool get monetEnabled => _settings.monetEnabled;
@@ -23,16 +21,6 @@ class ThemeBuilderModel extends ReactiveViewModel {
 
   Future<void> loadCustomFont() async {
     await _fontImporter.loadFonts();
-  }
-
-  Future<void> migrateData() async {
-    if (!_settings.hasMigratedDb) {
-      final result = await _migrator.runMigration();
-      if (result) {
-        _migrator.setMigrationComplete();
-      }
-      rebuildUi();
-    }
   }
 
   @override
