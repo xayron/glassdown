@@ -73,6 +73,7 @@ class SettingsService
 
   bool _supportMonet = true;
   bool get supportMonet => _supportMonet;
+
   bool _monetEnabled = true;
   bool get monetEnabled => _monetEnabled;
   void setMonetEnabled(bool value) {
@@ -176,6 +177,12 @@ class SettingsService
     notifyListeners();
   }
 
+  bool _hasMigratedDb = false;
+  bool get hasMigratedDb => _hasMigratedDb;
+  void setHasMigratedDb(bool val) {
+    _hasMigratedDb = val;
+  }
+
   @override
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -222,6 +229,7 @@ class SettingsService
         _prefs.getString(SettingsKey.apkSavePath.name) ?? _apkSavePath;
     _useImportedFont =
         _prefs.getBool(SettingsKey.useImportedFont.name) ?? _useImportedFont;
+    _hasMigratedDb = _prefs.getBool('hasMigratedDb') ?? _hasMigratedDb;
   }
 
   Future<void> ensureAppDirExists() async {
