@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:glass_down_v2/models/app_info.dart';
+import 'package:glass_down_v2/models/app_info_minimal.dart';
 import 'package:glass_down_v2/models/errors/db_error.dart';
 import 'package:glass_down_v2/util/function_name.dart';
 import 'package:path_provider/path_provider.dart';
@@ -101,9 +102,13 @@ class DatabaseService {
   }
 
   Future<List<AppInfoItemData>> importApps(
-      List<Map<String, dynamic>> appsJson) async {
+      List<AppInfoMinimal> appsJson) async {
     try {
-      final importedApps = appsJson.map((e) => AppInfoItemData.fromJson(e));
+      final importedApps = appsJson.map((e) => AppInfoItemCompanion.insert(
+            name: e.name,
+            appUrl: e.appUrl,
+            logoUrl: Value.ofNullable(e.imageUrl),
+          ));
       await _db.batch((batch) {
         batch.insertAll(
           _db.appInfoItem,
