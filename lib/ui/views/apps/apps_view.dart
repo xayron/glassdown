@@ -47,7 +47,7 @@ class AppsView extends StackedView<AppsViewModel> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 content: const Text(
-                    'This release introduces new database. If you have a backup of your apps, please reexport them as previous format won\'t work'),
+                    'This release introduces new database. If you have a backup of your apps, please reexport them as previous format won\'t work.'),
                 leading: const Icon(Icons.warning),
                 backgroundColor:
                     Theme.of(context).colorScheme.errorContainer.withAlpha(120),
