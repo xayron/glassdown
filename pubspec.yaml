@@ -56,6 +56,8 @@ flutter_launcher_icons:
 
 flutter:
   uses-material-design: true
+  assets:
+    - "assets/icon/glass_down_2.png"
 
 flutter_native_splash:
   color: "#0490ff"

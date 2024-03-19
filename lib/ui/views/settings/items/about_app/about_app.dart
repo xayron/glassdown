@@ -25,10 +25,8 @@ class AboutApp extends StackedView<AboutAppModel> {
         );
       },
       child: ItemWrapper(
-        mainText: viewModel.name,
-        secondaryText:
-            'Version: ${viewModel.version}\nBuild number: ${viewModel.buildNumber}',
-        threeLined: true,
+        mainText: 'About',
+        secondaryText: 'Version: ${viewModel.version}',
       ),
     );
   }
