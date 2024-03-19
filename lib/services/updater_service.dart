@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:glass_down_v2/models/errors/update_error.dart';
 import 'package:glass_down_v2/models/update_info.dart';
+import 'package:glass_down_v2/util/function_name.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
@@ -60,7 +61,7 @@ class UpdaterService with ListenableServiceMixin {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'downloadUpdate',
+        getFunctionName(),
         e is UpdateError ? e.fullMessage() : e.toString(),
       );
       _downloadProgress = 100;
@@ -86,7 +87,7 @@ class UpdaterService with ListenableServiceMixin {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'checkUpdates',
+        getFunctionName(),
         'Failed to check updates',
       );
       rethrow;
@@ -148,7 +149,7 @@ class UpdaterService with ListenableServiceMixin {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'getReleaseInfo',
+        getFunctionName(),
         'Failed to fetch update info',
       );
       rethrow;

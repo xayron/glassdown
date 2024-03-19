@@ -5,6 +5,7 @@ import 'package:flutter_logs/flutter_logs.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/models/errors/io_error.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
+import 'package:glass_down_v2/util/function_name.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -35,13 +36,17 @@ class LogsService {
 
       FlutterLogs.logInfo(
         runtimeType.toString(),
-        'exportLogs',
+        getFunctionName(),
         'Logs zipped into ${zipFile.path}',
       );
 
       return null;
     } catch (e) {
-      FlutterLogs.logError(runtimeType.toString(), 'exportLogs', e.toString());
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        getFunctionName(),
+        e.toString(),
+      );
       if (e is IOError) {
         return e;
       }
@@ -60,7 +65,11 @@ class LogsService {
 
       return null;
     } catch (e) {
-      FlutterLogs.logError(runtimeType.toString(), 'deleteLogs', e.toString());
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        getFunctionName(),
+        e.toString(),
+      );
       if (e is IOError) {
         return e;
       }

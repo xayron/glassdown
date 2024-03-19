@@ -8,6 +8,7 @@ import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/models/errors/io_error.dart';
 import 'package:glass_down_v2/services/apps_service.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
+import 'package:glass_down_v2/util/function_name.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -46,7 +47,7 @@ class ExportAppsModel extends ReactiveViewModel {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'pickFolder',
+        getFunctionName(),
         'Cannot write to this folder',
       );
       _snackbar.showCustomSnackBar(

@@ -3,6 +3,7 @@ import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/models/errors/update_error.dart';
 import 'package:glass_down_v2/models/update_info.dart';
 import 'package:glass_down_v2/services/updater_service.dart';
+import 'package:glass_down_v2/util/function_name.dart';
 import 'package:stacked/stacked.dart';
 
 enum PickedVersion { arm64, arm32 }
@@ -40,7 +41,7 @@ class UpdateSheetModel extends ReactiveViewModel {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'checkUpdates',
+        getFunctionName(),
         e is UpdateError ? e.message : e.toString(),
       );
     }

@@ -5,6 +5,7 @@ import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/services/paths_service.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
+import 'package:glass_down_v2/util/function_name.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:glass_down_v2/models/errors/scrape_error.dart';
 import 'package:flutter_logs/flutter_logs.dart';
@@ -105,7 +106,7 @@ class ScraperService with ListenableServiceMixin {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'getAppImage',
+        getFunctionName(),
         e is ScrapeError ? e.fullMessage() : e.toString(),
       );
       rethrow;
@@ -142,7 +143,7 @@ class ScraperService with ListenableServiceMixin {
 
       FlutterLogs.logThis(
         tag: runtimeType.toString(),
-        subTag: 'getVersionList',
+        subTag: getFunctionName(),
         level: apkList.isEmpty ? LogLevel.ERROR : LogLevel.INFO,
         logMessage: apkList.isEmpty
             ? 'No APK version list found'
@@ -205,7 +206,7 @@ class ScraperService with ListenableServiceMixin {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'getVersionList',
+        getFunctionName(),
         e is ScrapeError ? e.fullMessage() : e.toString(),
       );
       rethrow;
@@ -267,7 +268,7 @@ class ScraperService with ListenableServiceMixin {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'getApkType',
+        getFunctionName(),
         e is ScrapeError ? e.fullMessage() : e.toString(),
       );
       rethrow;
@@ -308,7 +309,7 @@ class ScraperService with ListenableServiceMixin {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'getDownloadPage',
+        getFunctionName(),
         e is ScrapeError ? e.fullMessage() : e.toString(),
       );
       _pageStatus = (false, _getErrorMessage(e));
@@ -340,7 +341,7 @@ class ScraperService with ListenableServiceMixin {
 
       FlutterLogs.logInfo(
         runtimeType.toString(),
-        '_getDownloadLink',
+        getFunctionName(),
         'Parsed final page',
       );
 
@@ -357,7 +358,7 @@ class ScraperService with ListenableServiceMixin {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'getDownloadLink',
+        getFunctionName(),
         e is ScrapeError ? e.fullMessage() : e.toString(),
       );
       _linkStatus = (false, _getErrorMessage(e));
@@ -396,7 +397,7 @@ class ScraperService with ListenableServiceMixin {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'getAppImage',
+        getFunctionName(),
         e is ScrapeError ? e.fullMessage() : e.toString(),
       );
       _apkStatus = (false, _getErrorMessage(e));
@@ -415,14 +416,14 @@ class ScraperService with ListenableServiceMixin {
       final apk = await _getApk(downloadLink, token);
       FlutterLogs.logInfo(
         runtimeType.toString(),
-        'getSelectedApk',
+        getFunctionName(),
         'APK downloaded',
       );
 
       final savePlace = await _paths.getFolderToSave();
       FlutterLogs.logInfo(
         runtimeType.toString(),
-        'getSelectedApk',
+        getFunctionName(),
         'Found save path: ${savePlace.path}',
       );
 
@@ -439,7 +440,7 @@ class ScraperService with ListenableServiceMixin {
       );
       FlutterLogs.logInfo(
         runtimeType.toString(),
-        'getSelectedApk',
+        getFunctionName(),
         'Saving to: ${file.path}',
       );
 
@@ -447,7 +448,7 @@ class ScraperService with ListenableServiceMixin {
 
       FlutterLogs.logInfo(
         runtimeType.toString(),
-        'getSelectedApk',
+        getFunctionName(),
         'Opened file for writing...',
       );
 
@@ -456,7 +457,7 @@ class ScraperService with ListenableServiceMixin {
 
       FlutterLogs.logInfo(
         runtimeType.toString(),
-        'getSelectedApk',
+        getFunctionName(),
         'File saved to disc',
       );
 
@@ -465,7 +466,7 @@ class ScraperService with ListenableServiceMixin {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'getSelectedApk',
+        getFunctionName(),
         e is ScrapeError ? e.fullMessage() : e.toString(),
       );
       _saveStatus = (false, _getErrorMessage(e));

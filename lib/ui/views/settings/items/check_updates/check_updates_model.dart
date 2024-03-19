@@ -4,6 +4,7 @@ import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:glass_down_v2/services/updater_service.dart';
 import 'package:glass_down_v2/ui/bottom_sheets/updater/update_sheet.dart';
+import 'package:glass_down_v2/util/function_name.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -29,7 +30,7 @@ class CheckUpdatesModel extends ReactiveViewModel {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'checkUpdates',
+        getFunctionName(),
         e.toString(),
       );
     }

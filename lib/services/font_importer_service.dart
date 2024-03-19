@@ -51,7 +51,7 @@ class FontImporterService {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'importAppList',
+        getFunctionName(),
         e.toString(),
       );
       rethrow;
