@@ -11,7 +11,7 @@ class MigrationService {
   final _newDb = locator<DatabaseService>();
   final _settings = locator<SettingsService>();
 
-  Future<void> runMigration() async {
+  Future<bool> runMigration() async {
     try {
       final result = await _oldDb.getAllApps();
       final entities = result.map((e) {
@@ -22,6 +22,7 @@ class MigrationService {
         );
       }).toList();
       await _newDb.migrateFromOldDb(entities);
+      return true;
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
