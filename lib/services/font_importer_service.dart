@@ -11,7 +11,7 @@ import 'package:path_provider/path_provider.dart';
 typedef FontImport = ({int len, List<File> fontFiles});
 
 class FontImporterService {
-  final _fontLoader = FontLoader('CustomFont');
+  var _fontLoader = FontLoader('CustomFont');
 
   Future<void> showImportFontDialog() async {
     try {
@@ -106,6 +106,8 @@ class FontImporterService {
       if (importedFonts == null || importedFonts.len == 0) {
         return;
       }
+
+      _fontLoader = FontLoader('CustomFont');
 
       for (int i = 0; i < importedFonts.len; i++) {
         _fontLoader.addFont(_prepareFont(importedFonts.fontFiles.elementAt(i)));
