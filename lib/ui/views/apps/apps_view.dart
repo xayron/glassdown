@@ -41,6 +41,24 @@ class AppsView extends StackedView<AppsViewModel> {
             const SliverToBoxAdapter(
               child: LinearProgressIndicator(),
             ),
+          if (viewModel.showBanner)
+            SliverToBoxAdapter(
+              child: MaterialBanner(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                content: const Text(
+                    'This release introduces new database. If you have a backup of your apps, please reexport them as previous format won\'t work.'),
+                leading: const Icon(Icons.warning),
+                backgroundColor:
+                    Theme.of(context).colorScheme.errorContainer.withAlpha(120),
+                actions: [
+                  TextButton(
+                    onPressed: () => viewModel.closeBanner(),
+                    child: const Icon(Icons.close),
+                  ),
+                ],
+              ),
+            ),
           SliverList(
             delegate: SliverChildListDelegate([
               ListView(

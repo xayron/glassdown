@@ -5,12 +5,14 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/models/app_info.dart';
+import 'package:glass_down_v2/models/app_info_minimal.dart';
 import 'package:glass_down_v2/models/errors/db_error.dart';
 import 'package:glass_down_v2/models/errors/io_error.dart';
+import 'package:glass_down_v2/services/database_service.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
+import 'package:glass_down_v2/util/function_name.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as p;
-import 'package:glass_down_v2/services/local_db_service.dart';
 import 'package:glass_down_v2/services/scraper_service.dart';
 import 'package:stacked/stacked.dart';
 
@@ -19,7 +21,7 @@ class AppsService with ListenableServiceMixin {
     listenToReactiveValues([apps]);
   }
 
-  final _db = locator<LocalDbService>();
+  final _db = locator<DatabaseService>();
   final _scraper = locator<ScraperService>();
   final _settings = locator<SettingsService>();
   final List<AppInfo> apps = [];
@@ -27,6 +29,12 @@ class AppsService with ListenableServiceMixin {
   void comparator() => apps.sort(
         (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
       );
+
+  List<AppInfoMinimal> _convertToMinimalAppList() {
+    return apps
+        .map((e) => AppInfoMinimal(e.name, e.appUrl, imageUrl: e.imageUrl))
+        .toList();
+  }
 
   Future<void> loadAppsFromDb() async {
     apps.clear();
@@ -91,31 +99,35 @@ class AppsService with ListenableServiceMixin {
 
   Future<void> deleteAllApps() async {
     try {
-      await _db.deleteAllApps();
+      await _db.purgeApps();
       apps.clear();
     } catch (e) {
       rethrow;
     }
   }
 
-  IOError? exportAppList() {
+  Future<IOError?> exportAppList() async {
     try {
-      final Directory downloadsDir = Directory(_settings.exportAppsPath);
-      final appListPath = p.join(downloadsDir.path,
+      final Directory exportDir = Directory(_settings.exportAppsPath);
+      final appListPath = p.join(exportDir.path,
           'glass_down_apps-${DateFormat('dd_MM_yyyy-HH_mm').format(DateTime.now())}.json');
 
-      if (!downloadsDir.existsSync()) {
+      if (!exportDir.existsSync()) {
         throw IOError('Cannot write to Downloads folder');
       }
 
-      final appList = apps.map((e) => e.toMap()).toList();
+      final minimalApps = _convertToMinimalAppList();
+      final appList = minimalApps.map((e) => e.toMap()).toList();
       final exportList = File(appListPath);
       exportList.writeAsStringSync(jsonEncode(appList));
 
       return null;
     } catch (e) {
       FlutterLogs.logError(
-          runtimeType.toString(), 'exportAppList', e.toString());
+        runtimeType.toString(),
+        getFunctionName(),
+        e.toString(),
+      );
       if (e is IOError) {
         return e;
       }
@@ -151,9 +163,10 @@ class AppsService with ListenableServiceMixin {
       }
 
       final jsonMap = decodedJson.cast<Map<String, dynamic>>();
-      final apps = jsonMap.map((e) => AppInfo.fromMap(e)).toList();
+      final minimalApps =
+          jsonMap.map((e) => AppInfoMinimal.fromMap(e)).toList();
 
-      final models = await _db.importApps(apps);
+      final models = await _db.importApps(minimalApps);
 
       for (final model in models) {
         apps.add(AppInfo(model.name, model.appUrl, [], model.id));
