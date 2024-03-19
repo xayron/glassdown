@@ -26,12 +26,12 @@ class ThemeBuilderModel extends ReactiveViewModel {
   }
 
   Future<void> migrateData() async {
-    if (_settings.hasMigratedDb) {
-      return;
-    }
-    final result = await _migrator.runMigration();
-    if (result) {
-      _migrator.setMigrationComplete();
+    if (!_settings.hasMigratedDb) {
+      final result = await _migrator.runMigration();
+      if (result) {
+        _migrator.setMigrationComplete();
+      }
+      rebuildUi();
     }
   }
 

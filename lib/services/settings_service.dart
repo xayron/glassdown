@@ -24,6 +24,7 @@ enum SettingsKey {
   exportAppsPath,
   apkSavePath,
   useImportedFont,
+  hasMigratedDb
 }
 
 // ignore: constant_identifier_names
@@ -52,6 +53,7 @@ class SettingsService
       _autoRemove,
       _offerRemoval,
       _exportLogsPath,
+      _hasMigratedDb
     ]);
   }
 
@@ -181,6 +183,8 @@ class SettingsService
   bool get hasMigratedDb => _hasMigratedDb;
   void setHasMigratedDb(bool val) {
     _hasMigratedDb = val;
+    notifyListeners();
+    _savePref<bool>(SettingsKey.hasMigratedDb, val);
   }
 
   @override
@@ -229,7 +233,8 @@ class SettingsService
         _prefs.getString(SettingsKey.apkSavePath.name) ?? _apkSavePath;
     _useImportedFont =
         _prefs.getBool(SettingsKey.useImportedFont.name) ?? _useImportedFont;
-    _hasMigratedDb = _prefs.getBool('hasMigratedDb') ?? _hasMigratedDb;
+    _hasMigratedDb =
+        _prefs.getBool(SettingsKey.hasMigratedDb.name) ?? _hasMigratedDb;
   }
 
   Future<void> ensureAppDirExists() async {
