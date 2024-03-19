@@ -1,7 +1,7 @@
 name: glass_down_v2
 description: "Simple app which allows downloading specific APK version of provided apps from APKMirror."
 publish_to: "none"
-version: 1.6.0+1
+version: 2.0.0-dev1+1
 
 environment:
   sdk: ">=3.0.3 <4.0.0"
@@ -25,8 +25,6 @@ dependencies:
   html: ^0.15.4
   internet_connection_checker_plus: ^2.2.0
   intl: ^0.19.0
-  isar: ^3.1.0+1
-  isar_flutter_libs: ^3.1.0+1
   open_filex: ^4.4.0
   package_info_plus: ^5.0.1
   path: ^1.8.3
@@ -47,7 +45,6 @@ dev_dependencies:
   mockito: ^5.4.4
   stacked_generator: ^1.5.1
   dart_mappable_builder: ^4.2.0
-  isar_generator: ^3.1.0+1
   flutter_launcher_icons: ^0.13.1
   change_app_package_name: ^1.1.0
   drift_dev: ^2.15.0
