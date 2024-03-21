@@ -19,13 +19,6 @@ class AppsViewModel extends ReactiveViewModel {
   bool _loading = false;
   bool get loading => _loading;
 
-  bool _showBanner = true;
-  bool get showBanner => _showBanner;
-  void closeBanner() {
-    _showBanner = false;
-    rebuildUi();
-  }
-
   @override
   List<ListenableServiceMixin> get listenableServices => [_apps];
 
