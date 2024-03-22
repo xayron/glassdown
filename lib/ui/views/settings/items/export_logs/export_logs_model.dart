@@ -39,7 +39,6 @@ class ExportLogsModel extends ReactiveViewModel {
       testFile.deleteSync();
       _settings.setExportLogsPath(result);
       _snackbar.showCustomSnackBar(
-        title: 'Info',
         message: 'Path saved succesfully',
         variant: SnackbarType.info,
       );
@@ -62,7 +61,6 @@ class ExportLogsModel extends ReactiveViewModel {
     try {
       await _logs.exportLogs();
       _snackbar.showCustomSnackBar(
-        title: 'Logs',
         message: 'Logs exported',
         variant: SnackbarType.info,
       );

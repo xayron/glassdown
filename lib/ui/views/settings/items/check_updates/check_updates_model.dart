@@ -22,7 +22,6 @@ class CheckUpdatesModel extends ReactiveViewModel {
         showUpdaterSheet();
       } else {
         _snackbar.showCustomSnackBar(
-          title: 'Info',
           message: 'No updates available.',
           variant: SnackbarType.info,
         );

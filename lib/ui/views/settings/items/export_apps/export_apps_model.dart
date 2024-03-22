@@ -39,7 +39,6 @@ class ExportAppsModel extends ReactiveViewModel {
       testFile.deleteSync();
       _settings.setExportAppsPath(result);
       _snackbar.showCustomSnackBar(
-        title: 'Info',
         message: 'Path saved succesfully',
         variant: SnackbarType.info,
       );
@@ -62,7 +61,6 @@ class ExportAppsModel extends ReactiveViewModel {
     try {
       _apps.exportAppList();
       _snackbar.showCustomSnackBar(
-        title: 'Apps',
         message: 'App list exported',
         variant: SnackbarType.info,
       );

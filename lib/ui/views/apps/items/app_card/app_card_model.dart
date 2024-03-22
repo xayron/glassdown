@@ -40,7 +40,6 @@ class AppCardModel extends BaseViewModel {
         _snackbar.showCustomSnackBar(
           title: 'Info',
           message: 'Restoring app...',
-          duration: const Duration(seconds: 3),
           variant: SnackbarType.progress,
         );
       },

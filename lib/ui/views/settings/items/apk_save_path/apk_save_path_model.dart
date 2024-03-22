@@ -34,7 +34,6 @@ class ApkSavePathModel extends BaseViewModel {
       testFile.deleteSync();
       _settings.setApkSavePath(result);
       _snackbar.showCustomSnackBar(
-        title: 'Info',
         message: 'Path saved succesfully',
         variant: SnackbarType.info,
       );

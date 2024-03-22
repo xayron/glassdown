@@ -16,7 +16,6 @@ class ImportFontModel extends BaseViewModel {
       await _fontImporter.showImportFontDialog();
       await _fontImporter.loadFonts();
       _snackbar.showCustomSnackBar(
-        title: 'Fonts',
         message: 'Fonts imported',
         variant: SnackbarType.info,
       );

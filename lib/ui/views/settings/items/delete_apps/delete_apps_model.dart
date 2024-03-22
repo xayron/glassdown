@@ -14,7 +14,6 @@ class DeleteAppsModel extends BaseViewModel {
       await _apps.deleteAllApps();
       rebuildUi();
       _snackbar.showCustomSnackBar(
-        title: 'Apps',
         message: 'App list purged',
         variant: SnackbarType.info,
       );

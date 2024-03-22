@@ -81,7 +81,6 @@ class AppsViewModel extends StreamViewModel {
       );
       if (response != null && response.data != null) {
         _snackbar.showCustomSnackBar(
-          title: 'App',
           message: 'Saving app...',
           variant: SnackbarType.progress,
         );

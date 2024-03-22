@@ -13,7 +13,6 @@ class DeleteLogsModel extends BaseViewModel {
     try {
       await _logs.deleteLogs();
       _snackbar.showCustomSnackBar(
-        title: 'Logs',
         message: 'Logs deleted',
         variant: SnackbarType.info,
       );
