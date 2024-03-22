@@ -10,29 +10,28 @@ void setupSnackbarUi() {
   snackbar.registerCustomSnackbarConfig(
     variant: SnackbarType.info,
     config: SnackbarConfig(
-      snackPosition: SnackPosition.TOP,
+      snackPosition: SnackPosition.BOTTOM,
+      icon: const Icon(Icons.info_outline_rounded),
+      titleText: const Text('Info'),
       closeSnackbarOnMainButtonTapped: true,
-      animationDuration: const Duration(milliseconds: 400),
-      snackStyle: SnackStyle.FLOATING,
-      borderRadius: 15,
-      dismissDirection: DismissDirection.horizontal,
+      shouldIconPulse: false,
+      snackStyle: SnackStyle.GROUNDED,
+      dismissDirection: DismissDirection.down,
       isDismissible: true,
-      margin: const EdgeInsets.symmetric(horizontal: 12),
     ),
   );
 
   snackbar.registerCustomSnackbarConfig(
     variant: SnackbarType.progress,
     config: SnackbarConfig(
-      snackPosition: SnackPosition.TOP,
+      snackPosition: SnackPosition.BOTTOM,
+      icon: const Icon(Icons.info_outline_rounded),
+      titleText: const Text('Info'),
       closeSnackbarOnMainButtonTapped: true,
-      animationDuration: const Duration(milliseconds: 400),
-      snackStyle: SnackStyle.FLOATING,
-      borderRadius: 15,
-      dismissDirection: DismissDirection.horizontal,
+      snackStyle: SnackStyle.GROUNDED,
+      dismissDirection: DismissDirection.down,
       isDismissible: true,
       showProgressIndicator: true,
-      margin: const EdgeInsets.symmetric(horizontal: 12),
     ),
   );
 }
