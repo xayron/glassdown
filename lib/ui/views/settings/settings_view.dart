@@ -37,22 +37,19 @@ class SettingsView extends StackedView<SettingsViewModel> {
         slivers: [
           SliverAppBar(
             pinned: true,
-            expandedHeight: 90,
-            automaticallyImplyLeading: false,
-            flexibleSpace: FlexibleSpaceBar(
-              titlePadding: const EdgeInsets.only(bottom: 16, left: 20),
-              title: Text(
-                'Settings',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
+            centerTitle: true,
+            title: Text(
+              'Settings',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
             ),
+            automaticallyImplyLeading: true,
           ),
           SliverList(
             delegate: SliverChildListDelegate.fixed([
               ListView(
-                padding: EdgeInsets.zero,
+                padding: const EdgeInsets.only(bottom: 30),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: const [
