@@ -6,7 +6,6 @@ import 'apps_viewmodel.dart';
 
 class AppsView extends StackedView<AppsViewModel> {
   const AppsView({super.key});
-
   @override
   Widget builder(
     BuildContext context,
@@ -20,6 +19,24 @@ class AppsView extends StackedView<AppsViewModel> {
         },
         label: const Text('Add app'),
         icon: const Icon(Icons.add),
+        elevation: 0,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          children: [
+            IconButton(
+              onPressed: () => viewModel.showSettings(),
+              icon: const Icon(Icons.settings),
+              tooltip: 'Settings',
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.workspaces_filled),
+              tooltip: 'Revanced Integration',
+            ),
+          ],
+        ),
       ),
       body: CustomScrollView(
         slivers: [
@@ -71,6 +88,7 @@ class AppsView extends StackedView<AppsViewModel> {
   @override
   void onViewModelReady(AppsViewModel viewModel) {
     super.onViewModelReady(viewModel);
+    viewModel.checkPermissions();
     viewModel.allApps();
     viewModel.checkUpdates();
   }

@@ -1,18 +1,26 @@
 import 'package:glass_down_v2/app/app.dialogs.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
+import 'package:glass_down_v2/app/app.router.dart';
 import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/services/apps_service.dart';
+import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:glass_down_v2/services/updater_service.dart';
 import 'package:glass_down_v2/ui/bottom_sheets/updater/update_sheet.dart';
+import 'package:glass_down_v2/ui/transition/custom_transitions.dart';
+import 'package:glass_down_v2/ui/views/permissions/permissions_view.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class AppsViewModel extends ReactiveViewModel {
+class AppsViewModel extends StreamViewModel {
   final _dialogService = locator<DialogService>();
   final _apps = locator<AppsService>();
   final _snackbar = locator<SnackbarService>();
   final _updater = locator<UpdaterService>();
+  final _nav = locator<NavigationService>();
+  final _settings = locator<SettingsService>();
 
   List<AppInfo> get apps => _apps.apps;
 
@@ -21,6 +29,39 @@ class AppsViewModel extends ReactiveViewModel {
 
   @override
   List<ListenableServiceMixin> get listenableServices => [_apps];
+
+  @override
+  void onData(data) {
+    super.onData(data);
+    if (data != null && data is InternetStatus) {
+      switch (data) {
+        case InternetStatus.connected:
+          _settings.setConnectionStatus(true);
+        case InternetStatus.disconnected:
+          _settings.setConnectionStatus(false);
+      }
+    }
+  }
+
+  @override
+  Stream<InternetStatus> get stream => InternetConnection().onStatusChange;
+
+  Future<void> checkPermissions() async {
+    final storageGranted =
+        await Permission.manageExternalStorage.status.isGranted;
+    final installGranted =
+        await Permission.requestInstallPackages.status.isGranted;
+    if (!storageGranted || !installGranted) {
+      _nav.replaceWithTransition(const PermissionsView());
+    }
+  }
+
+  Future<void> showSettings() async {
+    _nav.navigateTo(
+      Routes.settingsView,
+      transition: CustomTransitions.fadeThrough,
+    );
+  }
 
   Future<void> checkUpdates() async {
     if (_updater.updateData != null) {
