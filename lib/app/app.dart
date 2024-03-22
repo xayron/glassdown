@@ -1,4 +1,6 @@
-import 'package:glass_down_v2/ui/views/home/home_view.dart';
+import 'package:glass_down_v2/ui/transition/custom_transitions.dart';
+import 'package:glass_down_v2/ui/views/apps/apps_view.dart';
+import 'package:glass_down_v2/ui/views/settings/settings_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:glass_down_v2/services/custom_themes_service.dart';
@@ -22,11 +24,15 @@ import 'package:glass_down_v2/services/font_importer_service.dart';
 
 @StackedApp(
   routes: [
-    MaterialRoute(page: HomeView),
     MaterialRoute(page: VersionsView),
     MaterialRoute(page: TypesView),
     MaterialRoute(page: DownloadStatusView),
     MaterialRoute(page: PermissionsView),
+    MaterialRoute(page: AppsView),
+    CustomRoute(
+      page: SettingsView,
+      transitionsBuilder: CustomTransitions.fadeThrough,
+    )
 // @stacked-route
   ],
   dependencies: [
