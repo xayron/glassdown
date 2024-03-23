@@ -57,10 +57,11 @@ class AppsViewModel extends StreamViewModel {
   }
 
   Future<void> showSettings() async {
-    _nav.navigateTo(
+    await _nav.navigateTo(
       Routes.settingsView,
       transition: CustomTransitions.fadeThrough,
     );
+    await allApps();
   }
 
   Future<void> checkUpdates() async {
