@@ -20,6 +20,7 @@ import 'package:glass_down_v2/services/updater_service.dart';
 import 'package:glass_down_v2/ui/views/permissions/permissions_view.dart';
 import 'package:glass_down_v2/services/database_service.dart';
 import 'package:glass_down_v2/services/font_importer_service.dart';
+import 'package:glass_down_v2/ui/views/revanced_integration/revanced_integration_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -32,7 +33,11 @@ import 'package:glass_down_v2/services/font_importer_service.dart';
     CustomRoute(
       page: SettingsView,
       transitionsBuilder: CustomTransitions.fadeThrough,
-    )
+    ),
+    CustomRoute(
+      page: RevancedIntegrationView,
+      transitionsBuilder: CustomTransitions.fadeThrough,
+    ),
 // @stacked-route
   ],
   dependencies: [

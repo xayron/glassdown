@@ -64,6 +64,14 @@ class AppsViewModel extends StreamViewModel {
     await allApps();
   }
 
+  Future<void> showRevancedIntegration() async {
+    await _nav.navigateTo(
+      Routes.revancedIntegrationView,
+      transition: CustomTransitions.fadeThrough,
+    );
+    await allApps();
+  }
+
   Future<void> checkUpdates() async {
     if (_updater.updateData != null) {
       return;

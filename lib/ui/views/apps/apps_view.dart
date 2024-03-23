@@ -31,7 +31,7 @@ class AppsView extends StackedView<AppsViewModel> {
               tooltip: 'Settings',
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () => viewModel.showRevancedIntegration(),
               icon: const Icon(Icons.workspaces_filled),
               tooltip: 'Revanced Integration',
             ),
