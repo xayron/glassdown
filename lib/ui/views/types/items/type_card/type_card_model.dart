@@ -19,7 +19,6 @@ class TypeCardModel extends BaseViewModel {
     if (!_settings.isConnected) {
       _snackbar.showCustomSnackBar(
         variant: SnackbarType.info,
-        title: 'Error',
         message: 'You have no internet connection',
       );
       return;
@@ -44,7 +43,6 @@ class TypeCardModel extends BaseViewModel {
     } catch (e) {
       _snackbar.showCustomSnackBar(
         variant: SnackbarType.info,
-        title: 'Error',
         message: "Couldn't remove old versions",
       );
     }

@@ -97,8 +97,8 @@ class AppsViewModel extends StreamViewModel {
       }
       rebuildUi();
     } catch (e) {
-      _snackbar.showSnackbar(
-        title: 'Error',
+      _snackbar.showCustomSnackBar(
+        variant: SnackbarType.info,
         message: 'App already exists',
       );
     }
@@ -122,7 +122,6 @@ class AppsViewModel extends StreamViewModel {
         final result = await _apps.editApp(response.data!, app);
         if (!result) {
           _snackbar.showCustomSnackBar(
-            title: 'Error',
             message: 'App already exists',
             variant: SnackbarType.info,
           );
@@ -134,7 +133,6 @@ class AppsViewModel extends StreamViewModel {
     } catch (e) {
       _snackbar.showCustomSnackBar(
         variant: SnackbarType.info,
-        title: 'Error',
         message: e.toString(),
       );
     }

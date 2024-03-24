@@ -65,7 +65,6 @@ class DownloadStatusViewModel extends ReactiveViewModel {
   void showSnackbar(String msg) {
     _snackbar.showCustomSnackBar(
       variant: SnackbarType.info,
-      title: 'Warning',
       message: msg,
     );
   }

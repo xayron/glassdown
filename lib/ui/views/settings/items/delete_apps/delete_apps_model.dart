@@ -19,7 +19,6 @@ class DeleteAppsModel extends BaseViewModel {
       );
     } catch (e) {
       _snackbar.showCustomSnackBar(
-        title: 'Error',
         message: e is DbError ? e.fullMessage() : e.toString(),
         variant: SnackbarType.info,
       );

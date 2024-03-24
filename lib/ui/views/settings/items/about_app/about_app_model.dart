@@ -1,5 +1,6 @@
 import 'package:glass_down_v2/app/app.dialogs.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
+import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -19,7 +20,13 @@ class AboutAppModel extends ReactiveViewModel {
   String get version => info?.version ?? loadingMsg;
   String get buildNumber => info?.buildNumber ?? loadingMsg;
 
-  void setDevOptions(bool val) => _settings.setDevOptions(val);
+  Future<void> setDevOptions(bool val) async {
+    _settings.setDevOptions(val);
+    await _snackbar.showCustomSnackBar(
+      message: getDevOptionsSnackMessage(),
+      variant: SnackbarType.info,
+    );
+  }
 
   String getDevOptionsSnackMessage() {
     if (devOptions) {
@@ -42,8 +49,8 @@ class AboutAppModel extends ReactiveViewModel {
       );
       rebuildUi();
     } catch (e) {
-      _snackbar.showSnackbar(
-        title: 'Error',
+      _snackbar.showCustomSnackBar(
+        variant: SnackbarType.info,
         message: e.toString(),
       );
     }

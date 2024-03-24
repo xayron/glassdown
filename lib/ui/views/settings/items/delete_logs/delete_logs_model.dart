@@ -18,7 +18,6 @@ class DeleteLogsModel extends BaseViewModel {
       );
     } catch (e) {
       _snackbar.showCustomSnackBar(
-        title: 'Error',
         message: e is IOError ? e.message : e.toString(),
         variant: SnackbarType.info,
       );

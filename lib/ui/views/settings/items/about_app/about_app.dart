@@ -15,15 +15,7 @@ class AboutApp extends StackedView<AboutAppModel> {
   ) {
     return InkWell(
       onTap: () => viewModel.showAboutDialog(),
-      onLongPress: () {
-        viewModel.setDevOptions(!viewModel.devOptions);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            content: Text(viewModel.getDevOptionsSnackMessage()),
-          ),
-        );
-      },
+      onLongPress: () => viewModel.setDevOptions(!viewModel.devOptions),
       child: ItemWrapper(
         mainText: 'About',
         secondaryText: 'Version: ${viewModel.version}',

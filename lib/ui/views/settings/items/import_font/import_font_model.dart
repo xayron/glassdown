@@ -22,7 +22,6 @@ class ImportFontModel extends BaseViewModel {
     } catch (e) {
       _snackbar.showCustomSnackBar(
         variant: SnackbarType.info,
-        title: 'Error',
         message: e.toString(),
       );
     }

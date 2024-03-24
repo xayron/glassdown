@@ -17,7 +17,6 @@ class AppCardModel extends BaseViewModel {
     if (!_settings.isConnected) {
       _snackbar.showCustomSnackBar(
         variant: SnackbarType.info,
-        title: 'Error',
         message: 'You have no internet connection',
       );
       return;
@@ -29,20 +28,20 @@ class AppCardModel extends BaseViewModel {
   }
 
   Future<void> dismissApp(AppInfo app) async {
-    await _apps.removeApp(app);
-    _snackbar.showSnackbar(
-      title: 'Info',
+    _snackbar.showCustomSnackBar(
       message: '${app.name} deleted',
+      variant: SnackbarType.info,
       duration: const Duration(seconds: 3),
       mainButtonTitle: 'Undo',
       onMainButtonTapped: () async {
-        await _apps.addApp((name: app.name, url: app.appUrl));
         _snackbar.showCustomSnackBar(
-          title: 'Info',
           message: 'Restoring app...',
           variant: SnackbarType.progress,
         );
+        await _apps.addApp((name: app.name, url: app.appUrl));
+        rebuildUi();
       },
     );
+    await _apps.removeApp(app);
   }
 }
