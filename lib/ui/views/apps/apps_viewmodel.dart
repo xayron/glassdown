@@ -86,7 +86,7 @@ class AppsViewModel extends StreamViewModel {
     try {
       final response =
           await _dialogService.showCustomDialog<VersionLink?, void>(
-        variant: DialogType.addApp,
+        variant: DialogType.editApp,
       );
       if (response != null && response.data != null) {
         _snackbar.showCustomSnackBar(
@@ -113,7 +113,7 @@ class AppsViewModel extends StreamViewModel {
     try {
       final response =
           await _dialogService.showCustomDialog<VersionLink?, AppInfo>(
-        variant: DialogType.addApp,
+        variant: DialogType.editApp,
         data: app,
       );
       _loading = true;

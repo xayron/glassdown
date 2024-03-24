@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/ui/common/ui_helpers.dart';
-import 'package:glass_down_v2/ui/dialogs/add_app/add_app_dialog.form.dart';
+import 'package:glass_down_v2/ui/dialogs/edit_app/edit_app_dialog.form.dart';
 import 'package:glass_down_v2/ui/widgets/form/validation_error_message.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import 'add_app_dialog_model.dart';
+import 'edit_app_dialog_model.dart';
 
 typedef IsEdit = bool;
 
@@ -15,19 +15,20 @@ typedef IsEdit = bool;
   fields: [
     FormTextField(
       name: 'appName',
-      validator: AddAppDialogValidators.validateAppName,
+      validator: EditAppDialogValidators.validateAppName,
     ),
     FormTextField(
       name: 'appUrl',
-      validator: AddAppDialogValidators.validateAppUrl,
+      validator: EditAppDialogValidators.validateAppUrl,
     ),
   ],
 )
-class AddAppDialog extends StackedView<AddAppDialogModel> with $AddAppDialog {
+class EditAppDialog extends StackedView<EditAppDialogModel>
+    with $EditAppDialog {
   final DialogRequest<dynamic> request;
   final Function(DialogResponse) completer;
 
-  const AddAppDialog({
+  const EditAppDialog({
     super.key,
     required this.request,
     required this.completer,
@@ -36,7 +37,7 @@ class AddAppDialog extends StackedView<AddAppDialogModel> with $AddAppDialog {
   @override
   Widget builder(
     BuildContext context,
-    AddAppDialogModel viewModel,
+    EditAppDialogModel viewModel,
     Widget? child,
   ) {
     final app = (request.data != null && request.data is AppInfo)
@@ -137,11 +138,11 @@ class AddAppDialog extends StackedView<AddAppDialogModel> with $AddAppDialog {
   }
 
   @override
-  AddAppDialogModel viewModelBuilder(BuildContext context) =>
-      AddAppDialogModel();
+  EditAppDialogModel viewModelBuilder(BuildContext context) =>
+      EditAppDialogModel();
 
   @override
-  void onViewModelReady(AddAppDialogModel viewModel) {
+  void onViewModelReady(EditAppDialogModel viewModel) {
     super.onViewModelReady(viewModel);
     final app = (request.data != null && request.data is AppInfo)
         ? request.data as AppInfo
