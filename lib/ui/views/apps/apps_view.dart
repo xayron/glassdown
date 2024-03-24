@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/ui/views/apps/items/app_card/app_card.dart';
 import 'package:stacked/stacked.dart';
 
@@ -12,6 +13,10 @@ class AppsView extends StackedView<AppsViewModel> {
     AppsViewModel viewModel,
     Widget? child,
   ) {
+    final snackColor = Theme.of(context).colorScheme.primary;
+    final textColor = Theme.of(context).colorScheme.onPrimary;
+    setupSnackbarUi(snackColor, textColor);
+
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {

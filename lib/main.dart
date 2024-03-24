@@ -4,7 +4,6 @@ import 'package:flutter_logs/flutter_logs.dart';
 import 'package:glass_down_v2/app/app.dialogs.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/app/app.navigation.dart';
-import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/ui/theme/theme_builder.dart';
 
 Future<void> main() async {
@@ -21,7 +20,6 @@ Future<void> main() async {
     logFileExtension: LogFileExtension.TXT,
   );
   await setupLocator();
-  setupSnackbarUi();
   setupDialogUi();
   setupNavigationConfig();
   runApp(const MainApp());
