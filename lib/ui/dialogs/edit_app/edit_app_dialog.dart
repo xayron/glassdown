@@ -40,43 +40,11 @@ class EditAppDialog extends StackedView<EditAppDialogModel>
     EditAppDialogModel viewModel,
     Widget? child,
   ) {
-    final app = (request.data != null && request.data is AppInfo)
-        ? request.data as AppInfo
-        : null;
-
     return AlertDialog(
-      title: Text(app != null ? 'Edit app' : 'Add new app'),
+      title: const Text('Edit app'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (app == null) ...[
-            RichText(
-              text: TextSpan(
-                text: viewModel.message,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onBackground,
-                ),
-                children: [
-                  TextSpan(
-                    text: viewModel.urlMessage,
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w400,
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-                  ),
-                  TextSpan(
-                    text: viewModel.appMessage,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            verticalSpaceMedium,
-          ],
           TextFormField(
             controller: appNameController,
             decoration: const InputDecoration(
@@ -126,12 +94,12 @@ class EditAppDialog extends StackedView<EditAppDialogModel>
                 DialogResponse<VersionLink>(confirmed: true, data: data),
               );
             },
-            child: Text(app != null ? 'Edit' : 'Add'),
+            child: const Text('Edit'),
           )
         else
-          FilledButton(
+          const FilledButton(
             onPressed: null,
-            child: Text(app != null ? 'Edit' : 'Add'),
+            child: Text('Edit'),
           ),
       ],
     );

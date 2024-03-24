@@ -1,11 +1,6 @@
 import 'package:stacked/stacked.dart';
 
-class EditAppDialogModel extends FormViewModel {
-  final message =
-      'App url field should contain the appcategory part of URL, like:\n';
-  final urlMessage = 'https://www.apkmirror.com/uploads/?appcategory=';
-  final appMessage = 'messenger';
-}
+class EditAppDialogModel extends FormViewModel {}
 
 class EditAppDialogValidators {
   static String? validateAppName(String? value) {
