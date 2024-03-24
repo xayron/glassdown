@@ -21,6 +21,7 @@ import 'package:glass_down_v2/ui/views/permissions/permissions_view.dart';
 import 'package:glass_down_v2/services/database_service.dart';
 import 'package:glass_down_v2/services/font_importer_service.dart';
 import 'package:glass_down_v2/ui/views/revanced_integration/revanced_integration_view.dart';
+import 'package:glass_down_v2/ui/dialogs/add_app/add_app_dialog.dart';
 // @stacked-import
 
 @StackedApp(
@@ -60,6 +61,7 @@ import 'package:glass_down_v2/ui/views/revanced_integration/revanced_integration
     StackedDialog(classType: EditAppDialog),
     StackedDialog(classType: AboutAppDialog),
     StackedDialog(classType: DeleteOldApksDialog),
+    StackedDialog(classType: AddAppDialog),
 // @stacked-dialog
   ],
 )
