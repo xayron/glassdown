@@ -27,6 +27,12 @@ import 'settings_viewmodel.dart';
 class SettingsView extends StackedView<SettingsViewModel> {
   const SettingsView({super.key});
 
+  static const _settingsDivider = Divider(
+    thickness: 1.0,
+    indent: 20.0,
+    endIndent: 20.0,
+  );
+
   @override
   Widget builder(
     BuildContext context,
@@ -60,11 +66,13 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   CustomTheme(),
                   ImportFont(),
                   UseCustomFont(),
+                  _settingsDivider,
                   GroupHeader(name: 'Filters'),
                   ExcludeBundles(),
                   ExcludeUnstable(),
                   AppArchitecture(),
                   PagesCount(),
+                  _settingsDivider,
                   GroupHeader(name: 'Apps'),
                   DeleteOldVersions(),
                   OfferDeletingOldApks(),
@@ -72,10 +80,12 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   ImportApps(),
                   ExportApps(),
                   DeleteApps(),
+                  _settingsDivider,
                   GroupHeader(name: 'Logs'),
                   ShowLogs(),
                   ExportLogs(),
                   DeleteLogs(),
+                  _settingsDivider,
                   GroupHeader(name: 'About'),
                   CheckUpdates(),
                   AboutApp(),
