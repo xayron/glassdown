@@ -26,6 +26,9 @@ class TypeCardModel extends BaseViewModel {
     if (!_settings.autoRemove && _settings.offerRemoval) {
       await showDialog(app);
     }
+    if (_settings.autoRemove) {
+      await _deleter.deleteOldVersions(app);
+    }
     _nav.navigateWithTransition(
       DownloadStatusView(app: app),
       preventDuplicates: false,
