@@ -107,6 +107,11 @@ class ScraperService with ListenableServiceMixin {
       final document = parse(response.data);
       final resultsWidget = document.getElementsByClassName('listWidget')[0];
       final allElements = resultsWidget.children.sublist(5);
+
+      if (allElements[0].text.startsWith('No results')) {
+        throw ScrapeError("No results found for '$search'");
+      }
+
       final row = allElements.map((e) => e.getElementsByClassName('table-row'));
       final rowDeeper = row.map((e) => e.first);
 
