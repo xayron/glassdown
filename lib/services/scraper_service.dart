@@ -15,6 +15,8 @@ typedef ApkTypeRecord = (String link, String arch);
 
 typedef Status = (bool? status, String? message);
 
+typedef SearchResult = ({String imgLink, String name, String link});
+
 class ScraperService with ListenableServiceMixin {
   ScraperService() {
     listenToReactiveValues([
@@ -70,6 +72,17 @@ class ScraperService with ListenableServiceMixin {
     return version.reversed.join(' ');
   }
 
+  String _trimAppName(String currentName) {
+    final names = currentName.split(' ');
+    final List<String> version = [];
+    for (final fragment in names) {
+      if (!fragment.startsWith(RegExp(r'^[0-9]'))) {
+        version.add(fragment);
+      }
+    }
+    return version.join(' ');
+  }
+
   final _dio = Dio(
     BaseOptions(
       baseUrl: 'https://www.apkmirror.com/',
@@ -77,6 +90,91 @@ class ScraperService with ListenableServiceMixin {
       method: 'get',
     ),
   );
+
+  Future<List<SearchResult>> getAppSearch(String search) async {
+    try {
+      final response = await _dio.get<String>(
+        '?post_type=app_release&searchtype=apk&s=$search',
+      );
+
+      if (response.statusCode != 200) {
+        throw ScrapeError(
+          'HTTP Error: Failed to fetch search list',
+          response.statusMessage,
+        );
+      }
+
+      final document = parse(response.data);
+      final resultsWidget = document.getElementsByClassName('listWidget')[0];
+      final allElements = resultsWidget.children.sublist(5);
+      final row = allElements.map((e) => e.getElementsByClassName('table-row'));
+      final rowDeeper = row.map((e) => e.first);
+
+      List<String> appNames = [];
+
+      List<SearchResult> searchResults = [];
+      for (final element in rowDeeper) {
+        final logoElement = element.children[0].getElementsByTagName('img')[0];
+        final textElement = element.children[1].getElementsByTagName('a')[0];
+        final logoUrl = logoElement.attributes['src']?.replaceAll('32', '128');
+        final name = _trimAppName(textElement.text);
+        final link = textElement.attributes['href'];
+
+        if (!appNames.contains(name)) {
+          searchResults.add((
+            imgLink: 'https://www.apkmirror.com$logoUrl',
+            name: name,
+            link: link!,
+          ));
+        }
+        appNames.add(name);
+      }
+
+      return searchResults;
+    } catch (e) {
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        getFunctionName(),
+        e is ScrapeError ? e.fullMessage() : e.toString(),
+      );
+      rethrow;
+    }
+  }
+
+  Future<VersionLink> getLinkFromAppSearch(SearchResult searchResult) async {
+    try {
+      final response = await _dio.get<String>(searchResult.link);
+
+      if (response.statusCode != 200) {
+        throw ScrapeError(
+          'HTTP Error: Failed to fetch search list',
+          response.statusMessage,
+        );
+      }
+
+      final document = parse(response.data);
+      final allLinks = document.getElementsByTagName('a');
+      final linkElement = allLinks.firstWhere(
+        (element) {
+          final href = element.attributes['href'];
+          if (href != null) {
+            return href.contains('appcategory');
+          }
+          return false;
+        },
+      );
+      final link = linkElement.attributes['href']!.split('=').last;
+
+      return (name: searchResult.name, url: link);
+    } catch (e) {
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        getFunctionName(),
+        e is ScrapeError ? e.fullMessage() : e.toString(),
+      );
+      rethrow;
+    }
+  }
 
   Future<String?> getAppImage(VersionLink app) async {
     try {
