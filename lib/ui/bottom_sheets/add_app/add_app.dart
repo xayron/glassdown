@@ -43,6 +43,8 @@ Future<T?> showAddAppSheet<T>() {
                       Expanded(
                         child: TextFormField(
                           controller: viewModel.appNameController,
+                          onTapOutside: (event) =>
+                              FocusManager.instance.primaryFocus?.unfocus(),
                           decoration: InputDecoration(
                             hintText: 'Search app',
                             filled: true,
@@ -63,6 +65,7 @@ Future<T?> showAddAppSheet<T>() {
                       if (!viewModel.loading)
                         IconButton.filled(
                           icon: const Icon(Icons.search),
+                          iconSize: 32,
                           constraints: const BoxConstraints.expand(
                             height: 55,
                             width: 55,
@@ -77,11 +80,11 @@ Future<T?> showAddAppSheet<T>() {
                   ),
                 ),
                 verticalSpaceSmall,
-                Expanded(
-                  child: ListView(
-                    children: [
-                      verticalSpaceSmall,
-                      if (!viewModel.loading) ...[
+                if (!viewModel.loading)
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        verticalSpaceSmall,
                         for (final searchResult in viewModel.results)
                           Card(
                             clipBehavior: Clip.antiAlias,
@@ -101,10 +104,9 @@ Future<T?> showAddAppSheet<T>() {
                               title: Text(searchResult.name),
                             ),
                           ),
-                      ]
-                    ],
+                      ],
+                    ),
                   ),
-                ),
                 verticalSpaceSmall,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -115,11 +117,6 @@ Future<T?> showAddAppSheet<T>() {
                       },
                       child: const Text('Cancel'),
                     ),
-                    // horizontalSpaceMedium,
-                    // FilledButton(
-                    //   onPressed: () {},
-                    //   child: const Text('Add'),
-                    // )
                   ],
                 ),
               ],
