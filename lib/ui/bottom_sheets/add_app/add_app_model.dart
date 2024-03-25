@@ -22,7 +22,7 @@ class AddAppSheetModel extends FormViewModel {
   bool _addingApp = false;
   bool get addingApp => _addingApp;
 
-  final appNameController = TextEditingController(text: 'reddit');
+  final appNameController = TextEditingController();
 
   Future<void> addApp(SearchResult searchResult) async {
     try {
