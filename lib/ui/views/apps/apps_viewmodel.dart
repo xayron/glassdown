@@ -6,6 +6,7 @@ import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/services/apps_service.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:glass_down_v2/services/updater_service.dart';
+import 'package:glass_down_v2/ui/bottom_sheets/add_app/add_app.dart';
 import 'package:glass_down_v2/ui/bottom_sheets/updater/update_sheet.dart';
 import 'package:glass_down_v2/ui/transition/custom_transitions.dart';
 import 'package:glass_down_v2/ui/views/permissions/permissions_view.dart';
@@ -84,17 +85,7 @@ class AppsViewModel extends StreamViewModel {
 
   Future<void> showAddDialog() async {
     try {
-      final response =
-          await _dialogService.showCustomDialog<VersionLink?, void>(
-        variant: DialogType.editApp,
-      );
-      if (response != null && response.data != null) {
-        _snackbar.showCustomSnackBar(
-          message: 'Saving app...',
-          variant: SnackbarType.progress,
-        );
-        await _apps.addApp(response.data!);
-      }
+      await showAddAppSheet();
       rebuildUi();
     } catch (e) {
       _snackbar.showCustomSnackBar(
