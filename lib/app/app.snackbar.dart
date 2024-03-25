@@ -15,7 +15,7 @@ void setupSnackbarUi(Color snackColor, Color textColor) {
       textColor: textColor,
       closeSnackbarOnMainButtonTapped: true,
       snackStyle: SnackStyle.GROUNDED,
-      dismissDirection: DismissDirection.down,
+      dismissDirection: DismissDirection.horizontal,
       isDismissible: true,
     ),
   );
@@ -28,7 +28,7 @@ void setupSnackbarUi(Color snackColor, Color textColor) {
       textColor: textColor,
       closeSnackbarOnMainButtonTapped: true,
       snackStyle: SnackStyle.GROUNDED,
-      dismissDirection: DismissDirection.down,
+      dismissDirection: DismissDirection.horizontal,
       isDismissible: true,
       showProgressIndicator: true,
     ),
