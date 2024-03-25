@@ -608,7 +608,8 @@ class ScraperService with ListenableServiceMixin {
             RegExp(r'[ .:/+]+'),
             '_',
           );
-      final archName = app.pickedType!.archDpi.split(',')[0];
+      String archName = app.pickedType!.archDpi.split(',')[0];
+      archName = archName.replaceAll(' + ', '_');
       final versionName = app.pickedVersion?.name.replaceAll('.', '_');
       final name = '${appName}_${versionName}_$archName';
 
