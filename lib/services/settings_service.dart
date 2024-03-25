@@ -24,7 +24,7 @@ enum SettingsKey {
   exportAppsPath,
   apkSavePath,
   useImportedFont,
-  hasMigratedDb
+  customFont,
 }
 
 // ignore: constant_identifier_names
@@ -53,7 +53,6 @@ class SettingsService
       _autoRemove,
       _offerRemoval,
       _exportLogsPath,
-      _hasMigratedDb
     ]);
   }
 
@@ -172,19 +171,19 @@ class SettingsService
     _savePref<bool>(SettingsKey.useImportedFont, value);
   }
 
+  String _customFont = 'Default';
+  String get customFont => _customFont;
+  void setCustomFont(String value) {
+    _customFont = value;
+    notifyListeners();
+    _savePref<String>(SettingsKey.customFont, value);
+  }
+
   bool _devOptions = false;
   bool get devOptions => _devOptions;
   void setDevOptions(bool val) {
     _devOptions = val;
     notifyListeners();
-  }
-
-  bool _hasMigratedDb = false;
-  bool get hasMigratedDb => _hasMigratedDb;
-  void setHasMigratedDb(bool val) {
-    _hasMigratedDb = val;
-    notifyListeners();
-    _savePref<bool>(SettingsKey.hasMigratedDb, val);
   }
 
   @override
@@ -233,8 +232,7 @@ class SettingsService
         _prefs.getString(SettingsKey.apkSavePath.name) ?? _apkSavePath;
     _useImportedFont =
         _prefs.getBool(SettingsKey.useImportedFont.name) ?? _useImportedFont;
-    _hasMigratedDb =
-        _prefs.getBool(SettingsKey.hasMigratedDb.name) ?? _hasMigratedDb;
+    _customFont = _prefs.getString(SettingsKey.customFont.name) ?? _customFont;
   }
 
   Future<void> ensureAppDirExists() async {

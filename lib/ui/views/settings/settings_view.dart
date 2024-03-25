@@ -4,6 +4,7 @@ import 'package:glass_down_v2/ui/views/settings/items/apk_save_path/apk_save_pat
 import 'package:glass_down_v2/ui/views/settings/items/app_architecture/app_architecture.dart';
 import 'package:glass_down_v2/ui/views/settings/items/app_theme/app_theme.dart';
 import 'package:glass_down_v2/ui/views/settings/items/check_updates/check_updates.dart';
+import 'package:glass_down_v2/ui/views/settings/items/custom_font_list/custom_font_list.dart';
 import 'package:glass_down_v2/ui/views/settings/items/custom_theme/custom_theme.dart';
 import 'package:glass_down_v2/ui/views/settings/items/delete_apps/delete_apps.dart';
 import 'package:glass_down_v2/ui/views/settings/items/delete_logs/delete_logs.dart';
@@ -17,7 +18,7 @@ import 'package:glass_down_v2/ui/views/settings/items/import_font/import_font.da
 import 'package:glass_down_v2/ui/views/settings/items/monet_theme/monet_theme.dart';
 import 'package:glass_down_v2/ui/views/settings/items/offer_deleting_old_apks/offer_deleting_old_apks.dart';
 import 'package:glass_down_v2/ui/views/settings/items/pages_count/pages_count.dart';
-import 'package:glass_down_v2/ui/views/settings/items/use_custom_font/use_custom_font.dart';
+import 'package:glass_down_v2/ui/views/settings/items/show_logs/show_logs.dart';
 import 'package:glass_down_v2/ui/widgets/settings/common/group_header.dart';
 import 'package:stacked/stacked.dart';
 
@@ -25,6 +26,12 @@ import 'settings_viewmodel.dart';
 
 class SettingsView extends StackedView<SettingsViewModel> {
   const SettingsView({super.key});
+
+  static const _settingsDivider = Divider(
+    thickness: 1.0,
+    indent: 20.0,
+    endIndent: 20.0,
+  );
 
   @override
   Widget builder(
@@ -37,22 +44,19 @@ class SettingsView extends StackedView<SettingsViewModel> {
         slivers: [
           SliverAppBar(
             pinned: true,
-            expandedHeight: 90,
-            automaticallyImplyLeading: false,
-            flexibleSpace: FlexibleSpaceBar(
-              titlePadding: const EdgeInsets.only(bottom: 16, left: 20),
-              title: Text(
-                'Settings',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
+            centerTitle: true,
+            title: Text(
+              'Settings',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
             ),
+            automaticallyImplyLeading: true,
           ),
           SliverList(
             delegate: SliverChildListDelegate.fixed([
               ListView(
-                padding: EdgeInsets.zero,
+                padding: const EdgeInsets.only(bottom: 30),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: const [
@@ -61,12 +65,14 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   MonetTheme(),
                   CustomTheme(),
                   ImportFont(),
-                  UseCustomFont(),
+                  CustomFontList(),
+                  _settingsDivider,
                   GroupHeader(name: 'Filters'),
                   ExcludeBundles(),
                   ExcludeUnstable(),
                   AppArchitecture(),
                   PagesCount(),
+                  _settingsDivider,
                   GroupHeader(name: 'Apps'),
                   DeleteOldVersions(),
                   OfferDeletingOldApks(),
@@ -74,9 +80,12 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   ImportApps(),
                   ExportApps(),
                   DeleteApps(),
+                  _settingsDivider,
                   GroupHeader(name: 'Logs'),
+                  ShowLogs(),
                   ExportLogs(),
                   DeleteLogs(),
+                  _settingsDivider,
                   GroupHeader(name: 'About'),
                   CheckUpdates(),
                   AboutApp(),

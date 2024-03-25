@@ -11,7 +11,7 @@ import 'package:path_provider/path_provider.dart';
 typedef FontImport = ({int len, List<File> fontFiles});
 
 class FontImporterService {
-  var _fontLoader = FontLoader('CustomFont');
+  FontLoader? _fontLoader;
 
   Future<void> showImportFontDialog() async {
     try {
@@ -36,7 +36,8 @@ class FontImporterService {
 
       final appDir = await getApplicationDocumentsDirectory();
 
-      final fontsDir = Directory('${appDir.path}/fonts');
+      final fontName = pickedFontsArchive.name.split('.')[0];
+      final fontsDir = Directory('${appDir.path}/fonts/$fontName');
       if (!fontsDir.existsSync()) {
         await fontsDir.create(recursive: true);
       } else {
@@ -51,18 +52,67 @@ class FontImporterService {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'importAppList',
+        getFunctionName(),
         e.toString(),
       );
       rethrow;
     }
   }
 
-  Future<FontImport?> _getImportedFonts() async {
+  Future<bool> deleteFont(String fontName) async {
+    try {
+      final appDir = await getApplicationDocumentsDirectory();
+
+      final fontsDir = Directory('${appDir.path}/fonts/$fontName');
+      await fontsDir.delete(recursive: true);
+
+      return true;
+    } catch (e) {
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        getFunctionName(),
+        e.toString(),
+      );
+      return false;
+    }
+  }
+
+  Future<List<String>?> getFontList() async {
     try {
       final appDir = await getApplicationDocumentsDirectory();
 
       final fontsDir = Directory('${appDir.path}/fonts');
+
+      if (!fontsDir.existsSync()) {
+        return null;
+      }
+
+      final fontDirList = fontsDir.listSync().whereType<Directory>().toList();
+      final List<String> fontList = [];
+      for (final fontDir in fontDirList) {
+        fontList.add(_getFolderName(fontDir.path));
+      }
+
+      return fontList;
+    } catch (e) {
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        getFunctionName(),
+        "Couldn't load fonts from storage",
+      );
+      return null;
+    }
+  }
+
+  String _getFolderName(String path) {
+    return path.split('/').last;
+  }
+
+  Future<FontImport?> _getImportedFonts(String fontName) async {
+    try {
+      final appDir = await getApplicationDocumentsDirectory();
+
+      final fontsDir = Directory('${appDir.path}/fonts/$fontName');
 
       if (!fontsDir.existsSync()) {
         return null;
@@ -99,9 +149,9 @@ class FontImporterService {
     }
   }
 
-  Future<void> loadFonts() async {
+  Future<void> loadFonts(String fontName) async {
     try {
-      final importedFonts = await _getImportedFonts();
+      final importedFonts = await _getImportedFonts(fontName);
 
       if (importedFonts == null || importedFonts.len == 0) {
         return;
@@ -110,9 +160,10 @@ class FontImporterService {
       _fontLoader = FontLoader('CustomFont');
 
       for (int i = 0; i < importedFonts.len; i++) {
-        _fontLoader.addFont(_prepareFont(importedFonts.fontFiles.elementAt(i)));
+        _fontLoader!
+            .addFont(_prepareFont(importedFonts.fontFiles.elementAt(i)));
       }
-      await _fontLoader.load();
+      await _fontLoader!.load();
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),

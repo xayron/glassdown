@@ -4,7 +4,7 @@ import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/services/scraper_service.dart';
-import 'package:glass_down_v2/ui/views/home/home_view.dart';
+import 'package:glass_down_v2/ui/views/apps/apps_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -41,7 +41,7 @@ class DownloadStatusViewModel extends ReactiveViewModel {
 
   Future<void> returnTo({bool home = false}) async {
     if (home) {
-      _nav.clearStackAndShowView(const HomeView());
+      _nav.clearStackAndShowView(const AppsView());
     } else {
       _nav.previousRoute;
     }
@@ -65,7 +65,6 @@ class DownloadStatusViewModel extends ReactiveViewModel {
   void showSnackbar(String msg) {
     _snackbar.showCustomSnackBar(
       variant: SnackbarType.info,
-      title: 'Warning',
       message: msg,
     );
   }

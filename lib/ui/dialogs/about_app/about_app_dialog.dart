@@ -20,22 +20,30 @@ class AboutAppDialog extends StackedView<AboutAppDialogModel> {
     AboutAppDialogModel viewModel,
     Widget? child,
   ) {
-    return AlertDialog(
-      title: const Text('GlassDown'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text.rich(
-            TextSpan(
-              text: viewModel.message,
-            ),
-          ),
-        ],
+    return AboutDialog(
+      applicationName: 'GlassDown',
+      applicationVersion: viewModel.version,
+      applicationIcon: const CircleAvatar(
+        radius: 28,
+        backgroundImage: AssetImage('assets/icon/glass_down_2.png'),
       ),
+      children: [
+        Text.rich(
+          TextSpan(
+            text: viewModel.message,
+          ),
+        ),
+      ],
     );
   }
 
   @override
   AboutAppDialogModel viewModelBuilder(BuildContext context) =>
       AboutAppDialogModel();
+
+  @override
+  void onViewModelReady(AboutAppDialogModel viewModel) {
+    super.onViewModelReady(viewModel);
+    viewModel.getPackageInfo();
+  }
 }

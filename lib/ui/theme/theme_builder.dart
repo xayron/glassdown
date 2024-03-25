@@ -43,7 +43,7 @@ class ThemeBuilder extends StackedView<ThemeBuilderModel> {
                 ? 'CustomFont'
                 : GoogleFonts.robotoFlex().fontFamily,
           ),
-          initialRoute: Routes.homeView,
+          initialRoute: Routes.appsView,
           onGenerateRoute: StackedRouter().onGenerateRoute,
           navigatorKey: StackedService.navigatorKey,
           navigatorObservers: [
@@ -63,6 +63,5 @@ class ThemeBuilder extends StackedView<ThemeBuilderModel> {
   void onViewModelReady(ThemeBuilderModel viewModel) {
     super.onViewModelReady(viewModel);
     viewModel.loadCustomFont();
-    viewModel.migrateData();
   }
 }

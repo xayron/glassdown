@@ -5,6 +5,7 @@ import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/services/paths_service.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
+import 'package:glass_down_v2/util/function_name.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:glass_down_v2/models/errors/scrape_error.dart';
 import 'package:flutter_logs/flutter_logs.dart';
@@ -13,6 +14,8 @@ import 'package:stacked/stacked.dart';
 typedef ApkTypeRecord = (String link, String arch);
 
 typedef Status = (bool? status, String? message);
+
+typedef SearchResult = ({String imgLink, String name, String link});
 
 class ScraperService with ListenableServiceMixin {
   ScraperService() {
@@ -69,6 +72,17 @@ class ScraperService with ListenableServiceMixin {
     return version.reversed.join(' ');
   }
 
+  String _trimAppName(String currentName) {
+    final names = currentName.split(' ');
+    final List<String> version = [];
+    for (final fragment in names) {
+      if (!fragment.startsWith(RegExp(r'^[0-9]'))) {
+        version.add(fragment);
+      }
+    }
+    return version.join(' ');
+  }
+
   final _dio = Dio(
     BaseOptions(
       baseUrl: 'https://www.apkmirror.com/',
@@ -76,6 +90,114 @@ class ScraperService with ListenableServiceMixin {
       method: 'get',
     ),
   );
+
+  Future<List<SearchResult>> getAppSearch(String search) async {
+    try {
+      final response = await _dio.get<String>(
+        '?post_type=app_release&searchtype=apk&s=$search',
+      );
+
+      if (response.statusCode != 200) {
+        throw ScrapeError(
+          'HTTP Error: Failed to fetch search list',
+          response.statusMessage,
+        );
+      }
+
+      final document = parse(response.data);
+      final resultsWidget = document.getElementsByClassName('listWidget')[0];
+      final allElements = resultsWidget.children.sublist(5);
+
+      if (allElements[0].text.startsWith('No results')) {
+        throw ScrapeError("No results found for '$search'");
+      }
+
+      final row = allElements.map((e) => e.getElementsByClassName('table-row'));
+      final rowDeeper = row.map((e) => e.first);
+
+      List<String> appNames = [];
+
+      List<SearchResult> searchResults = [];
+      for (final element in rowDeeper) {
+        final logoElement = element.children[0].getElementsByTagName('img')[0];
+        final textElement = element.children[1].getElementsByTagName('a')[0];
+        final logoUrl = logoElement.attributes['src']?.replaceAll('32', '128');
+        final name = _trimAppName(textElement.text);
+        final link = textElement.attributes['href'];
+
+        if (!appNames.contains(name)) {
+          searchResults.add((
+            imgLink: 'https://www.apkmirror.com$logoUrl',
+            name: name,
+            link: link!,
+          ));
+        }
+        appNames.add(name);
+      }
+
+      return searchResults;
+    } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        getFunctionName(),
+        message,
+      );
+      rethrow;
+    }
+  }
+
+  Future<VersionLink> getLinkFromAppSearch(SearchResult searchResult) async {
+    try {
+      final response = await _dio.get<String>(searchResult.link);
+
+      if (response.statusCode != 200) {
+        throw ScrapeError(
+          'HTTP Error: Failed to fetch search list',
+          response.statusMessage,
+        );
+      }
+
+      final document = parse(response.data);
+      final allLinks = document.getElementsByTagName('a');
+      final linkElement = allLinks.firstWhere(
+        (element) {
+          final href = element.attributes['href'];
+          if (href != null) {
+            return href.contains('appcategory');
+          }
+          return false;
+        },
+      );
+      final link = linkElement.attributes['href']!.split('=').last;
+
+      return (name: searchResult.name, url: link);
+    } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        getFunctionName(),
+        message,
+      );
+      rethrow;
+    }
+  }
 
   Future<String?> getAppImage(VersionLink app) async {
     try {
@@ -103,10 +225,19 @@ class ScraperService with ListenableServiceMixin {
 
       return imageLink != null ? 'https://www.apkmirror.com$imageLink' : null;
     } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
       FlutterLogs.logError(
         runtimeType.toString(),
-        'getAppImage',
-        e is ScrapeError ? e.fullMessage() : e.toString(),
+        getFunctionName(),
+        message,
       );
       rethrow;
     }
@@ -142,7 +273,7 @@ class ScraperService with ListenableServiceMixin {
 
       FlutterLogs.logThis(
         tag: runtimeType.toString(),
-        subTag: 'getVersionList',
+        subTag: getFunctionName(),
         level: apkList.isEmpty ? LogLevel.ERROR : LogLevel.INFO,
         logMessage: apkList.isEmpty
             ? 'No APK version list found'
@@ -203,10 +334,19 @@ class ScraperService with ListenableServiceMixin {
 
       return app.copyWith(links: linksList);
     } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
       FlutterLogs.logError(
         runtimeType.toString(),
-        'getVersionList',
-        e is ScrapeError ? e.fullMessage() : e.toString(),
+        getFunctionName(),
+        message,
       );
       rethrow;
     }
@@ -265,10 +405,19 @@ class ScraperService with ListenableServiceMixin {
 
       return app.copyWith(types: typeList);
     } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
       FlutterLogs.logError(
         runtimeType.toString(),
-        'getApkType',
-        e is ScrapeError ? e.fullMessage() : e.toString(),
+        getFunctionName(),
+        message,
       );
       rethrow;
     }
@@ -306,10 +455,19 @@ class ScraperService with ListenableServiceMixin {
 
       return parsedDlButtonPage;
     } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
       FlutterLogs.logError(
         runtimeType.toString(),
-        'getDownloadPage',
-        e is ScrapeError ? e.fullMessage() : e.toString(),
+        getFunctionName(),
+        message,
       );
       _pageStatus = (false, _getErrorMessage(e));
       _linkStatus = (false, _getErrorMessage(e));
@@ -340,7 +498,7 @@ class ScraperService with ListenableServiceMixin {
 
       FlutterLogs.logInfo(
         runtimeType.toString(),
-        '_getDownloadLink',
+        getFunctionName(),
         'Parsed final page',
       );
 
@@ -355,10 +513,19 @@ class ScraperService with ListenableServiceMixin {
 
       return lastPageParsed;
     } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
       FlutterLogs.logError(
         runtimeType.toString(),
-        'getDownloadLink',
-        e is ScrapeError ? e.fullMessage() : e.toString(),
+        getFunctionName(),
+        message,
       );
       _linkStatus = (false, _getErrorMessage(e));
       _apkStatus = (false, _getErrorMessage(e));
@@ -369,16 +536,22 @@ class ScraperService with ListenableServiceMixin {
     }
   }
 
-  Future<List<int>?> _getApk(String apkLink, CancelToken token) async {
+  Future<bool> _getApk(
+    String apkLink,
+    CancelToken token,
+    String path,
+  ) async {
     try {
-      final apkFile = await _dio.get<List<int>>(
+      final apkFile = await _dio.download(
         apkLink,
+        path,
         onReceiveProgress: (count, total) {
           _downloadProgress = count / total * 100;
           notifyListeners();
         },
         options: Options(
           responseType: ResponseType.bytes,
+          headers: {HttpHeaders.acceptEncodingHeader: '*'},
         ),
         cancelToken: token,
       );
@@ -392,15 +565,73 @@ class ScraperService with ListenableServiceMixin {
 
       _apkStatus = (true, null);
 
-      return apkFile.data;
+      FlutterLogs.logInfo(
+        runtimeType.toString(),
+        getFunctionName(),
+        'APK downloaded',
+      );
+
+      return true;
     } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
       FlutterLogs.logError(
         runtimeType.toString(),
-        'getAppImage',
-        e is ScrapeError ? e.fullMessage() : e.toString(),
+        getFunctionName(),
+        message,
       );
       _apkStatus = (false, _getErrorMessage(e));
       _downloadProgress = 100;
+      rethrow;
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<String> _getSavePath(AppInfo app) async {
+    try {
+      final savePlace = await _paths.getFolderToSave();
+      FlutterLogs.logInfo(
+        runtimeType.toString(),
+        getFunctionName(),
+        'Found save path: ${savePlace.path}',
+      );
+
+      final appName = app.name.toLowerCase().replaceAll(
+            RegExp(r'[ .:/+]+'),
+            '_',
+          );
+      String archName = app.pickedType!.archDpi.split(',')[0];
+      archName = archName.replaceAll(' + ', '_');
+      final versionName = app.pickedVersion?.name.replaceAll('.', '_');
+      final name = '${appName}_${versionName}_$archName';
+
+      final file = File(
+        '${savePlace.path}/$name.apk',
+      );
+      FlutterLogs.logInfo(
+        runtimeType.toString(),
+        getFunctionName(),
+        'Saving to: ${file.path}',
+      );
+
+      _saveStatus = (true, null);
+
+      return '${savePlace.path}/$name.apk';
+    } catch (e) {
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        getFunctionName(),
+        e is DioException ? e.message ?? e.error.toString() : e.toString(),
+      );
+      _saveStatus = (false, _getErrorMessage(e));
       rethrow;
     } finally {
       notifyListeners();
@@ -412,61 +643,30 @@ class ScraperService with ListenableServiceMixin {
       final linkToDownloadPage = app.pickedType!.versionUrl;
       final downloadPage = await _getDownloadPage(linkToDownloadPage, token);
       final downloadLink = await _getDownloadLink(downloadPage, token);
-      final apk = await _getApk(downloadLink, token);
-      FlutterLogs.logInfo(
-        runtimeType.toString(),
-        'getSelectedApk',
-        'APK downloaded',
-      );
-
-      final savePlace = await _paths.getFolderToSave();
-      FlutterLogs.logInfo(
-        runtimeType.toString(),
-        'getSelectedApk',
-        'Found save path: ${savePlace.path}',
-      );
-
-      final appName = app.name.toLowerCase().replaceAll(
-            RegExp(r'[ .:/]+'),
-            '_',
-          );
-      final archName = _settings.architecture.normalize();
-      final versionName = app.pickedVersion?.name.replaceAll('.', '_');
-      final name = '${appName}_${versionName}_$archName';
-
-      final file = File(
-        '${savePlace.path}/$name.apk',
-      );
-      FlutterLogs.logInfo(
-        runtimeType.toString(),
-        'getSelectedApk',
-        'Saving to: ${file.path}',
-      );
-
-      final raf = await file.open(mode: FileMode.writeOnly);
+      final savePath = await _getSavePath(app);
+      await _getApk(downloadLink, token, savePath);
 
       FlutterLogs.logInfo(
         runtimeType.toString(),
-        'getSelectedApk',
-        'Opened file for writing...',
-      );
-
-      await raf.writeFrom(apk!);
-      await raf.close();
-
-      FlutterLogs.logInfo(
-        runtimeType.toString(),
-        'getSelectedApk',
+        getFunctionName(),
         'File saved to disc',
       );
 
-      _saveStatus = (true, null);
       return true;
     } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
       FlutterLogs.logError(
         runtimeType.toString(),
-        'getSelectedApk',
-        e is ScrapeError ? e.fullMessage() : e.toString(),
+        getFunctionName(),
+        message,
       );
       _saveStatus = (false, _getErrorMessage(e));
       rethrow;
