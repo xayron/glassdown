@@ -19,7 +19,6 @@ import 'package:glass_down_v2/ui/views/settings/items/monet_theme/monet_theme.da
 import 'package:glass_down_v2/ui/views/settings/items/offer_deleting_old_apks/offer_deleting_old_apks.dart';
 import 'package:glass_down_v2/ui/views/settings/items/pages_count/pages_count.dart';
 import 'package:glass_down_v2/ui/views/settings/items/show_logs/show_logs.dart';
-import 'package:glass_down_v2/ui/views/settings/items/use_custom_font/use_custom_font.dart';
 import 'package:glass_down_v2/ui/widgets/settings/common/group_header.dart';
 import 'package:stacked/stacked.dart';
 
@@ -66,7 +65,6 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   MonetTheme(),
                   CustomTheme(),
                   ImportFont(),
-                  UseCustomFont(),
                   CustomFontList(),
                   _settingsDivider,
                   GroupHeader(name: 'Filters'),
