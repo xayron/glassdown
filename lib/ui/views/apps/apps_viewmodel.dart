@@ -27,7 +27,8 @@ class AppsViewModel extends StreamViewModel {
 
   bool _loading = false;
   bool get loading => _loading;
-
+ 
+  
   @override
   List<ListenableServiceMixin> get listenableServices => [_apps];
 
@@ -43,7 +44,7 @@ class AppsViewModel extends StreamViewModel {
       }
     }
   }
-
+  
   @override
   Stream<InternetStatus> get stream => InternetConnection().onStatusChange;
 
