@@ -16,13 +16,14 @@ class UpdaterService with ListenableServiceMixin {
     listenToReactiveValues([_downloadProgress]);
   }
 
-  final _url =
-      'https://api.github.com/repos/sinneida/glassdown/releases/latest';
+  final _url = 'https://api.github.com/repos/sinneida/glassdown/releases';
   final _dio = Dio(BaseOptions(method: 'get'));
 
   double _downloadProgress = 0;
   double get downloadProgress => _downloadProgress;
   dynamic updateData;
+  bool _isDev = false;
+  String _version = '';
 
   Future<void> downloadUpdate(AppReleaseInfo version) async {
     try {
@@ -71,9 +72,17 @@ class UpdaterService with ListenableServiceMixin {
     }
   }
 
+  String _getUpdateUrl() {
+    return _isDev ? _url : '$_url/latest';
+  }
+
   Future<bool> checkUpdates() async {
     try {
-      final result = await _dio.get<String>(_url);
+      final package = await PackageInfo.fromPlatform();
+      _isDev = package.version.contains('dev');
+      _version = package.version;
+
+      final result = await _dio.get<String>(_getUpdateUrl());
 
       if (result.statusCode != 200 || result.data == null) {
         throw UpdateError('Github API not available');
@@ -88,32 +97,30 @@ class UpdaterService with ListenableServiceMixin {
       FlutterLogs.logError(
         runtimeType.toString(),
         getFunctionName(),
-        'Failed to check updates',
+        e is UpdateError ? e.fullMessage() : 'Failed to check updates',
       );
       rethrow;
     }
   }
 
   Future<bool> shouldUpdate() async {
-    final package = await PackageInfo.fromPlatform();
-
-    final data = jsonDecode(updateData);
+    final data = _isDev ? jsonDecode(updateData)[0] : jsonDecode(updateData);
 
     final String tagName = data['tag_name'];
 
-    if (package.version.contains('dev')) {}
-    final currentVersion = package.version.contains('dev')
-        ? package.version.split('-')[0]
-        : package.version;
-    final version = int.tryParse(currentVersion.split('.').join());
-    final newVersion = int.tryParse(tagName.substring(1).split('.').join());
+    if (!_isDev) {
+      final currentVersion =
+          _version.contains('dev') ? _version.split('-')[0] : _version;
+      final version = int.tryParse(currentVersion.split('.').join());
+      final newVersion = int.tryParse(tagName.substring(1).split('.').join());
 
-    if (version == null || newVersion == null) {
-      throw UpdateError("Couldn't get version tags");
-    }
+      if (version == null || newVersion == null) {
+        throw UpdateError("Couldn't get version tags");
+      }
 
-    if (newVersion <= version) {
-      return false;
+      if (newVersion <= version) {
+        return false;
+      }
     }
 
     return true;
@@ -121,7 +128,7 @@ class UpdaterService with ListenableServiceMixin {
 
   Future<UpdateInfo?> getReleaseInfo() async {
     try {
-      final data = jsonDecode(updateData);
+      final data = _isDev ? jsonDecode(updateData)[0] : jsonDecode(updateData);
 
       final String tagName = data['tag_name'];
       final changelog = data['body'];
