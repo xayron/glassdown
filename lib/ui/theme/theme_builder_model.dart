@@ -20,7 +20,7 @@ class ThemeBuilderModel extends ReactiveViewModel {
   }
 
   Future<void> loadCustomFont() async {
-    await _fontImporter.loadFonts();
+    await _fontImporter.loadFonts(_settings.customFont);
   }
 
   @override
