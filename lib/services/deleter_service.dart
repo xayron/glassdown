@@ -18,15 +18,25 @@ class DeleterService {
         throw IOError('Cannot write to Downloads folder');
       }
 
+      final appName = app.name.toLowerCase().replaceAll(
+            RegExp(r'[ .:/+]+'),
+            '_',
+          );
+
       final apkFiles = downloadsDir.listSync().whereType<File>().where(
         (element) {
           return element.path.split('.').last.contains('apk') &&
-              element.path.contains(app.name);
+              element.path.contains(appName);
         },
       );
 
       for (final file in apkFiles) {
         await file.delete();
+        FlutterLogs.logInfo(
+          runtimeType.toString(),
+          getFunctionName(),
+          'Deleted old version: ${file.path}',
+        );
       }
 
       return null;
