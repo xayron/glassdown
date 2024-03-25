@@ -18,11 +18,18 @@ class CheckUpdatesModel extends ReactiveViewModel {
   Future<void> checkUpdates() async {
     try {
       final result = await _updater.checkUpdates();
+      if (_updater.isDev && !devOptions) {
+        _snackbar.showCustomSnackBar(
+          message: 'Enable developer options to update',
+          variant: SnackbarType.info,
+        );
+        return;
+      }
       if (result || devOptions) {
         showUpdaterSheet();
       } else {
         _snackbar.showCustomSnackBar(
-          message: 'No updates available.',
+          message: 'No updates available',
           variant: SnackbarType.info,
         );
       }
