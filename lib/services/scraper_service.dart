@@ -137,10 +137,19 @@ class ScraperService with ListenableServiceMixin {
 
       return searchResults;
     } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
       FlutterLogs.logError(
         runtimeType.toString(),
         getFunctionName(),
-        e is ScrapeError ? e.fullMessage() : e.toString(),
+        message,
       );
       rethrow;
     }
@@ -172,10 +181,19 @@ class ScraperService with ListenableServiceMixin {
 
       return (name: searchResult.name, url: link);
     } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
       FlutterLogs.logError(
         runtimeType.toString(),
         getFunctionName(),
-        e is ScrapeError ? e.fullMessage() : e.toString(),
+        message,
       );
       rethrow;
     }
@@ -207,10 +225,19 @@ class ScraperService with ListenableServiceMixin {
 
       return imageLink != null ? 'https://www.apkmirror.com$imageLink' : null;
     } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
       FlutterLogs.logError(
         runtimeType.toString(),
         getFunctionName(),
-        e is ScrapeError ? e.fullMessage() : e.toString(),
+        message,
       );
       rethrow;
     }
@@ -307,10 +334,19 @@ class ScraperService with ListenableServiceMixin {
 
       return app.copyWith(links: linksList);
     } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
       FlutterLogs.logError(
         runtimeType.toString(),
         getFunctionName(),
-        e is ScrapeError ? e.fullMessage() : e.toString(),
+        message,
       );
       rethrow;
     }
@@ -369,10 +405,19 @@ class ScraperService with ListenableServiceMixin {
 
       return app.copyWith(types: typeList);
     } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
       FlutterLogs.logError(
         runtimeType.toString(),
         getFunctionName(),
-        e is ScrapeError ? e.fullMessage() : e.toString(),
+        message,
       );
       rethrow;
     }
@@ -410,10 +455,19 @@ class ScraperService with ListenableServiceMixin {
 
       return parsedDlButtonPage;
     } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
       FlutterLogs.logError(
         runtimeType.toString(),
         getFunctionName(),
-        e is ScrapeError ? e.fullMessage() : e.toString(),
+        message,
       );
       _pageStatus = (false, _getErrorMessage(e));
       _linkStatus = (false, _getErrorMessage(e));
@@ -459,10 +513,19 @@ class ScraperService with ListenableServiceMixin {
 
       return lastPageParsed;
     } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
       FlutterLogs.logError(
         runtimeType.toString(),
         getFunctionName(),
-        e is ScrapeError ? e.fullMessage() : e.toString(),
+        message,
       );
       _linkStatus = (false, _getErrorMessage(e));
       _apkStatus = (false, _getErrorMessage(e));
@@ -473,16 +536,22 @@ class ScraperService with ListenableServiceMixin {
     }
   }
 
-  Future<List<int>?> _getApk(String apkLink, CancelToken token) async {
+  Future<bool> _getApk(
+    String apkLink,
+    CancelToken token,
+    String path,
+  ) async {
     try {
-      final apkFile = await _dio.get<List<int>>(
+      final apkFile = await _dio.download(
         apkLink,
+        path,
         onReceiveProgress: (count, total) {
           _downloadProgress = count / total * 100;
           notifyListeners();
         },
         options: Options(
           responseType: ResponseType.bytes,
+          headers: {HttpHeaders.acceptEncodingHeader: '*'},
         ),
         cancelToken: token,
       );
@@ -496,12 +565,27 @@ class ScraperService with ListenableServiceMixin {
 
       _apkStatus = (true, null);
 
-      return apkFile.data;
+      FlutterLogs.logInfo(
+        runtimeType.toString(),
+        getFunctionName(),
+        'APK downloaded',
+      );
+
+      return true;
     } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
       FlutterLogs.logError(
         runtimeType.toString(),
         getFunctionName(),
-        e is ScrapeError ? e.fullMessage() : e.toString(),
+        message,
       );
       _apkStatus = (false, _getErrorMessage(e));
       _downloadProgress = 100;
@@ -511,18 +595,8 @@ class ScraperService with ListenableServiceMixin {
     }
   }
 
-  Future<bool> getSelectedApk(AppInfo app, CancelToken token) async {
+  Future<String> _getSavePath(AppInfo app) async {
     try {
-      final linkToDownloadPage = app.pickedType!.versionUrl;
-      final downloadPage = await _getDownloadPage(linkToDownloadPage, token);
-      final downloadLink = await _getDownloadLink(downloadPage, token);
-      final apk = await _getApk(downloadLink, token);
-      FlutterLogs.logInfo(
-        runtimeType.toString(),
-        getFunctionName(),
-        'APK downloaded',
-      );
-
       final savePlace = await _paths.getFolderToSave();
       FlutterLogs.logInfo(
         runtimeType.toString(),
@@ -534,7 +608,7 @@ class ScraperService with ListenableServiceMixin {
             RegExp(r'[ .:/+]+'),
             '_',
           );
-      final archName = _settings.architecture.normalize();
+      final archName = app.pickedType!.archDpi.split(',')[0];
       final versionName = app.pickedVersion?.name.replaceAll('.', '_');
       final name = '${appName}_${versionName}_$archName';
 
@@ -547,16 +621,29 @@ class ScraperService with ListenableServiceMixin {
         'Saving to: ${file.path}',
       );
 
-      final raf = await file.open(mode: FileMode.writeOnly);
+      _saveStatus = (true, null);
 
-      FlutterLogs.logInfo(
+      return '${savePlace.path}/$name.apk';
+    } catch (e) {
+      FlutterLogs.logError(
         runtimeType.toString(),
         getFunctionName(),
-        'Opened file for writing...',
+        e is DioException ? e.message ?? e.error.toString() : e.toString(),
       );
+      _saveStatus = (false, _getErrorMessage(e));
+      rethrow;
+    } finally {
+      notifyListeners();
+    }
+  }
 
-      await raf.writeFrom(apk!);
-      await raf.close();
+  Future<bool> getSelectedApk(AppInfo app, CancelToken token) async {
+    try {
+      final linkToDownloadPage = app.pickedType!.versionUrl;
+      final downloadPage = await _getDownloadPage(linkToDownloadPage, token);
+      final downloadLink = await _getDownloadLink(downloadPage, token);
+      final savePath = await _getSavePath(app);
+      await _getApk(downloadLink, token, savePath);
 
       FlutterLogs.logInfo(
         runtimeType.toString(),
@@ -564,13 +651,21 @@ class ScraperService with ListenableServiceMixin {
         'File saved to disc',
       );
 
-      _saveStatus = (true, null);
       return true;
     } catch (e) {
+      String message = '';
+      if (e is ScrapeError) {
+        message = e.fullMessage();
+      }
+
+      if (e is DioException) {
+        message = e.message ?? e.error.toString();
+      }
+
       FlutterLogs.logError(
         runtimeType.toString(),
         getFunctionName(),
-        e is ScrapeError ? e.fullMessage() : e.toString(),
+        message,
       );
       _saveStatus = (false, _getErrorMessage(e));
       rethrow;
