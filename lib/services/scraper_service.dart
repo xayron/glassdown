@@ -526,7 +526,7 @@ class ScraperService with ListenableServiceMixin {
       );
 
       final appName = app.name.toLowerCase().replaceAll(
-            RegExp(r'[ .:/]+'),
+            RegExp(r'[ .:/+]+'),
             '_',
           );
       final archName = _settings.architecture.normalize();
