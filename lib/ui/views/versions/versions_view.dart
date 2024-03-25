@@ -29,10 +29,13 @@ class VersionsView extends StackedView<VersionsViewModel> {
             automaticallyImplyLeading: false,
             flexibleSpace: FlexibleSpaceBar(
               titlePadding: const EdgeInsets.only(bottom: 16, left: 20),
-              title: Text(
-                app.name,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+              title: Flexible(
+                child: Text(
+                  app.name,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  ),
                 ),
               ),
             ),
