@@ -5,23 +5,53 @@ import 'package:flutter_logs/flutter_logs.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/models/errors/io_error.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
+import 'package:glass_down_v2/util/function_name.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
 class LogsService {
   final _settings = locator<SettingsService>();
 
+  Future<Directory> getLogsDir() async {
+    final appDataDir = await getExternalStorageDirectory();
+    return Directory('${appDataDir?.path}/Logs');
+  }
+
+  bool areLogsPresent(Directory dir) {
+    if (!dir.existsSync()) {
+      return false;
+    }
+    final List<File> fileList = dir.listSync().whereType<File>().toList();
+    if (fileList.isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
+  Future<String> getLogs() async {
+    final dir = await getLogsDir();
+    final List<File> fileList = dir.listSync().whereType<File>().toList();
+    final todaysLog = fileList.firstWhere((element) {
+      final logFileName = element.path.split('/').last;
+      final todaysDateFormatted = DateFormat('ddMMyyyy').format(DateTime.now());
+      if (logFileName.startsWith(todaysDateFormatted)) {
+        return true;
+      }
+      return false;
+    });
+    final logContent = todaysLog.readAsLinesSync();
+    return logContent.join('\n');
+  }
+
   Future<IOError?> exportLogs() async {
     try {
       final Directory documentsDir = Directory(_settings.exportLogsPath);
-      final appDataDir = await getExternalStorageDirectory();
-      final Directory dir = Directory('${appDataDir?.path}/Logs');
 
-      if (!dir.existsSync()) {
-        throw IOError("There's no log to export so far");
-      }
-      final List<File> fileList = dir.listSync().whereType<File>().toList();
-      if (fileList.isEmpty) {
+      final dir = await getLogsDir();
+
+      final logsPresent = areLogsPresent(dir);
+
+      if (!logsPresent) {
         throw IOError("There's no log to export so far");
       }
 
@@ -35,13 +65,17 @@ class LogsService {
 
       FlutterLogs.logInfo(
         runtimeType.toString(),
-        'exportLogs',
+        getFunctionName(),
         'Logs zipped into ${zipFile.path}',
       );
 
       return null;
     } catch (e) {
-      FlutterLogs.logError(runtimeType.toString(), 'exportLogs', e.toString());
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        getFunctionName(),
+        e.toString(),
+      );
       if (e is IOError) {
         return e;
       }
@@ -60,7 +94,11 @@ class LogsService {
 
       return null;
     } catch (e) {
-      FlutterLogs.logError(runtimeType.toString(), 'deleteLogs', e.toString());
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        getFunctionName(),
+        e.toString(),
+      );
       if (e is IOError) {
         return e;
       }

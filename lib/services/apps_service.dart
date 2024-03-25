@@ -63,7 +63,7 @@ class AppsService with ListenableServiceMixin {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'addApp',
+        getFunctionName(),
         e is DbError ? e.message : e.toString(),
       );
       rethrow;
@@ -81,7 +81,7 @@ class AppsService with ListenableServiceMixin {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'addApp',
+        getFunctionName(),
         e is DbError ? e.message : e.toString(),
       );
       rethrow;
@@ -176,7 +176,7 @@ class AppsService with ListenableServiceMixin {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'importAppList',
+        getFunctionName(),
         e.toString(),
       );
       rethrow;

@@ -14,13 +14,11 @@ class DeleteAppsModel extends BaseViewModel {
       await _apps.deleteAllApps();
       rebuildUi();
       _snackbar.showCustomSnackBar(
-        title: 'Apps',
         message: 'App list purged',
         variant: SnackbarType.info,
       );
     } catch (e) {
       _snackbar.showCustomSnackBar(
-        title: 'Error',
         message: e is DbError ? e.fullMessage() : e.toString(),
         variant: SnackbarType.info,
       );

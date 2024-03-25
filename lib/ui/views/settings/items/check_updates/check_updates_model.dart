@@ -4,6 +4,7 @@ import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:glass_down_v2/services/updater_service.dart';
 import 'package:glass_down_v2/ui/bottom_sheets/updater/update_sheet.dart';
+import 'package:glass_down_v2/util/function_name.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -17,19 +18,25 @@ class CheckUpdatesModel extends ReactiveViewModel {
   Future<void> checkUpdates() async {
     try {
       final result = await _updater.checkUpdates();
+      if (_updater.isDev && !devOptions) {
+        _snackbar.showCustomSnackBar(
+          message: 'Enable developer options to update',
+          variant: SnackbarType.info,
+        );
+        return;
+      }
       if (result || devOptions) {
         showUpdaterSheet();
       } else {
         _snackbar.showCustomSnackBar(
-          title: 'Info',
-          message: 'No updates available.',
+          message: 'No updates available',
           variant: SnackbarType.info,
         );
       }
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'checkUpdates',
+        getFunctionName(),
         e.toString(),
       );
     }

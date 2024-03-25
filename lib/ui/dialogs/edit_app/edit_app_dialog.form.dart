@@ -7,7 +7,7 @@
 // ignore_for_file: public_member_api_docs, constant_identifier_names, non_constant_identifier_names,unnecessary_this
 
 import 'package:flutter/material.dart';
-import 'package:glass_down_v2/ui/dialogs/add_app/add_app_dialog_model.dart';
+import 'package:glass_down_v2/ui/dialogs/edit_app/edit_app_dialog_model.dart';
 import 'package:stacked/stacked.dart';
 
 const bool _autoTextFieldValidation = true;
@@ -15,17 +15,17 @@ const bool _autoTextFieldValidation = true;
 const String AppNameValueKey = 'appName';
 const String AppUrlValueKey = 'appUrl';
 
-final Map<String, TextEditingController> _AddAppDialogTextEditingControllers =
+final Map<String, TextEditingController> _EditAppDialogTextEditingControllers =
     {};
 
-final Map<String, FocusNode> _AddAppDialogFocusNodes = {};
+final Map<String, FocusNode> _EditAppDialogFocusNodes = {};
 
-final Map<String, String? Function(String?)?> _AddAppDialogTextValidations = {
-  AppNameValueKey: AddAppDialogValidators.validateAppName,
-  AppUrlValueKey: AddAppDialogValidators.validateAppUrl,
+final Map<String, String? Function(String?)?> _EditAppDialogTextValidations = {
+  AppNameValueKey: EditAppDialogValidators.validateAppName,
+  AppUrlValueKey: EditAppDialogValidators.validateAppUrl,
 };
 
-mixin $AddAppDialog {
+mixin $EditAppDialog {
   TextEditingController get appNameController =>
       _getFormTextEditingController(AppNameValueKey);
   TextEditingController get appUrlController =>
@@ -38,21 +38,21 @@ mixin $AddAppDialog {
     String key, {
     String? initialValue,
   }) {
-    if (_AddAppDialogTextEditingControllers.containsKey(key)) {
-      return _AddAppDialogTextEditingControllers[key]!;
+    if (_EditAppDialogTextEditingControllers.containsKey(key)) {
+      return _EditAppDialogTextEditingControllers[key]!;
     }
 
-    _AddAppDialogTextEditingControllers[key] =
+    _EditAppDialogTextEditingControllers[key] =
         TextEditingController(text: initialValue);
-    return _AddAppDialogTextEditingControllers[key]!;
+    return _EditAppDialogTextEditingControllers[key]!;
   }
 
   FocusNode _getFormFocusNode(String key) {
-    if (_AddAppDialogFocusNodes.containsKey(key)) {
-      return _AddAppDialogFocusNodes[key]!;
+    if (_EditAppDialogFocusNodes.containsKey(key)) {
+      return _EditAppDialogFocusNodes[key]!;
     }
-    _AddAppDialogFocusNodes[key] = FocusNode();
-    return _AddAppDialogFocusNodes[key]!;
+    _EditAppDialogFocusNodes[key] = FocusNode();
+    return _EditAppDialogFocusNodes[key]!;
   }
 
   /// Registers a listener on every generated controller that calls [model.setData()]
@@ -101,15 +101,15 @@ mixin $AddAppDialog {
   void disposeForm() {
     // The dispose function for a TextEditingController sets all listeners to null
 
-    for (var controller in _AddAppDialogTextEditingControllers.values) {
+    for (var controller in _EditAppDialogTextEditingControllers.values) {
       controller.dispose();
     }
-    for (var focusNode in _AddAppDialogFocusNodes.values) {
+    for (var focusNode in _EditAppDialogFocusNodes.values) {
       focusNode.dispose();
     }
 
-    _AddAppDialogTextEditingControllers.clear();
-    _AddAppDialogFocusNodes.clear();
+    _EditAppDialogTextEditingControllers.clear();
+    _EditAppDialogFocusNodes.clear();
   }
 }
 
@@ -133,8 +133,8 @@ extension ValueProperties on FormStateHelper {
       this.formValueMap..addAll({AppNameValueKey: value}),
     );
 
-    if (_AddAppDialogTextEditingControllers.containsKey(AppNameValueKey)) {
-      _AddAppDialogTextEditingControllers[AppNameValueKey]?.text = value ?? '';
+    if (_EditAppDialogTextEditingControllers.containsKey(AppNameValueKey)) {
+      _EditAppDialogTextEditingControllers[AppNameValueKey]?.text = value ?? '';
     }
   }
 
@@ -143,8 +143,8 @@ extension ValueProperties on FormStateHelper {
       this.formValueMap..addAll({AppUrlValueKey: value}),
     );
 
-    if (_AddAppDialogTextEditingControllers.containsKey(AppUrlValueKey)) {
-      _AddAppDialogTextEditingControllers[AppUrlValueKey]?.text = value ?? '';
+    if (_EditAppDialogTextEditingControllers.containsKey(AppUrlValueKey)) {
+      _EditAppDialogTextEditingControllers[AppUrlValueKey]?.text = value ?? '';
     }
   }
 
@@ -189,11 +189,11 @@ extension Methods on FormStateHelper {
 
 /// Returns the validation message for the given key
 String? getValidationMessage(String key) {
-  final validatorForKey = _AddAppDialogTextValidations[key];
+  final validatorForKey = _EditAppDialogTextValidations[key];
   if (validatorForKey == null) return null;
 
   String? validationMessageForKey = validatorForKey(
-    _AddAppDialogTextEditingControllers[key]!.text,
+    _EditAppDialogTextEditingControllers[key]!.text,
   );
 
   return validationMessageForKey;

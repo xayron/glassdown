@@ -15,7 +15,6 @@ class VersionCardModel extends BaseViewModel {
     if (!_settings.isConnected) {
       _snackbar.showCustomSnackBar(
         variant: SnackbarType.info,
-        title: 'Error',
         message: 'You have no internet connection',
       );
       return;

@@ -1,7 +1,8 @@
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
-import 'package:glass_down_v2/ui/views/home/home_view.dart';
+import 'package:glass_down_v2/ui/views/apps/apps_view.dart';
+import 'package:glass_down_v2/util/function_name.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -31,7 +32,7 @@ class PermissionsViewModel extends BaseViewModel {
 
   Future<void> goHome() async {
     await createAppDir();
-    _nav.clearStackAndShowView(const HomeView());
+    _nav.clearStackAndShowView(const AppsView());
   }
 
   Future<void> createAppDir() async {
@@ -40,7 +41,7 @@ class PermissionsViewModel extends BaseViewModel {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'createAppDir',
+        getFunctionName(),
         e.toString(),
       );
     }

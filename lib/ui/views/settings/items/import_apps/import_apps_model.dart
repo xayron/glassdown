@@ -11,15 +11,13 @@ class ImportAppsModel extends BaseViewModel {
 
   Future<void> importApps() async {
     try {
-      await _apps.importAppList();
       _snackbar.showCustomSnackBar(
-        title: 'Apps',
         message: 'App list imported',
         variant: SnackbarType.info,
       );
+      await _apps.importAppList();
     } catch (e) {
       _snackbar.showCustomSnackBar(
-        title: 'Error',
         message: e is IOError ? e.message : e.toString(),
         variant: SnackbarType.info,
       );

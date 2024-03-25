@@ -8,6 +8,7 @@ import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/models/errors/io_error.dart';
 import 'package:glass_down_v2/services/logs_service.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
+import 'package:glass_down_v2/util/function_name.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -38,7 +39,6 @@ class ExportLogsModel extends ReactiveViewModel {
       testFile.deleteSync();
       _settings.setExportLogsPath(result);
       _snackbar.showCustomSnackBar(
-        title: 'Info',
         message: 'Path saved succesfully',
         variant: SnackbarType.info,
       );
@@ -46,11 +46,10 @@ class ExportLogsModel extends ReactiveViewModel {
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
-        'pickFolder',
+        getFunctionName(),
         'Cannot write to this folder',
       );
       _snackbar.showCustomSnackBar(
-        title: 'Error',
         message: e is IOError ? e.message : "Can't pick this folder",
         variant: SnackbarType.info,
       );
@@ -61,13 +60,11 @@ class ExportLogsModel extends ReactiveViewModel {
     try {
       await _logs.exportLogs();
       _snackbar.showCustomSnackBar(
-        title: 'Logs',
         message: 'Logs exported',
         variant: SnackbarType.info,
       );
     } catch (e) {
       _snackbar.showCustomSnackBar(
-        title: 'Error',
         message: e is IOError ? e.message : e.toString(),
         variant: SnackbarType.info,
       );
