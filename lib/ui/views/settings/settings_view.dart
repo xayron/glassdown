@@ -4,6 +4,7 @@ import 'package:glass_down_v2/ui/views/settings/items/apk_save_path/apk_save_pat
 import 'package:glass_down_v2/ui/views/settings/items/app_architecture/app_architecture.dart';
 import 'package:glass_down_v2/ui/views/settings/items/app_theme/app_theme.dart';
 import 'package:glass_down_v2/ui/views/settings/items/check_updates/check_updates.dart';
+import 'package:glass_down_v2/ui/views/settings/items/custom_font_list/custom_font_list.dart';
 import 'package:glass_down_v2/ui/views/settings/items/custom_theme/custom_theme.dart';
 import 'package:glass_down_v2/ui/views/settings/items/delete_apps/delete_apps.dart';
 import 'package:glass_down_v2/ui/views/settings/items/delete_logs/delete_logs.dart';
@@ -66,6 +67,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   CustomTheme(),
                   ImportFont(),
                   UseCustomFont(),
+                  CustomFontList(),
                   _settingsDivider,
                   GroupHeader(name: 'Filters'),
                   ExcludeBundles(),
