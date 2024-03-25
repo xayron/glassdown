@@ -23,6 +23,7 @@ class UpdaterService with ListenableServiceMixin {
   double get downloadProgress => _downloadProgress;
   dynamic updateData;
   bool _isDev = false;
+  bool get isDev => _isDev;
   String _version = '';
 
   Future<void> downloadUpdate(AppReleaseInfo version) async {
