@@ -57,7 +57,7 @@ jobs:
         run: stacked generate
 
       - name: Start release build
-        run: flutter build apk --split-per-abi --target-platform android-arm,android-arm64
+        run: flutter build apk
 
       - name: Sign APK
         id: sign_apk
@@ -69,18 +69,13 @@ jobs:
           keyAlias: ${{ secrets.KEYSTORE_PASSWORD_ALIAS }}
           keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
 
-      - name: Add version to APK - arm64
-        run: mv build/app/outputs/apk/release/app-arm64-v8a-release-signed.apk glass_down-arm64-v8a-${{ needs.version.outputs.app-version }}.apk
-
-      - name: Add version to APK - arm32
-        run: mv build/app/outputs/apk/release/app-armeabi-v7a-release-signed.apk glass_down-armeabi-v7a-${{ needs.version.outputs.app-version }}.apk
+      - name: Add version to APK
+        run: mv build/app/outputs/apk/release/app-release-signed.apk glass_down-${{ needs.version.outputs.app-version }}.apk
 
       - name: Publish release APK
         uses: "marvinpinto/action-automatic-releases@v1.2.1"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: true
-          files: |
-            glass_down-arm64-v8a-${{ needs.version.outputs.app-version }}.apk
-            glass_down-armeabi-v7a-${{ needs.version.outputs.app-version }}.apk
+          files: glass_down-${{ needs.version.outputs.app-version }}.apk
 
