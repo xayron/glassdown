@@ -33,7 +33,7 @@ Future<T?> showAddAppSheet<T>() {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                verticalSpaceMedium,
+                verticalSpaceSmall,
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -58,6 +58,11 @@ Future<T?> showAddAppSheet<T>() {
                               ),
                             ),
                             contentPadding: const EdgeInsets.all(16),
+                            suffixIcon: IconButton(
+                              onPressed: () =>
+                                  viewModel.appNameController.clear(),
+                              icon: const Icon(Icons.clear),
+                            ),
                           ),
                         ),
                       ),
@@ -80,33 +85,34 @@ Future<T?> showAddAppSheet<T>() {
                   ),
                 ),
                 verticalSpaceSmall,
-                if (!viewModel.loading)
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        verticalSpaceSmall,
-                        for (final searchResult in viewModel.results)
-                          Card(
-                            clipBehavior: Clip.antiAlias,
-                            surfaceTintColor:
-                                Theme.of(context).colorScheme.primary,
-                            child: ListTile(
-                              onTap: () => viewModel.addApp(searchResult),
-                              leading: CircleAvatar(
-                                radius: 18,
-                                backgroundImage:
-                                    Image.network(searchResult.imgLink).image,
-                              ),
-                              trailing: viewModel.addingApp &&
-                                      viewModel.showProgress(searchResult)
-                                  ? const CircularProgressIndicator()
-                                  : const Icon(Icons.add),
-                              title: Text(searchResult.name),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      verticalSpaceSmall,
+                      for (final searchResult in viewModel.results)
+                        Card(
+                          clipBehavior: Clip.antiAlias,
+                          surfaceTintColor:
+                              Theme.of(context).colorScheme.primary,
+                          child: ListTile(
+                            onTap: () => viewModel.addApp(searchResult),
+                            enabled: !viewModel.addingApp &&
+                                !viewModel.showProgress(searchResult),
+                            leading: CircleAvatar(
+                              radius: 18,
+                              backgroundImage:
+                                  Image.network(searchResult.imgLink).image,
                             ),
+                            trailing: viewModel.addingApp &&
+                                    viewModel.showProgress(searchResult)
+                                ? const CircularProgressIndicator()
+                                : const Icon(Icons.add),
+                            title: Text(searchResult.name),
                           ),
-                      ],
-                    ),
+                        ),
+                    ],
                   ),
+                ),
                 verticalSpaceSmall,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
