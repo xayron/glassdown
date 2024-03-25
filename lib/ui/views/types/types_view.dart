@@ -31,6 +31,7 @@ class TypesView extends StackedView<TypesViewModel> {
               titlePadding: const EdgeInsets.only(bottom: 16, left: 20),
               title: Text(
                 app.name,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
