@@ -18,8 +18,8 @@ Future<T?> showAddAppSheet<T>() {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(25),
-                topRight: Radius.circular(25),
+                topLeft: Radius.circular(28),
+                topRight: Radius.circular(28),
               ),
             ),
             child: Column(
