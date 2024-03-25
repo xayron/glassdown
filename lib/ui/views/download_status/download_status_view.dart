@@ -77,24 +77,24 @@ class DownloadStatusView extends StackedView<DownloadStatusViewModel> {
                   child: Column(
                     children: [
                       StatusCard(
-                        title: 'Fetching download page',
+                        title: 'Scrapping download page',
                         complete: viewModel.pageStatus.$1,
                         // subTitle: viewModel.pageStatus.$2,
                       ),
                       StatusCard(
-                        title: 'Fetching download link',
+                        title: 'Scrapping download link',
                         complete: viewModel.linkStatus.$1,
                         // subTitle: viewModel.linkStatus.$2,
                       ),
-                      ProgressCard(
-                        title: 'Downloading APK',
-                        complete: viewModel.apkStatus.$1 ?? true,
-                        progress: viewModel.downloadProgress,
-                      ),
                       StatusCard(
-                        title: 'Saving APK',
+                        title: 'Getting save path',
                         complete: viewModel.saveStatus.$1,
                         // subTitle: viewModel.saveStatus.$2,
+                      ),
+                      ProgressCard(
+                        title: 'Downloading & saving APK',
+                        complete: viewModel.apkStatus.$1 ?? true,
+                        progress: viewModel.downloadProgress,
                       ),
                     ],
                   ),
