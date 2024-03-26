@@ -6,8 +6,8 @@ class OkChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Chip(
-      label: Text('OK'),
-      backgroundColor: Colors.lightGreen,
+      label: Text('SUCCESS'),
+      backgroundColor: Colors.lightGreenAccent,
       labelPadding: EdgeInsets.symmetric(horizontal: 2),
       visualDensity: VisualDensity.compact,
       shape: RoundedRectangleBorder(
