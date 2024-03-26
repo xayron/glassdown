@@ -7,6 +7,13 @@ import 'apps_viewmodel.dart';
 
 class AppsView extends StackedView<AppsViewModel> {
   const AppsView({super.key});
+
+  TextStyle _placeholderTextStyle(BuildContext context) {
+    return TextStyle(
+      fontSize: Theme.of(context).textTheme.headlineSmall?.fontSize,
+    );
+  }
+
   @override
   Widget builder(
     BuildContext context,
@@ -63,22 +70,41 @@ class AppsView extends StackedView<AppsViewModel> {
             const SliverToBoxAdapter(
               child: LinearProgressIndicator(),
             ),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
+          if (viewModel.apps.isNotEmpty)
+            SliverList(
+              delegate: SliverChildListDelegate([
+                ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    for (final app in viewModel.apps)
+                      AppCard(
+                        app: app,
+                        showEditDialog: viewModel.showEditDialog,
+                      ),
+                  ],
+                ),
+              ]),
+            )
+          else
+            SliverFillRemaining(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  for (final app in viewModel.apps)
-                    AppCard(
-                      app: app,
-                      showEditDialog: viewModel.showEditDialog,
-                    ),
+                  Text(
+                    'No apps 😔',
+                    style: _placeholderTextStyle(context),
+                  ),
+                  Text(
+                    'You can add new one below!',
+                    style: _placeholderTextStyle(context),
+                  )
                 ],
               ),
-            ]),
-          ),
+            )
         ],
       ),
     );
