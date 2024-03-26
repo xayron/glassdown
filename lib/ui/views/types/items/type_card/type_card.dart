@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glass_down_v2/models/app_info.dart';
-import 'package:glass_down_v2/ui/widgets/common/type_chip.dart';
+import 'package:glass_down_v2/ui/widgets/common/chips/type_chip.dart';
 import 'package:stacked/stacked.dart';
 
 import 'type_card_model.dart';
