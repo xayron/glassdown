@@ -1,3 +1,4 @@
+import 'package:glass_down_v2/services/revanced_integration_service.dart';
 import 'package:glass_down_v2/ui/transition/custom_transitions.dart';
 import 'package:glass_down_v2/ui/views/apps/apps_view.dart';
 import 'package:glass_down_v2/ui/views/settings/settings_view.dart';
@@ -54,6 +55,7 @@ import 'package:glass_down_v2/ui/views/revanced_integration/revanced_integration
     LazySingleton(classType: UpdaterService),
     LazySingleton(classType: DatabaseService),
     LazySingleton(classType: FontImporterService),
+    LazySingleton(classType: RevancedIntegrationService)
 // @stacked-service
   ],
   dialogs: [
