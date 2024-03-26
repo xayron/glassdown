@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/ui/views/apps/items/app_card/app_card.dart';
+import 'package:glass_down_v2/ui/widgets/common/placeholder.dart';
 import 'package:stacked/stacked.dart';
 
 import 'apps_viewmodel.dart';
 
 class AppsView extends StackedView<AppsViewModel> {
   const AppsView({super.key});
-
-  TextStyle _placeholderTextStyle(BuildContext context) {
-    return TextStyle(
-      fontSize: Theme.of(context).textTheme.headlineSmall?.fontSize,
-    );
-  }
 
   @override
   Widget builder(
@@ -88,22 +83,8 @@ class AppsView extends StackedView<AppsViewModel> {
               ]),
             )
           else
-            SliverFillRemaining(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'No apps 😔',
-                    style: _placeholderTextStyle(context),
-                  ),
-                  Text(
-                    'You can add new one below!',
-                    style: _placeholderTextStyle(context),
-                  )
-                ],
-              ),
+            const PlaceholderText(
+              text: ['No apps 😔', 'You can add new one below!'],
             )
         ],
       ),
