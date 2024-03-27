@@ -19,6 +19,7 @@ import 'package:glass_down_v2/ui/views/settings/items/monet_theme/monet_theme.da
 import 'package:glass_down_v2/ui/views/settings/items/offer_deleting_old_apks/offer_deleting_old_apks.dart';
 import 'package:glass_down_v2/ui/views/settings/items/pages_count/pages_count.dart';
 import 'package:glass_down_v2/ui/views/settings/items/show_logs/show_logs.dart';
+import 'package:glass_down_v2/ui/widgets/common/divider.dart';
 import 'package:glass_down_v2/ui/widgets/settings/common/group_header.dart';
 import 'package:stacked/stacked.dart';
 
@@ -26,12 +27,6 @@ import 'settings_viewmodel.dart';
 
 class SettingsView extends StackedView<SettingsViewModel> {
   const SettingsView({super.key});
-
-  static const _settingsDivider = Divider(
-    thickness: 1.0,
-    indent: 20.0,
-    endIndent: 20.0,
-  );
 
   @override
   Widget builder(
@@ -66,13 +61,13 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   CustomTheme(),
                   ImportFont(),
                   CustomFontList(),
-                  _settingsDivider,
+                  ItemDivider(),
                   GroupHeader(name: 'Filters'),
                   ExcludeBundles(),
                   ExcludeUnstable(),
                   AppArchitecture(),
                   PagesCount(),
-                  _settingsDivider,
+                  ItemDivider(),
                   GroupHeader(name: 'Apps'),
                   DeleteOldVersions(),
                   OfferDeletingOldApks(),
@@ -80,12 +75,12 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   ImportApps(),
                   ExportApps(),
                   DeleteApps(),
-                  _settingsDivider,
+                  ItemDivider(),
                   GroupHeader(name: 'Logs'),
                   ShowLogs(),
                   ExportLogs(),
                   DeleteLogs(),
-                  _settingsDivider,
+                  ItemDivider(),
                   GroupHeader(name: 'About'),
                   CheckUpdates(),
                   AboutApp(),
