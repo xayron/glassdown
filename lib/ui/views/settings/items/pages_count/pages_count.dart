@@ -5,7 +5,9 @@ import 'package:stacked/stacked.dart';
 import 'pages_count_model.dart';
 
 class PagesCount extends StackedView<PagesCountModel> {
-  const PagesCount({super.key});
+  const PagesCount({super.key, this.rounded = false});
+
+  final bool rounded;
 
   @override
   Widget builder(
@@ -14,6 +16,7 @@ class PagesCount extends StackedView<PagesCountModel> {
     Widget? child,
   ) {
     return InkWell(
+      borderRadius: rounded ? BorderRadius.circular(16) : null,
       onTap: () => viewModel.handleTap(),
       child: ItemWrapper(
         mainText: 'Pages amount',

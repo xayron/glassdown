@@ -8,7 +8,7 @@ import 'package:glass_down_v2/ui/views/settings/items/pages_count/pages_count.da
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-Future<T?> showChangeFiltersSheet<T>({bool showPagesCount = false}) {
+Future<T?> showChangeFiltersSheet<T>() {
   return showModalBottomSheet(
     context: StackedService.navigatorKey!.currentContext!,
     builder: (context) {
@@ -36,16 +36,27 @@ Future<T?> showChangeFiltersSheet<T>({bool showPagesCount = false}) {
                   ),
                 ),
                 verticalSpaceMedium,
-                Expanded(
+                Material(
+                  type: MaterialType.card,
+                  surfaceTintColor: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(16),
+                  elevation: 1,
                   child: ListView(
-                    shrinkWrap: true,
+                    padding: const EdgeInsets.all(0),
                     physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      const ExcludeBundles(),
-                      const ExcludeUnstable(),
-                      const AppArchitecture(),
-                      if (showPagesCount) const PagesCount(),
+                    clipBehavior: Clip.antiAlias,
+                    shrinkWrap: true,
+                    children: const [
+                      ExcludeBundles(rounded: true),
+                      ExcludeUnstable(rounded: true),
+                      AppArchitecture(rounded: true),
+                      PagesCount(rounded: true),
                     ],
+                  ),
+                ),
+                const Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
                   ),
                 ),
                 Row(

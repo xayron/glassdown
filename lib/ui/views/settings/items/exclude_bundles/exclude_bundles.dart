@@ -5,7 +5,9 @@ import 'package:stacked/stacked.dart';
 import 'exclude_bundles_model.dart';
 
 class ExcludeBundles extends StackedView<ExcludeBundlesModel> {
-  const ExcludeBundles({super.key});
+  const ExcludeBundles({super.key, this.rounded = false});
+
+  final bool rounded;
 
   @override
   Widget builder(
@@ -14,6 +16,7 @@ class ExcludeBundles extends StackedView<ExcludeBundlesModel> {
     Widget? child,
   ) {
     return InkWell(
+      borderRadius: rounded ? BorderRadius.circular(16) : null,
       onTap: () {
         viewModel.updateValue(!viewModel.excludeBundles);
       },

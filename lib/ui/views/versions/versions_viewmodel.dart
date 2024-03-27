@@ -20,7 +20,7 @@ class VersionsViewModel extends BaseViewModel {
 
   Future<void> showChangeFiltersModal() async {
     try {
-      showChangeFiltersSheet(showPagesCount: true);
+      showChangeFiltersSheet();
     } catch (e) {
       _snackbar.showCustomSnackBar(
         message: 'Failed to launch change filters bottom sheet',

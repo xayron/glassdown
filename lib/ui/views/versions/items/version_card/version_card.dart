@@ -29,7 +29,9 @@ class VersionCard extends StackedView<VersionCardModel> {
           viewModel.openTypesView(selectedAppVersion);
         },
         title: Text(versionLink.name),
-        trailing: const Icon(Icons.keyboard_double_arrow_right),
+        trailing: const Icon(
+          Icons.keyboard_double_arrow_right,
+        ),
       ),
     );
   }
