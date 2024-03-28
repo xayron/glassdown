@@ -23,7 +23,7 @@ class VersionsView extends StackedView<VersionsViewModel> {
       onPopInvoked: (_) => viewModel.cancel(),
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () => viewModel.showChangeFiltersModal(),
+          onPressed: () => viewModel.showQuickSettingsModal(),
           icon: const Icon(Icons.settings_applications),
           label: const Text('Quick settings'),
         ),
@@ -93,10 +93,12 @@ class VersionsView extends StackedView<VersionsViewModel> {
                       if (index == endOfList) {
                         return Padding(
                           padding: const EdgeInsets.fromLTRB(16, 12, 16, 48),
-                          child: FilledButton.tonal(
-                            onPressed: () => viewModel.loadMore(app),
-                            child: const Text('Load more'),
-                          ),
+                          child: !viewModel.isBusy
+                              ? FilledButton.tonal(
+                                  onPressed: () => viewModel.loadMore(app),
+                                  child: const Text('Load more'),
+                                )
+                              : null,
                         );
                       }
                       return ListView(
