@@ -20,7 +20,7 @@ class PagesCount extends StackedView<PagesCountModel> {
       onTap: () => viewModel.handleTap(),
       child: ItemWrapper(
         mainText: 'Pages amount',
-        secondaryText: 'Amount of pages to fetch',
+        secondaryText: 'Default amount of pages to fetch',
         trailingWidget: MenuAnchor(
           controller: viewModel.controller,
           builder: (_, __, child) => child!,
