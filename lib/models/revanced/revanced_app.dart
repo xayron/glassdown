@@ -1,27 +1,28 @@
+import 'package:glass_down_v2/models/revanced/mapped_names.dart';
+
 class RevancedApp {
   RevancedApp(
-    this._name,
-    this._mappedName,
-    this._logoUrl,
+    this._packageName,
+    this._mapperData,
     this._versions,
   );
 
-  final String _name;
-  String get name => _name;
+  final String _packageName;
+  String get packageName => _packageName;
 
-  final String? _mappedName;
-  String? get mappedName => _mappedName;
+  final MapperData? _mapperData;
+  MapperData? get mapperData => _mapperData;
 
-  final String? _logoUrl;
-  String? get logoUrl => _logoUrl;
+  final Set<String>? _versions;
+  Set<String>? get versions => _versions;
 
-  final Set<String> _versions;
-  Set<String> get versions => _versions;
-  bool checkSupportedVersion(String version) {
-    return _versions.contains(version);
+  bool? checkSupportedVersion(String version) {
+    return _versions?.contains(version);
   }
 
-  void addVersions(List<String> versions) {
-    _versions.addAll(versions);
+  void addVersions(List<String>? versions) {
+    if (versions != null) {
+      _versions?.addAll(versions);
+    }
   }
 }
