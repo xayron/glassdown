@@ -66,8 +66,8 @@ class AppsView extends StackedView<AppsViewModel> {
               child: LinearProgressIndicator(),
             ),
           if (viewModel.apps.isNotEmpty)
-            SliverList(
-              delegate: SliverChildListDelegate([
+            SliverList.list(
+              children: [
                 ListView(
                   padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
                   shrinkWrap: true,
@@ -80,7 +80,7 @@ class AppsView extends StackedView<AppsViewModel> {
                       ),
                   ],
                 ),
-              ]),
+              ],
             )
           else
             const PlaceholderText(
