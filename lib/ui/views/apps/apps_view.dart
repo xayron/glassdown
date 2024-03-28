@@ -69,7 +69,7 @@ class AppsView extends StackedView<AppsViewModel> {
             SliverList(
               delegate: SliverChildListDelegate([
                 ListView(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
