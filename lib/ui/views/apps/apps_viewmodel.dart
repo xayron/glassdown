@@ -3,7 +3,9 @@ import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/app/app.router.dart';
 import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/models/app_info.dart';
+import 'package:glass_down_v2/models/errors/app_error.dart';
 import 'package:glass_down_v2/services/apps_service.dart';
+import 'package:glass_down_v2/services/revanced_service.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:glass_down_v2/services/updater_service.dart';
 import 'package:glass_down_v2/ui/bottom_sheets/add_app/add_app.dart';
@@ -22,13 +24,13 @@ class AppsViewModel extends StreamViewModel {
   final _updater = locator<UpdaterService>();
   final _nav = locator<NavigationService>();
   final _settings = locator<SettingsService>();
+  final _revanced = locator<RevancedService>();
 
   List<AppInfo> get apps => _apps.apps;
 
   bool _loading = false;
   bool get loading => _loading;
- 
-  
+
   @override
   List<ListenableServiceMixin> get listenableServices => [_apps];
 
@@ -44,7 +46,7 @@ class AppsViewModel extends StreamViewModel {
       }
     }
   }
-  
+
   @override
   Stream<InternetStatus> get stream => InternetConnection().onStatusChange;
 
@@ -81,6 +83,18 @@ class AppsViewModel extends StreamViewModel {
     final result = await _updater.checkUpdates();
     if (result && !_updater.isDev) {
       showUpdaterSheet();
+    }
+  }
+
+  Future<void> getLatestPatches() async {
+    try {
+      await _revanced.getLatestPatches();
+      rebuildUi();
+    } catch (e) {
+      _snackbar.showCustomSnackBar(
+        message: e is AppError ? e.fullMessage() : e.toString(),
+        variant: SnackbarType.info,
+      );
     }
   }
 

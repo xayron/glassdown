@@ -25,7 +25,7 @@ class RevancedService with ListenableServiceMixin {
   bool get loadingPatches => _loadingPatches;
 
   RevancedApp? getRevancedApp(String url) {
-    final result = _apps.where((e) => e.mapperData!.url == url).toList();
+    final result = _apps.where((e) => e.mapperData?.url == url).toList();
     return result.isEmpty ? null : result.first;
   }
 

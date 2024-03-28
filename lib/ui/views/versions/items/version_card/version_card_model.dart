@@ -1,6 +1,7 @@
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/models/app_info.dart';
+import 'package:glass_down_v2/services/revanced_service.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:glass_down_v2/ui/views/types/types_view.dart';
 import 'package:stacked/stacked.dart';
@@ -10,6 +11,24 @@ class VersionCardModel extends BaseViewModel {
   final _nav = locator<NavigationService>();
   final _settings = locator<SettingsService>();
   final _snackbar = locator<SnackbarService>();
+  final _revanced = locator<RevancedService>();
+
+  final Set<String> _versions = {};
+  Set<String> get versions => _versions;
+  bool isRevancedSupported(String version) {
+    if (_versions.contains('*')) {
+      return true;
+    }
+    return _versions.contains(version);
+  }
+
+  void checkVersions(AppInfo app) {
+    final result = _revanced.getRevancedApp(app.appUrl);
+    if (result != null) {
+      _versions.addAll(result.versions ?? <String>{'*'});
+    }
+    rebuildUi();
+  }
 
   void openTypesView(AppInfo app) {
     if (!_settings.isConnected) {

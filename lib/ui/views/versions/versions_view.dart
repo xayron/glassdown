@@ -89,7 +89,9 @@ class VersionsView extends StackedView<VersionsViewModel> {
                     ),
                   ]),
                 ),
-              if (!viewModel.isBusy && viewModel.appWithLinks!.links.isEmpty)
+              if (!viewModel.isBusy &&
+                  viewModel.appWithLinks != null &&
+                  viewModel.appWithLinks!.links.isEmpty)
                 const PlaceholderText(
                   text: [
                     'No versions found',
