@@ -29,7 +29,7 @@ Future<T?> showQuickSettingsSheet<T>() {
               mainAxisSize: MainAxisSize.max,
               children: [
                 const Text(
-                  'Change filters',
+                  'Quick settings',
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w600,
