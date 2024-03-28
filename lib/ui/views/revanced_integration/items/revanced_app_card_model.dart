@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/models/errors/db_error.dart';
@@ -46,7 +47,11 @@ class RevancedAppCardModel extends BaseViewModel {
       _isAdding = false;
       rebuildUi();
       _snackbar.showCustomSnackBar(
-        message: e is DbError ? e.fullMessage() : e.toString(),
+        message: e is DbError
+            ? e.fullMessage()
+            : e is DioException
+                ? 'HTTP Error: ${e.type}'
+                : e.toString(),
         variant: SnackbarType.info,
       );
     }
