@@ -31,12 +31,12 @@ class VersionsViewModel extends ReactiveViewModel {
 
   final myScroller = ScrollController();
 
-  Future<void> showChangeFiltersModal() async {
+  Future<void> showQuickSettingsModal() async {
     try {
       showQuickSettingsSheet();
     } catch (e) {
       _snackbar.showCustomSnackBar(
-        message: 'Failed to launch change filters bottom sheet',
+        message: 'Failed to launch quick settings bottom sheet',
         variant: SnackbarType.info,
       );
     }
