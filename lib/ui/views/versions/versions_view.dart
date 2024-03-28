@@ -76,7 +76,9 @@ class VersionsView extends StackedView<VersionsViewModel> {
                   delegate: SliverChildListDelegate([
                     ListView(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       children: [
