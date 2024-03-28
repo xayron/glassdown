@@ -37,6 +37,15 @@ class TypesView extends StackedView<TypesViewModel> {
                 pinned: true,
                 expandedHeight: 90,
                 automaticallyImplyLeading: false,
+                bottom: viewModel.isBusy
+                    ? const PreferredSize(
+                        preferredSize: Size.fromHeight(6),
+                        child: LinearProgressIndicator(),
+                      )
+                    : const PreferredSize(
+                        preferredSize: Size.fromHeight(6),
+                        child: SizedBox(),
+                      ),
                 flexibleSpace: FlexibleSpaceBar(
                   titlePadding: const EdgeInsets.only(bottom: 16, left: 20),
                   title: Text(
@@ -48,10 +57,6 @@ class TypesView extends StackedView<TypesViewModel> {
                   ),
                 ),
               ),
-              if (viewModel.isBusy)
-                const SliverToBoxAdapter(
-                  child: LinearProgressIndicator(),
-                ),
               if (viewModel.hasError)
                 SliverFillRemaining(
                   hasScrollBody: false,
