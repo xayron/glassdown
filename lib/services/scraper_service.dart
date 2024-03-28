@@ -274,6 +274,10 @@ class ScraperService with ListenableServiceMixin {
       final isSinglePage =
           document.getElementsByClassName('pagination').isEmpty;
 
+      if (page > 1 && isSinglePage) {
+        return app.copyWith(links: []);
+      }
+
       FlutterLogs.logThis(
         tag: runtimeType.toString(),
         subTag: getFunctionName(),
