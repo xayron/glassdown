@@ -8,8 +8,8 @@ import 'package:glass_down_v2/models/revanced/revanced_app.dart';
 import 'package:glass_down_v2/util/function_name.dart';
 import 'package:stacked/stacked.dart';
 
-class RevancedIntegrationService with ListenableServiceMixin {
-  RevancedIntegrationService() {
+class RevancedService with ListenableServiceMixin {
+  RevancedService() {
     listenToReactiveValues([_apps]);
   }
 
