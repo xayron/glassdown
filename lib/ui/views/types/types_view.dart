@@ -29,6 +29,8 @@ class TypesView extends StackedView<TypesViewModel> {
         ),
         body: RefreshIndicator(
           onRefresh: () => viewModel.fetchTypes(app),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          color: Theme.of(context).colorScheme.onPrimary,
           child: CustomScrollView(
             slivers: [
               SliverAppBar(

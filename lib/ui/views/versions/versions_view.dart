@@ -29,6 +29,8 @@ class VersionsView extends StackedView<VersionsViewModel> {
         ),
         body: RefreshIndicator(
           onRefresh: () => viewModel.fetchVersions(app),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          color: Theme.of(context).colorScheme.onPrimary,
           child: CustomScrollView(
             slivers: [
               SliverAppBar(
