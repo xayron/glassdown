@@ -6,7 +6,9 @@ import 'package:stacked/stacked.dart';
 import 'app_architecture_model.dart';
 
 class AppArchitecture extends StackedView<AppArchitectureModel> {
-  const AppArchitecture({super.key});
+  const AppArchitecture({super.key, this.rounded = false});
+
+  final bool rounded;
 
   @override
   Widget builder(
@@ -15,6 +17,7 @@ class AppArchitecture extends StackedView<AppArchitectureModel> {
     Widget? child,
   ) {
     return InkWell(
+      borderRadius: rounded ? BorderRadius.circular(16) : null,
       onTap: () => viewModel.handleTap(),
       child: ItemWrapper(
         mainText: 'Architecture',

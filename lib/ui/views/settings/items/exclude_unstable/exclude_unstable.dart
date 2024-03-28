@@ -5,7 +5,9 @@ import 'package:stacked/stacked.dart';
 import 'exclude_unstable_model.dart';
 
 class ExcludeUnstable extends StackedView<ExcludeUnstableModel> {
-  const ExcludeUnstable({super.key});
+  const ExcludeUnstable({super.key, this.rounded = false});
+
+  final bool rounded;
 
   @override
   Widget builder(
@@ -14,6 +16,7 @@ class ExcludeUnstable extends StackedView<ExcludeUnstableModel> {
     Widget? child,
   ) {
     return InkWell(
+      borderRadius: rounded ? BorderRadius.circular(16) : null,
       onTap: () {
         viewModel.updateValue(!viewModel.excludeUnstable);
       },
