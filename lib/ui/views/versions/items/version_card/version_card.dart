@@ -29,6 +29,9 @@ class VersionCard extends StackedView<VersionCardModel> {
           viewModel.openTypesView(selectedAppVersion);
         },
         title: Text(versionLink.name),
+        subtitle: viewModel.isRevancedSupported(versionLink.name)
+            ? const Text('Supported by Revanced')
+            : null,
         trailing: const Icon(Icons.keyboard_double_arrow_right),
       ),
     );
@@ -39,4 +42,10 @@ class VersionCard extends StackedView<VersionCardModel> {
     BuildContext context,
   ) =>
       VersionCardModel();
+
+  @override
+  void onViewModelReady(VersionCardModel viewModel) {
+    super.onViewModelReady(viewModel);
+    viewModel.checkVersions(app);
+  }
 }

@@ -271,6 +271,13 @@ class ScraperService with ListenableServiceMixin {
           .getElementsByClassName('appRowTitle')
           .map((e) => e.children.first);
 
+      final isSinglePage =
+          document.getElementsByClassName('pagination').isEmpty;
+
+      if (page > 1 && isSinglePage) {
+        return app.copyWith(links: []);
+      }
+
       FlutterLogs.logThis(
         tag: runtimeType.toString(),
         subTag: getFunctionName(),
@@ -311,7 +318,7 @@ class ScraperService with ListenableServiceMixin {
       }
 
       final List<VersionLink> extraLinks = [];
-      if (_settings.pagesAmount > 1 && !innerFn) {
+      if (_settings.pagesAmount > 1 && !innerFn && !isSinglePage) {
         for (var i = 2; i < _settings.pagesAmount + 1; i++) {
           final result = await getVersionList(
             app,

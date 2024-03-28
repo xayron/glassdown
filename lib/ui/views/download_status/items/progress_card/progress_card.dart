@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:glass_down_v2/ui/widgets/common/nok_chip.dart';
-import 'package:glass_down_v2/ui/widgets/common/ok_chip.dart';
+import 'package:glass_down_v2/ui/widgets/common/chips/in_progress_chip.dart';
+import 'package:glass_down_v2/ui/widgets/common/chips/nok_chip.dart';
+import 'package:glass_down_v2/ui/widgets/common/chips/ok_chip.dart';
 import 'package:stacked/stacked.dart';
 
 import 'progress_card_model.dart';
@@ -25,24 +26,18 @@ class ProgressCard extends StackedView<ProgressCardModel> {
     ProgressCardModel viewModel,
     Widget? child,
   ) {
-    final progressValue = progress != null ? progress!.toInt() / 100 : null;
-    final colorValue = progress == 100
-        ? Colors.lightGreen
-        : Theme.of(context).colorScheme.primary;
     final trailingValue = progress == 100
         ? const OkChip()
         : progress != null
-            ? Text('${progress?.toStringAsFixed(0)}%')
-            : null;
+            ? InProgressChip(
+                progressValue: '${progress?.toStringAsFixed(0)}%',
+              )
+            : const InProgressChip();
 
     return ListTile(
       subtitle: subTitle != null ? Text(subTitle!) : null,
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       title: Text(title),
-      leading: CircularProgressIndicator(
-        value: complete ? progressValue : 1.0,
-        color: complete ? colorValue : Colors.redAccent,
-      ),
       trailing: complete ? trailingValue : const NokChip(),
     );
   }

@@ -53,7 +53,7 @@ class AppsService with ListenableServiceMixin {
 
   Future<void> addApp(VersionLink appInfo) async {
     try {
-      if (_checkIfAppExists(appInfo.url)) {
+      if (checkIfAppExists(appInfo.url)) {
         throw DbError('App already exists');
       }
       final appImage = await _scraper.getAppImage(appInfo);
@@ -72,7 +72,7 @@ class AppsService with ListenableServiceMixin {
 
   Future<bool> editApp(VersionLink protoApp, AppInfo app) async {
     try {
-      if (_checkIfAppExists(protoApp.url) && protoApp.url != app.appUrl) {
+      if (checkIfAppExists(protoApp.url) && protoApp.url != app.appUrl) {
         return false;
       }
       final appImage = await _scraper.getAppImage(protoApp);
@@ -183,7 +183,7 @@ class AppsService with ListenableServiceMixin {
     }
   }
 
-  bool _checkIfAppExists(String appUrl) {
+  bool checkIfAppExists(String appUrl) {
     final findApp = apps.indexWhere((element) => element.appUrl == appUrl);
     return findApp != -1;
   }

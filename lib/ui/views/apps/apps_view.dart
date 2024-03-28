@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/ui/views/apps/items/app_card/app_card.dart';
+import 'package:glass_down_v2/ui/widgets/common/placeholder.dart';
 import 'package:stacked/stacked.dart';
 
 import 'apps_viewmodel.dart';
 
 class AppsView extends StackedView<AppsViewModel> {
   const AppsView({super.key});
+
   @override
   Widget builder(
     BuildContext context,
@@ -35,11 +37,11 @@ class AppsView extends StackedView<AppsViewModel> {
               icon: const Icon(Icons.settings),
               tooltip: 'Settings',
             ),
-            // IconButton(
-            //   onPressed: () => viewModel.showRevancedIntegration(),
-            //   icon: const Icon(Icons.workspaces_filled),
-            //   tooltip: 'Revanced Integration',
-            // ),
+            IconButton(
+              onPressed: () => viewModel.showRevancedIntegration(),
+              icon: const Icon(Icons.workspaces_filled),
+              tooltip: 'Revanced Integration',
+            ),
           ],
         ),
       ),
@@ -63,22 +65,27 @@ class AppsView extends StackedView<AppsViewModel> {
             const SliverToBoxAdapter(
               child: LinearProgressIndicator(),
             ),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  for (final app in viewModel.apps)
-                    AppCard(
-                      app: app,
-                      showEditDialog: viewModel.showEditDialog,
-                    ),
-                ],
-              ),
-            ]),
-          ),
+          if (viewModel.apps.isNotEmpty)
+            SliverList.list(
+              children: [
+                ListView(
+                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    for (final app in viewModel.apps)
+                      AppCard(
+                        app: app,
+                        showEditDialog: viewModel.showEditDialog,
+                      ),
+                  ],
+                ),
+              ],
+            )
+          else
+            const PlaceholderText(
+              text: ['No apps 😔', 'You can add new one below!'],
+            )
         ],
       ),
     );
@@ -95,6 +102,7 @@ class AppsView extends StackedView<AppsViewModel> {
     super.onViewModelReady(viewModel);
     viewModel.checkPermissions();
     viewModel.allApps();
+    viewModel.getLatestPatches();
     viewModel.checkUpdates();
   }
 }

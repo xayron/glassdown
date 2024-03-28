@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/app/app.snackbar.dart';
+import 'package:glass_down_v2/models/errors/db_error.dart';
 import 'package:glass_down_v2/models/errors/scrape_error.dart';
 import 'package:glass_down_v2/services/apps_service.dart';
 import 'package:glass_down_v2/services/scraper_service.dart';
@@ -40,7 +42,7 @@ class AddAppSheetModel extends FormViewModel {
       Navigator.of(StackedService.navigatorKey!.currentContext!).pop();
     } catch (e) {
       _snackbar.showCustomSnackBar(
-        message: e.toString(),
+        message: e is DbError ? e.fullMessage() : e.toString(),
         variant: SnackbarType.info,
       );
       Navigator.of(StackedService.navigatorKey!.currentContext!).pop();
@@ -62,7 +64,11 @@ class AddAppSheetModel extends FormViewModel {
       rebuildUi();
     } catch (e) {
       _snackbar.showCustomSnackBar(
-        message: e is ScrapeError ? e.message : e.toString(),
+        message: e is ScrapeError
+            ? e.message
+            : e is DioException
+                ? 'HTTP Error: ${e.type}'
+                : e.toString(),
         variant: SnackbarType.info,
       );
       _loading = false;
