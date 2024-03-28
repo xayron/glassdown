@@ -6,7 +6,7 @@ final class RevancedMapper {
   static final Map<String, MapperData> _mapper = {
     'com.google.android.youtube': (url: 'youtube', fullName: 'YouTube'),
     'com.strava': (url: 'strava-running-and-cycling-gps', fullName: 'Strava'),
-    'com.vsco.cam': (url: 'vsco-cam', fullName: 'VSCO'),
+    // 'com.vsco.cam': (url: 'vsco-cam', fullName: 'VSCO'),
     'com.awedea.nyx': (url: 'nyx-music-player', fullName: 'Nyx Music Player'),
     'com.ss.android.ugc.trill': (url: 'tik-tok', fullName: 'TikTok'),
     'tv.twitch.android.app': (url: 'twitch', fullName: 'Twitch'),
