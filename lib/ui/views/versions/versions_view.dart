@@ -24,8 +24,8 @@ class VersionsView extends StackedView<VersionsViewModel> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => viewModel.showChangeFiltersModal(),
-          icon: const Icon(Icons.edit_note),
-          label: const Text('Change filters'),
+          icon: const Icon(Icons.settings_applications),
+          label: const Text('Quick settings'),
         ),
         body: RefreshIndicator(
           onRefresh: () => viewModel.fetchVersions(app),
