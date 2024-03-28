@@ -5,16 +5,15 @@ import 'package:glass_down_v2/ui/widgets/common/placeholder.dart';
 import 'package:glass_down_v2/ui/widgets/settings/common/group_header.dart';
 import 'package:stacked/stacked.dart';
 
-import 'revanced_integration_viewmodel.dart';
+import 'revanced_integration_model.dart';
 
-class RevancedIntegrationView
-    extends StackedView<RevancedIntegrationViewModel> {
+class RevancedIntegrationView extends StackedView<RevancedIntegrationModel> {
   const RevancedIntegrationView({super.key});
 
   @override
   Widget builder(
     BuildContext context,
-    RevancedIntegrationViewModel viewModel,
+    RevancedIntegrationModel viewModel,
     Widget? child,
   ) {
     return Scaffold(
@@ -129,8 +128,8 @@ class RevancedIntegrationView
   }
 
   @override
-  RevancedIntegrationViewModel viewModelBuilder(
+  RevancedIntegrationModel viewModelBuilder(
     BuildContext context,
   ) =>
-      RevancedIntegrationViewModel();
+      RevancedIntegrationModel();
 }

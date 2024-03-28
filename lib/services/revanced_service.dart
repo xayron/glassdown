@@ -19,7 +19,14 @@ class RevancedService with ListenableServiceMixin {
   );
 
   final List<RevancedApp> _apps = [];
-  List<RevancedApp> get apps => _apps;
+  List<RevancedApp> get allApps => _apps;
+  List<RevancedApp> get supportedApps {
+    return _apps.where((e) => e.mapperData != null).toList();
+  }
+
+  List<RevancedApp> get unsupportedApps {
+    return _apps.where((e) => e.mapperData == null).toList();
+  }
 
   bool _loadingPatches = false;
   bool get loadingPatches => _loadingPatches;

@@ -6,17 +6,13 @@ import 'package:glass_down_v2/services/revanced_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class RevancedIntegrationViewModel extends ReactiveViewModel {
+class RevancedIntegrationModel extends ReactiveViewModel {
   final _revanced = locator<RevancedService>();
   final _snackbar = locator<SnackbarService>();
 
-  List<RevancedApp> get apps {
-    return _revanced.apps.where((e) => e.mapperData != null).toList();
-  }
+  List<RevancedApp> get apps => _revanced.supportedApps;
 
-  List<RevancedApp> get unsupportedApps {
-    return _revanced.apps.where((e) => e.mapperData == null).toList();
-  }
+  List<RevancedApp> get unsupportedApps => _revanced.unsupportedApps;
 
   bool get isLoading => _revanced.loadingPatches;
   bool _isAddingApp = false;
