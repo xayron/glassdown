@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glass_down_v2/ui/bottom_sheets/change_filters/change_filters_model.dart';
+import 'package:glass_down_v2/ui/bottom_sheets/quick_settings/quick_settings_model.dart';
 import 'package:glass_down_v2/ui/common/ui_helpers.dart';
 import 'package:glass_down_v2/ui/views/settings/items/app_architecture/app_architecture.dart';
 import 'package:glass_down_v2/ui/views/settings/items/exclude_bundles/exclude_bundles.dart';
@@ -8,12 +8,12 @@ import 'package:glass_down_v2/ui/views/settings/items/pages_count/pages_count.da
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-Future<T?> showChangeFiltersSheet<T>() {
+Future<T?> showQuickSettingsSheet<T>() {
   return showModalBottomSheet(
     context: StackedService.navigatorKey!.currentContext!,
     builder: (context) {
       return ViewModelBuilder.reactive(
-        viewModelBuilder: () => ChangeFiltersModel(),
+        viewModelBuilder: () => QuickSettingsModel(),
         builder: (context, viewModel, child) {
           return Container(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),

@@ -3,7 +3,7 @@ import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/services/scraper_service.dart';
-import 'package:glass_down_v2/ui/bottom_sheets/change_filters/change_filters.dart';
+import 'package:glass_down_v2/ui/bottom_sheets/quick_settings/quick_settings.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -20,7 +20,7 @@ class VersionsViewModel extends BaseViewModel {
 
   Future<void> showChangeFiltersModal() async {
     try {
-      showChangeFiltersSheet();
+      showQuickSettingsSheet();
     } catch (e) {
       _snackbar.showCustomSnackBar(
         message: 'Failed to launch change filters bottom sheet',
