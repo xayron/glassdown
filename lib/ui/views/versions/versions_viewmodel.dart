@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/models/app_info.dart';
@@ -27,6 +28,8 @@ class VersionsViewModel extends ReactiveViewModel {
   int get pageCount => _pageCount;
 
   int get settingsPages => _settings.pagesAmount;
+
+  final myScroller = ScrollController();
 
   Future<void> showChangeFiltersModal() async {
     try {
