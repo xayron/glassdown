@@ -675,7 +675,7 @@ class ScraperService with ListenableServiceMixin {
         getFunctionName(),
         message,
       );
-      _saveStatus = (false, _getErrorMessage(e));
+      _apkStatus = (false, _getErrorMessage(e));
       rethrow;
     } finally {
       notifyListeners();
