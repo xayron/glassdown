@@ -112,6 +112,12 @@ class RevancedIntegrationView extends StackedView<RevancedIntegrationModel> {
                       ),
                     const ItemDivider(indent: 4),
                     const GroupHeader(name: 'Unsupported apps'),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(6, 6, 12, 12),
+                      child: Text(
+                        'Apps that either not available to download from APKMirror or have restrictions when accessed outside browser',
+                      ),
+                    ),
                     for (final app in viewModel.unsupportedApps)
                       RevancedAppCard(
                         app: app,
