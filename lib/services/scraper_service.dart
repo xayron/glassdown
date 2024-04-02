@@ -629,9 +629,11 @@ class ScraperService with ListenableServiceMixin {
         'Saving to: ${file.path}',
       );
 
-      _saveStatus = (true, null);
+      final path = '${savePlace.path}/$name.apk';
 
-      return '${savePlace.path}/$name.apk';
+      _saveStatus = (true, path);
+
+      return path;
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),

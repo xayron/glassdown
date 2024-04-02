@@ -5,6 +5,7 @@ import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/services/scraper_service.dart';
 import 'package:glass_down_v2/ui/views/apps/apps_view.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -59,6 +60,14 @@ class DownloadStatusViewModel extends ReactiveViewModel {
       );
     } catch (e) {
       setError(e);
+    }
+  }
+
+  Future<void> openApk() async {
+    try {
+      OpenFilex.open(saveStatus.$2);
+    } catch (e) {
+      showSnackbar('Cannot open downloaded APK');
     }
   }
 
