@@ -99,19 +99,30 @@ class DownloadStatusView extends StackedView<DownloadStatusViewModel> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  // const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          padding: const EdgeInsets.fromLTRB(16, 16, 4, 0),
                           child: FilledButton.tonal(
                             onPressed: () {
                               viewModel.cancel();
                               viewModel.returnTo(home: true);
                             },
                             child: const Text('Return to app list'),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(4, 16, 16, 0),
+                          child: FilledButton(
+                            onPressed: viewModel.success
+                                ? () => viewModel.openApk()
+                                : null,
+                            child: const Text('Open APK'),
                           ),
                         ),
                       ),
