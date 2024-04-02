@@ -19,5 +19,8 @@ There's also integration with Revanced patches, which gives option to add
 - See logs directly in the app
 - Get notified about GlassDown updates & download it directly in the app
 
+### App Showcase
+https://drive.google.com/file/d/15OP87NYJt68f5eZLtENHIJ0ISsHlQsp3/view?usp=sharing
+
 ### Screenshots (a little bit outdated)
 https://github.com/Sinneida/glassdown/wiki/Screenshots 
