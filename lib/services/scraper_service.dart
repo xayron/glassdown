@@ -639,6 +639,7 @@ class ScraperService with ListenableServiceMixin {
         e is DioException ? e.message ?? e.error.toString() : e.toString(),
       );
       _saveStatus = (false, _getErrorMessage(e));
+      _apkStatus = (false, _getErrorMessage(e));
       rethrow;
     } finally {
       notifyListeners();
@@ -675,6 +676,9 @@ class ScraperService with ListenableServiceMixin {
         getFunctionName(),
         message,
       );
+      if (_saveStatus.$1 == null) {
+        _saveStatus = (false, _getErrorMessage(e));
+      }
       _apkStatus = (false, _getErrorMessage(e));
       rethrow;
     } finally {
