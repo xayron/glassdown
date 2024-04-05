@@ -33,34 +33,11 @@ class RevancedIntegrationView extends StackedView<RevancedIntegrationModel> {
           SliverAppBar(
             pinned: true,
             centerTitle: true,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Revanced Apps',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const Chip(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  label: Text('BETA'),
-                  backgroundColor: Colors.amber,
-                  labelPadding: EdgeInsets.symmetric(horizontal: 2),
-                  visualDensity: VisualDensity.compact,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(25)),
-                  ),
-                  side: BorderSide.none,
-                  labelStyle: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-              ],
+            title: Text(
+              'Revanced Apps',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
             ),
             automaticallyImplyLeading: true,
           ),

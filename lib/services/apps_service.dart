@@ -51,12 +51,12 @@ class AppsService with ListenableServiceMixin {
     comparator();
   }
 
-  Future<void> addApp(VersionLink appInfo) async {
+  Future<void> addApp(VersionLink appInfo, [String? appIcon]) async {
     try {
       if (checkIfAppExists(appInfo.url)) {
         throw DbError('App already exists');
       }
-      final appImage = await _scraper.getAppImage(appInfo);
+      final appImage = appIcon ?? await _scraper.getAppImage(appInfo);
       final id = await _db.addApp(appInfo, appImage);
       apps.add(AppInfo(appInfo.name, appInfo.url, [], id, imageUrl: appImage));
       comparator();
