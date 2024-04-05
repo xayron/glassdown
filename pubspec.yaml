@@ -36,7 +36,8 @@ dependencies:
   drift: ^2.16.0
   sqlite3_flutter_libs: ^0.5.20
   sqlite3: ^2.4.2
-  external_app_launcher: ^4.0.0
+  flutter_svg: ^2.0.10+1
+  device_apps: ^2.2.0
 
 dev_dependencies:
   build_runner: ^2.4.9
@@ -59,6 +60,8 @@ flutter:
   uses-material-design: true
   assets:
     - "assets/icon/glass_down_2.png"
+    - "assets/revanced/revanced-logo-shape-dark.svg"
+    - "assets/revanced/revanced-logo-shape-light.svg"
 
 flutter_native_splash:
   color: "#0490ff"
