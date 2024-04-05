@@ -177,6 +177,7 @@ class DownloadStatusView extends StackedView<DownloadStatusViewModel> {
   void onViewModelReady(DownloadStatusViewModel viewModel) {
     super.onViewModelReady(viewModel);
     viewModel.checkForRevancedApp();
+    viewModel.checkForSai();
     viewModel.runDownload(app);
   }
 }
