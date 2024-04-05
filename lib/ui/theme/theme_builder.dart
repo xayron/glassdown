@@ -34,14 +34,14 @@ class ThemeBuilder extends StackedView<ThemeBuilderModel> {
             useMaterial3: true,
             fontFamily: viewModel.useImportedFont
                 ? 'CustomFont'
-                : GoogleFonts.robotoFlex().fontFamily,
+                : GoogleFonts.interTight().fontFamily,
           ),
           darkTheme: ThemeData(
             colorScheme: darkScheme,
             useMaterial3: true,
             fontFamily: viewModel.useImportedFont
                 ? 'CustomFont'
-                : GoogleFonts.robotoFlex().fontFamily,
+                : GoogleFonts.interTight().fontFamily,
           ),
           initialRoute: Routes.appsView,
           onGenerateRoute: StackedRouter().onGenerateRoute,
