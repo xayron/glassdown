@@ -82,7 +82,9 @@ class RevancedService with ListenableServiceMixin {
 
       _apps.sort((a, b) {
         if (a.mapperData?.fullName != null && b.mapperData?.fullName != null) {
-          return a.mapperData!.fullName.compareTo(b.mapperData!.fullName);
+          final first = a.mapperData!.fullName.toLowerCase();
+          final second = b.mapperData!.fullName.toLowerCase();
+          return first.compareTo(second);
         }
         return -1;
       });
