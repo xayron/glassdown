@@ -51,8 +51,13 @@ class AppsViewModel extends StreamViewModel {
   Stream<InternetStatus> get stream => InternetConnection().onStatusChange;
 
   Future<void> checkPermissions() async {
-    final storageGranted =
-        await Permission.manageExternalStorage.status.isGranted;
+    final sdk = await _settings.getSdkVersion();
+    bool storageGranted = false;
+    if (sdk >= 30) {
+      storageGranted = await Permission.manageExternalStorage.status.isGranted;
+    } else {
+      storageGranted = await Permission.storage.status.isGranted;
+    }
     final installGranted =
         await Permission.requestInstallPackages.status.isGranted;
     if (!storageGranted || !installGranted) {
