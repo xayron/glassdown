@@ -373,12 +373,21 @@ class ScraperService with ListenableServiceMixin {
         );
       }
 
-      final rows = parse(response.data)
-          .getElementById('downloads')!
-          .getElementsByClassName('table-row');
+      final downloads = parse(response.data).getElementById('downloads');
+      final rows = downloads?.getElementsByClassName('table-row');
       final List<TypeInfo> typeList = [];
 
       final rewriteArchName = _settings.architecture.normalize();
+
+      if (rows == null) {
+        final TypeInfo singleType = (
+          archDpi: 'any',
+          isBundle: false,
+          title: app.pickedVersion!.name,
+          versionUrl: app.pickedVersion!.url,
+        );
+        return app.copyWith(types: [singleType]);
+      }
 
       for (final row in rows) {
         final rowItems = row.children;
