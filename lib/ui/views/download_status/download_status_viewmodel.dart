@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+import 'package:device_apps/device_apps.dart';
 import 'package:dio/dio.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/app/app.snackbar.dart';
@@ -16,6 +17,8 @@ class DownloadStatusViewModel extends ReactiveViewModel {
   final _snackbar = locator<SnackbarService>();
   CancelableOperation<bool>? operation;
 
+  final revancedPackageName = 'app.revanced.manager.flutter';
+
   bool _canPop = false;
   bool get canPop {
     if (operation != null && operation!.isCompleted) {
@@ -30,6 +33,9 @@ class DownloadStatusViewModel extends ReactiveViewModel {
   double? get downloadProgress => _scraper.downloadProgress;
   Status get saveStatus => _scraper.saveStatus;
   bool get success => operation?.isCompleted ?? false;
+
+  bool _revancedExists = false;
+  bool get revancedExists => _revancedExists;
 
   Future<void> cancel() async {
     try {
@@ -68,6 +74,23 @@ class DownloadStatusViewModel extends ReactiveViewModel {
       OpenFilex.open(saveStatus.$2);
     } catch (e) {
       showSnackbar('Cannot open downloaded APK');
+    }
+  }
+
+  Future<void> checkForRevancedApp() async {
+    try {
+      _revancedExists = await DeviceApps.isAppInstalled(revancedPackageName);
+      rebuildUi();
+    } catch (e) {
+      showSnackbar('Cannot check if Revanced App exists on device');
+    }
+  }
+
+  Future<void> openRevanced() async {
+    try {
+      await DeviceApps.openApp(revancedPackageName);
+    } catch (e) {
+      showSnackbar('Cannot launch Revanced App');
     }
   }
 

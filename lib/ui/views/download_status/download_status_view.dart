@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/ui/views/download_status/items/progress_card/progress_card.dart';
 import 'package:glass_down_v2/ui/views/download_status/items/status_card/status_card.dart';
@@ -99,35 +100,64 @@ class DownloadStatusView extends StackedView<DownloadStatusViewModel> {
                       ],
                     ),
                   ),
-                  // const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(16, 16, 4, 0),
-                          child: FilledButton.tonal(
-                            onPressed: () {
-                              viewModel.cancel();
-                              viewModel.returnTo(home: true);
-                            },
-                            child: const Text('Return to app list'),
+                          child: FilledButton.icon(
+                            onPressed: viewModel.success
+                                ? () => viewModel.openApk()
+                                : null,
+                            icon: const Icon(Icons.open_in_new),
+                            label: const Text('Open APK'),
                           ),
                         ),
                       ),
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(4, 16, 16, 0),
-                          child: FilledButton(
-                            onPressed: viewModel.success
-                                ? () => viewModel.openApk()
-                                : null,
-                            child: const Text('Open APK'),
+                          child: FilledButton.icon(
+                            onPressed:
+                                viewModel.revancedExists && viewModel.success
+                                    ? () => viewModel.openRevanced()
+                                    : null,
+                            icon: SvgPicture.asset(
+                              Theme.of(context).brightness == Brightness.light
+                                  ? viewModel.revancedExists &&
+                                          viewModel.success
+                                      ? 'assets/revanced/revanced-logo-shape-dark.svg'
+                                      : 'assets/revanced/revanced-logo-shape-light.svg'
+                                  : 'assets/revanced/revanced-logo-shape-light.svg',
+                              height: 16,
+                            ),
+                            label: const Text('Open Revanced'),
                           ),
                         ),
                       ),
                     ],
-                  )
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                          child: FilledButton.tonalIcon(
+                            onPressed: () {
+                              viewModel.cancel();
+                              viewModel.returnTo(home: true);
+                            },
+                            icon: const Icon(
+                              Icons.keyboard_double_arrow_left_rounded,
+                            ),
+                            label: const Text('Return to app list'),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -146,6 +176,7 @@ class DownloadStatusView extends StackedView<DownloadStatusViewModel> {
   @override
   void onViewModelReady(DownloadStatusViewModel viewModel) {
     super.onViewModelReady(viewModel);
+    viewModel.checkForRevancedApp();
     viewModel.runDownload(app);
   }
 }
