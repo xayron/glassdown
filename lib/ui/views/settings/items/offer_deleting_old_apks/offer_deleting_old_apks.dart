@@ -5,7 +5,12 @@ import 'package:stacked/stacked.dart';
 import 'offer_deleting_old_apks_model.dart';
 
 class OfferDeletingOldApks extends StackedView<OfferDeletingOldApksModel> {
-  const OfferDeletingOldApks({super.key});
+  const OfferDeletingOldApks({
+    super.key,
+    this.rounded = false,
+  });
+
+  final bool rounded;
 
   @override
   Widget builder(
@@ -14,6 +19,7 @@ class OfferDeletingOldApks extends StackedView<OfferDeletingOldApksModel> {
     Widget? child,
   ) {
     return InkWell(
+      borderRadius: rounded ? BorderRadius.circular(16) : null,
       onTap: !viewModel.autoRemove
           ? () {
               viewModel.updateValue(!viewModel.offerRemoval);

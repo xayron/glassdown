@@ -5,7 +5,9 @@ import 'package:stacked/stacked.dart';
 import 'delete_old_versions_model.dart';
 
 class DeleteOldVersions extends StackedView<DeleteOldVersionsModel> {
-  const DeleteOldVersions({super.key});
+  const DeleteOldVersions({super.key, this.rounded = false});
+
+  final bool rounded;
 
   @override
   Widget builder(
@@ -14,6 +16,7 @@ class DeleteOldVersions extends StackedView<DeleteOldVersionsModel> {
     Widget? child,
   ) {
     return InkWell(
+      borderRadius: rounded ? BorderRadius.circular(16) : null,
       onTap: () {
         viewModel.updateValue(!viewModel.autoRemove);
       },
