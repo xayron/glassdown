@@ -21,8 +21,13 @@ class PermissionsViewModel extends BaseViewModel {
   bool get install => _install;
 
   Future<void> init() async {
-    final storageGranted =
-        await Permission.manageExternalStorage.status.isGranted;
+    final sdk = await _settings.getSdkVersion();
+    bool storageGranted = false;
+    if (sdk >= 30) {
+      storageGranted = await Permission.manageExternalStorage.status.isGranted;
+    } else {
+      storageGranted = await Permission.storage.status.isGranted;
+    }
     final installGranted =
         await Permission.requestInstallPackages.status.isGranted;
     _storage = storageGranted;
@@ -48,8 +53,14 @@ class PermissionsViewModel extends BaseViewModel {
   }
 
   Future<void> requestStoragePermission() async {
-    final result = await Permission.manageExternalStorage.request();
-    _storage = result.isGranted;
+    final sdk = await _settings.getSdkVersion();
+    PermissionStatus storageGranted = PermissionStatus.denied;
+    if (sdk >= 30) {
+      storageGranted = await Permission.manageExternalStorage.request();
+    } else {
+      storageGranted = await Permission.storage.request();
+    }
+    _storage = storageGranted.isGranted;
     rebuildUi();
   }
 

@@ -49,10 +49,30 @@ Future<T?> showLogsViewSheet<T>() {
                         interactive: true,
                         child: SingleChildScrollView(
                           reverse: true,
-                          child: Text(
-                            viewModel.log,
-                            style: GoogleFonts.jetBrainsMono(),
-                          ),
+                          child: viewModel.log.isEmpty
+                              ? Text(
+                                  'No logs',
+                                  style: GoogleFonts.jetBrainsMono(),
+                                )
+                              : Text.rich(
+                                  TextSpan(
+                                    children: [
+                                      for (final line in viewModel.log)
+                                        TextSpan(
+                                          children: [
+                                            for (final el in viewModel
+                                                .formatLogLine(line))
+                                              TextSpan(text: el)
+                                          ],
+                                        )
+                                    ],
+                                    style: GoogleFonts.jetBrainsMono(),
+                                  ),
+                                ),
+                          // child: Text(
+                          //   viewModel.log,
+                          //   style: GoogleFonts.jetBrainsMono(),
+                          // ),
                         ),
                       ),
                     ),
