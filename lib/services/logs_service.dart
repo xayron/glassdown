@@ -28,7 +28,7 @@ class LogsService {
     return true;
   }
 
-  Future<String> getLogs() async {
+  Future<List<String>> getLogs() async {
     final dir = await getLogsDir();
     final List<File> fileList = dir.listSync().whereType<File>().toList();
     final todaysLog = fileList.firstWhere((element) {
@@ -40,7 +40,7 @@ class LogsService {
       return false;
     });
     final logContent = todaysLog.readAsLinesSync();
-    return logContent.join('\n');
+    return logContent;
   }
 
   Future<IOError?> exportLogs() async {
