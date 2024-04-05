@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 import 'package:device_apps/device_apps.dart';
 import 'package:dio/dio.dart';
+import 'package:glass_down_v2/app/app.dialogs.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/models/app_info.dart';
@@ -15,9 +16,12 @@ class DownloadStatusViewModel extends ReactiveViewModel {
   final _nav = locator<NavigationService>();
   final _token = CancelToken();
   final _snackbar = locator<SnackbarService>();
+  final _dialog = locator<DialogService>();
+
   CancelableOperation<bool>? operation;
 
   final revancedPackageName = 'app.revanced.manager.flutter';
+  final saiPackageName = 'com.aefyr.sai';
 
   bool _canPop = false;
   bool get canPop {
@@ -36,6 +40,9 @@ class DownloadStatusViewModel extends ReactiveViewModel {
 
   bool _revancedExists = false;
   bool get revancedExists => _revancedExists;
+
+  bool _saiExists = false;
+  bool get saiExists => _saiExists;
 
   Future<void> cancel() async {
     try {
@@ -71,7 +78,18 @@ class DownloadStatusViewModel extends ReactiveViewModel {
 
   Future<void> openApk() async {
     try {
-      OpenFilex.open(saveStatus.$2);
+      final isBundle = saveStatus.$2!.split('.').last == 'apkm';
+      if (isBundle) {
+        if (_saiExists) {
+          await DeviceApps.openApp(saiPackageName);
+        } else {
+          _dialog.showCustomDialog<void, void>(
+            variant: DialogType.bundledApkInfo,
+          );
+        }
+      } else {
+        OpenFilex.open(saveStatus.$2);
+      }
     } catch (e) {
       showSnackbar('Cannot open downloaded APK');
     }
@@ -86,9 +104,26 @@ class DownloadStatusViewModel extends ReactiveViewModel {
     }
   }
 
+  Future<void> checkForSai() async {
+    try {
+      _saiExists = await DeviceApps.isAppInstalled(saiPackageName);
+      rebuildUi();
+    } catch (e) {
+      showSnackbar('Cannot check if Split APK Installer exists on device');
+    }
+  }
+
   Future<void> openRevanced() async {
     try {
       await DeviceApps.openApp(revancedPackageName);
+    } catch (e) {
+      showSnackbar('Cannot launch Revanced App');
+    }
+  }
+
+  Future<void> openSai() async {
+    try {
+      await DeviceApps.openApp(saiPackageName);
     } catch (e) {
       showSnackbar('Cannot launch Revanced App');
     }
