@@ -394,8 +394,9 @@ class ScraperService with ListenableServiceMixin {
         }
 
         if (_settings.architecture != Architecture.any) {
-          if (!rowItems[1].text.contains(rewriteArchName) &&
-              rowItems[1].text != 'universal') {
+          final arch = rowItems[1].text;
+          final universalApk = arch != 'universal' && arch != 'noarch';
+          if (!arch.contains(rewriteArchName) && universalApk) {
             continue;
           }
         }
@@ -620,8 +621,10 @@ class ScraperService with ListenableServiceMixin {
       final versionName = app.pickedVersion?.name.replaceAll('.', '_');
       final name = '${appName}_${versionName}_$archName';
 
+      final extension = app.pickedType!.isBundle ? 'apkm' : 'apk';
+
       final file = File(
-        '${savePlace.path}/$name.apk',
+        '${savePlace.path}/$name.$extension',
       );
       FlutterLogs.logInfo(
         runtimeType.toString(),
@@ -629,11 +632,9 @@ class ScraperService with ListenableServiceMixin {
         'Saving to: ${file.path}',
       );
 
-      final path = '${savePlace.path}/$name.apk';
+      _saveStatus = (true, file.path);
 
-      _saveStatus = (true, path);
-
-      return path;
+      return file.path;
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),

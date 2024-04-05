@@ -9,8 +9,7 @@ class TypeChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Chip(
       label: Text(isBundle ? 'BUNDLE' : 'APK'),
-      backgroundColor:
-          isBundle ? Colors.lightGreenAccent : Colors.lightBlueAccent,
+      backgroundColor: isBundle ? Colors.lightGreenAccent : Colors.cyanAccent,
       labelPadding: const EdgeInsets.symmetric(horizontal: 2),
       visualDensity: VisualDensity.compact,
       shape: const RoundedRectangleBorder(

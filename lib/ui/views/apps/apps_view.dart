@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/ui/views/apps/items/app_card/app_card.dart';
 import 'package:glass_down_v2/ui/widgets/common/placeholder.dart';
@@ -39,7 +40,16 @@ class AppsView extends StackedView<AppsViewModel> {
             ),
             IconButton(
               onPressed: () => viewModel.showRevancedIntegration(),
-              icon: const Icon(Icons.workspaces_filled),
+              icon: SvgPicture.asset(
+                Theme.of(context).brightness == Brightness.light
+                    ? 'assets/revanced/revanced-logo-shape-light.svg'
+                    : 'assets/revanced/revanced-logo-shape-dark.svg',
+                height: 16,
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.secondary,
+                  BlendMode.srcIn,
+                ),
+              ),
               tooltip: 'Revanced Integration',
             ),
           ],
