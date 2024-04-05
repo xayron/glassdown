@@ -104,11 +104,13 @@ class DatabaseService {
   Future<List<AppInfoItemData>> importApps(
       List<AppInfoMinimal> appsJson) async {
     try {
-      final importedApps = appsJson.map((e) => AppInfoItemCompanion.insert(
-            name: e.name,
-            appUrl: e.appUrl,
-            logoUrl: Value.absentIfNull(e.imageUrl),
-          ));
+      final importedApps = appsJson.map(
+        (e) => AppInfoItemCompanion.insert(
+          name: e.name,
+          appUrl: e.appUrl,
+          logoUrl: Value.absentIfNull(e.imageUrl),
+        ),
+      );
       await _db.batch((batch) {
         batch.insertAll(
           _db.appInfoItem,
