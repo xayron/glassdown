@@ -620,8 +620,10 @@ class ScraperService with ListenableServiceMixin {
       final versionName = app.pickedVersion?.name.replaceAll('.', '_');
       final name = '${appName}_${versionName}_$archName';
 
+      final extension = app.pickedType!.isBundle ? 'apkm' : 'apk';
+
       final file = File(
-        '${savePlace.path}/$name.apk',
+        '${savePlace.path}/$name.$extension',
       );
       FlutterLogs.logInfo(
         runtimeType.toString(),
