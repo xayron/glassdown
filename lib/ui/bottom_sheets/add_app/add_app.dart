@@ -43,8 +43,12 @@ Future<T?> showAddAppSheet<T>() {
                       Expanded(
                         child: TextFormField(
                           controller: viewModel.appNameController,
-                          onTapOutside: (event) =>
-                              FocusManager.instance.primaryFocus?.unfocus(),
+                          onTapOutside: (event) {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                          },
+                          onFieldSubmitted: (value) {
+                            viewModel.searchApp(value);
+                          },
                           decoration: InputDecoration(
                             hintText: 'Search app',
                             filled: true,
@@ -59,8 +63,9 @@ Future<T?> showAddAppSheet<T>() {
                             ),
                             contentPadding: const EdgeInsets.all(16),
                             suffixIcon: IconButton(
-                              onPressed: () =>
-                                  viewModel.appNameController.clear(),
+                              onPressed: () {
+                                viewModel.appNameController.clear();
+                              },
                               icon: const Icon(Icons.clear),
                             ),
                           ),
@@ -75,9 +80,11 @@ Future<T?> showAddAppSheet<T>() {
                             height: 55,
                             width: 55,
                           ),
-                          onPressed: () => viewModel.searchApp(
-                            viewModel.appNameController.text,
-                          ),
+                          onPressed: () {
+                            viewModel.searchApp(
+                              viewModel.appNameController.text,
+                            );
+                          },
                         )
                       else
                         const CircularProgressIndicator()
