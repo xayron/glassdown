@@ -70,7 +70,7 @@ class DatabaseService {
     final appEntity = AppInfoItemCompanion.insert(
       name: appData.name,
       appUrl: appData.url,
-      logoUrl: Value.ofNullable(imageUrl),
+      logoUrl: Value.absentIfNull(imageUrl),
     );
     return await _db.into(_db.appInfoItem).insert(appEntity);
   }
@@ -87,7 +87,7 @@ class DatabaseService {
       final editedApp = appEntity.copyWith(
         name: appData.name,
         appUrl: appData.url,
-        logoUrl: Value.ofNullable(imageUrl),
+        logoUrl: Value.absentIfNull(imageUrl),
       );
       return await _db.into(_db.appInfoItem).insertOnConflictUpdate(editedApp);
     } catch (e) {
@@ -104,11 +104,13 @@ class DatabaseService {
   Future<List<AppInfoItemData>> importApps(
       List<AppInfoMinimal> appsJson) async {
     try {
-      final importedApps = appsJson.map((e) => AppInfoItemCompanion.insert(
-            name: e.name,
-            appUrl: e.appUrl,
-            logoUrl: Value.ofNullable(e.imageUrl),
-          ));
+      final importedApps = appsJson.map(
+        (e) => AppInfoItemCompanion.insert(
+          name: e.name,
+          appUrl: e.appUrl,
+          logoUrl: Value.absentIfNull(e.imageUrl),
+        ),
+      );
       await _db.batch((batch) {
         batch.insertAll(
           _db.appInfoItem,
