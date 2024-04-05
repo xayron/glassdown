@@ -1,7 +1,7 @@
 name: glass_down_v2
 description: "Simple app which allows downloading specific APK version of provided apps from APKMirror."
 publish_to: "none"
-version: 2.1.1+1
+version: 2.1.2+1
 
 environment:
   sdk: ">=3.0.3 <4.0.0"
@@ -10,44 +10,45 @@ dependencies:
   animations: ^2.0.11
   async: ^2.11.0
   cached_network_image: ^3.3.1
-  dart_mappable: ^4.2.1
+  dart_mappable: ^4.2.2
   device_info_plus: ^10.0.1
-  dio: ^5.4.1
+  dio: ^5.4.2+1
   dynamic_color: ^1.7.0
   file_picker: ^8.0.0+1
   flutter:
     sdk: flutter
   flutter_archive: ^6.0.0
   flutter_logs: ^2.1.11
-  flutter_markdown: ^0.6.22
+  flutter_markdown: ^0.6.22+1
   flutter_native_splash: ^2.4.0
   google_fonts: ^6.2.1
   html: ^0.15.4
-  internet_connection_checker_plus: ^2.2.0
+  internet_connection_checker_plus: ^2.3.0
   intl: ^0.19.0
   open_filex: ^4.4.0
   package_info_plus: ^6.0.0
   path: ^1.9.0
   path_provider: ^2.1.2
-  permission_handler: ^11.3.0
+  permission_handler: ^11.3.1
   shared_preferences: ^2.2.2
   stacked: ^3.4.2
-  stacked_services: ^1.4.0
-  drift: ^2.15.0
+  stacked_services: ^1.5.0
+  drift: ^2.16.0
   sqlite3_flutter_libs: ^0.5.20
-  sqlite3: ^2.4.0
+  sqlite3: ^2.4.2
+  external_app_launcher: ^4.0.0
 
 dev_dependencies:
-  build_runner: ^2.4.8
+  build_runner: ^2.4.9
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1
+  flutter_lints: ^3.0.2
   mockito: ^5.4.4
   stacked_generator: ^1.6.0
-  dart_mappable_builder: ^4.2.1
+  dart_mappable_builder: ^4.2.3
   flutter_launcher_icons: ^0.13.1
   change_app_package_name: ^1.1.0
-  drift_dev: ^2.15.0
+  drift_dev: ^2.16.0
 
 flutter_launcher_icons:
   android: "launcher_icon"
