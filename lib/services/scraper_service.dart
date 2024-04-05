@@ -395,7 +395,7 @@ class ScraperService with ListenableServiceMixin {
 
         if (_settings.architecture != Architecture.any) {
           final arch = rowItems[1].text;
-          final universalApk = arch != 'universal' || arch != 'noarch';
+          final universalApk = arch != 'universal' && arch != 'noarch';
           if (!arch.contains(rewriteArchName) && universalApk) {
             continue;
           }
