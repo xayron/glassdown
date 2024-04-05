@@ -70,7 +70,7 @@ class DatabaseService {
     final appEntity = AppInfoItemCompanion.insert(
       name: appData.name,
       appUrl: appData.url,
-      logoUrl: Value.ofNullable(imageUrl),
+      logoUrl: Value.absentIfNull(imageUrl),
     );
     return await _db.into(_db.appInfoItem).insert(appEntity);
   }
@@ -87,7 +87,7 @@ class DatabaseService {
       final editedApp = appEntity.copyWith(
         name: appData.name,
         appUrl: appData.url,
-        logoUrl: Value.ofNullable(imageUrl),
+        logoUrl: Value.absentIfNull(imageUrl),
       );
       return await _db.into(_db.appInfoItem).insertOnConflictUpdate(editedApp);
     } catch (e) {
@@ -107,7 +107,7 @@ class DatabaseService {
       final importedApps = appsJson.map((e) => AppInfoItemCompanion.insert(
             name: e.name,
             appUrl: e.appUrl,
-            logoUrl: Value.ofNullable(e.imageUrl),
+            logoUrl: Value.absentIfNull(e.imageUrl),
           ));
       await _db.batch((batch) {
         batch.insertAll(
