@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/app/app.snackbar.dart';
-import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/models/errors/db_error.dart';
 import 'package:glass_down_v2/models/errors/scrape_error.dart';
 import 'package:glass_down_v2/services/apps_service.dart';
@@ -33,11 +32,8 @@ class AddAppSheetModel extends FormViewModel {
       _addingApp = true;
       _appBeingAdded = searchResult;
       rebuildUi();
-      final VersionLink appInfo = (
-        name: searchResult.name,
-        url: searchResult.link,
-      );
-      await _apps.addApp(appInfo, searchResult.imgLink);
+      final app = await _scraper.getLinkFromAppSearch(searchResult);
+      await _apps.addApp(app, searchResult.imgLink);
       _snackbar.showCustomSnackBar(
         message: 'App added succesfully',
         variant: SnackbarType.info,
