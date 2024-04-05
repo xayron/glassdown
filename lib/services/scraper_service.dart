@@ -631,9 +631,7 @@ class ScraperService with ListenableServiceMixin {
         'Saving to: ${file.path}',
       );
 
-      final path = '${savePlace.path}/$name.apk';
-
-      _saveStatus = (true, path);
+      _saveStatus = (true, file.path);
 
       return path;
     } catch (e) {
