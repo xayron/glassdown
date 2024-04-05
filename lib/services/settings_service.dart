@@ -200,7 +200,7 @@ class SettingsService
         ? MainColor.values.byName(customColor)
         : MainColor.blue;
 
-    final supportMonet = await getSdkVersion();
+    final supportMonet = await checkForAndroid12Plus();
 
     if (!supportMonet) {
       _monetEnabled = false;
@@ -267,8 +267,13 @@ class SettingsService
     );
   }
 
-  Future<bool> getSdkVersion() async {
+  Future<bool> checkForAndroid12Plus() async {
     final deviceInfo = await DeviceInfoPlugin().androidInfo;
     return deviceInfo.version.sdkInt >= 31;
+  }
+
+  Future<int> getSdkVersion() async {
+    final deviceInfo = await DeviceInfoPlugin().androidInfo;
+    return deviceInfo.version.sdkInt;
   }
 }
