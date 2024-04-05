@@ -394,8 +394,9 @@ class ScraperService with ListenableServiceMixin {
         }
 
         if (_settings.architecture != Architecture.any) {
-          if (!rowItems[1].text.contains(rewriteArchName) &&
-              rowItems[1].text != 'universal') {
+          final arch = rowItems[1].text;
+          final universalApk = arch != 'universal' || arch != 'noarch';
+          if (!arch.contains(rewriteArchName) && universalApk) {
             continue;
           }
         }
@@ -633,7 +634,7 @@ class ScraperService with ListenableServiceMixin {
 
       _saveStatus = (true, file.path);
 
-      return path;
+      return file.path;
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
