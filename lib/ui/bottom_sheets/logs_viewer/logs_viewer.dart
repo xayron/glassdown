@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:glass_down_v2/ui/bottom_sheets/logs_viewer/logs_viewer_model.dart';
 import 'package:glass_down_v2/ui/common/ui_helpers.dart';
 import 'package:google_fonts/google_fonts.dart';
