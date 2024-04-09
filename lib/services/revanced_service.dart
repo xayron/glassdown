@@ -21,7 +21,13 @@ class RevancedService with ListenableServiceMixin {
   final List<RevancedApp> _apps = [];
   List<RevancedApp> get allApps => _apps;
   List<RevancedApp> get supportedApps {
-    return _apps.where((e) => e.mapperData != null).toList();
+    final apps = _apps.where((e) => e.mapperData != null).toList();
+    apps.sort((a, b) {
+      final first = a.mapperData!.fullName.toLowerCase();
+      final second = b.mapperData!.fullName.toLowerCase();
+      return first.compareTo(second);
+    });
+    return apps;
   }
 
   List<RevancedApp> get unsupportedApps {
@@ -80,14 +86,14 @@ class RevancedService with ListenableServiceMixin {
         }
       }
 
-      _apps.sort((a, b) {
-        if (a.mapperData?.fullName != null && b.mapperData?.fullName != null) {
-          final first = a.mapperData!.fullName.toLowerCase();
-          final second = b.mapperData!.fullName.toLowerCase();
-          return first.compareTo(second);
-        }
-        return -1;
-      });
+      // _apps.sort((a, b) {
+      //   if (a.mapperData?.fullName != null && b.mapperData?.fullName != null) {
+      //     final first = a.mapperData!.fullName.toLowerCase();
+      //     final second = b.mapperData!.fullName.toLowerCase();
+      //     return first.compareTo(second);
+      //   }
+      //   return -1;
+      // });
 
       _loadingPatches = false;
       notifyListeners();

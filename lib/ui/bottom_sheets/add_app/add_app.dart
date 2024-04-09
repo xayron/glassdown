@@ -87,7 +87,14 @@ Future<T?> showAddAppSheet<T>() {
                           },
                         )
                       else
-                        const CircularProgressIndicator()
+                        const SizedBox(
+                          height: 55,
+                          width: 55,
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
                     ],
                   ),
                 ),
