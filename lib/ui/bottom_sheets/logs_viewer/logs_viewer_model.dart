@@ -22,21 +22,4 @@ class LogsViewerModel extends ReactiveViewModel {
       );
     }
   }
-
-  List<String> formatLogLine(String line) {
-    final el = line.split('  ');
-    return [
-      '${_stripBraces(el.last)} - ${_stripBraces(el.elementAt(3))}',
-      '\n',
-      '${_stripBraces(el.first)}::${_stripBraces(el.elementAt(1))}',
-      '\n',
-      (_stripBraces(el.elementAt(2))),
-      '\n',
-      '\n',
-    ];
-  }
-
-  String _stripBraces(String word) {
-    return word.substring(1, word.length - 1);
-  }
 }
