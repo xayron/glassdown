@@ -63,7 +63,7 @@ class AppCard extends StackedView<AppCardModel> {
           },
           leading: app.imageUrl != null
               ? CircleAvatar(
-                  radius: 18,
+                  radius: 20,
                   backgroundImage: CachedNetworkImageProvider(
                     app.imageUrl!,
                   ),
