@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glass_down_v2/ui/bottom_sheets/logs_viewer/logs_viewer_model.dart';
+import 'package:glass_down_v2/ui/bottom_sheets/logs_viewer/widgets/log_formatter/log_formatter.dart';
 import 'package:glass_down_v2/ui/common/ui_helpers.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stacked/stacked.dart';
@@ -54,25 +55,9 @@ Future<T?> showLogsViewSheet<T>() {
                                   'No logs',
                                   style: GoogleFonts.jetBrainsMono(),
                                 )
-                              : Text.rich(
-                                  TextSpan(
-                                    children: [
-                                      for (final line in viewModel.log)
-                                        TextSpan(
-                                          children: [
-                                            for (final el in viewModel
-                                                .formatLogLine(line))
-                                              TextSpan(text: el)
-                                          ],
-                                        )
-                                    ],
-                                    style: GoogleFonts.jetBrainsMono(),
-                                  ),
+                              : LogFormatter(
+                                  logs: viewModel.log,
                                 ),
-                          // child: Text(
-                          //   viewModel.log,
-                          //   style: GoogleFonts.jetBrainsMono(),
-                          // ),
                         ),
                       ),
                     ),

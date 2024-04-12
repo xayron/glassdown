@@ -113,7 +113,7 @@ Future<T?> showAddAppSheet<T>() {
                             enabled: !viewModel.addingApp &&
                                 !viewModel.showProgress(searchResult),
                             leading: CircleAvatar(
-                              radius: 18,
+                              radius: 20,
                               backgroundImage:
                                   Image.network(searchResult.imgLink).image,
                             ),
