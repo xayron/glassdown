@@ -26,7 +26,7 @@ class UpdaterService with ListenableServiceMixin {
   bool get isDev => _isDev;
   String _version = '';
 
-  Future<void> downloadUpdate(AppReleaseInfo version) async {
+  Future<void> downloadUpdate(AppReleaseInfo version, CancelToken token) async {
     try {
       final app = await _dio.get<List<int>>(
         version.url!,
@@ -37,6 +37,7 @@ class UpdaterService with ListenableServiceMixin {
         options: Options(
           responseType: ResponseType.bytes,
         ),
+        cancelToken: token,
       );
 
       if (app.statusCode != 200 || app.data == null) {

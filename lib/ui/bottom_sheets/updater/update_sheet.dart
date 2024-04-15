@@ -98,6 +98,7 @@ Future<T?> showUpdaterSheet<T>() {
                     children: [
                       TextButton(
                         onPressed: () {
+                          viewModel.cancelUpdate();
                           Navigator.of(context).pop();
                         },
                         child: const Text('Cancel'),
