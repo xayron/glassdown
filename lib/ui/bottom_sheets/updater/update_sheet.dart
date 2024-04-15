@@ -105,7 +105,9 @@ Future<T?> showUpdaterSheet<T>() {
                       ),
                       horizontalSpaceMedium,
                       FilledButton(
-                        onPressed: () => viewModel.downloadUpdate(),
+                        onPressed: viewModel.started
+                            ? null
+                            : () => viewModel.downloadUpdate(),
                         child: const Text('Update'),
                       )
                     ],
