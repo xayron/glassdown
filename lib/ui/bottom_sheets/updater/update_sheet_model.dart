@@ -1,15 +1,22 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_logs/flutter_logs.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
+import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/models/errors/update_error.dart';
 import 'package:glass_down_v2/models/update_info.dart';
 import 'package:glass_down_v2/services/updater_service.dart';
 import 'package:glass_down_v2/util/function_name.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 enum PickedVersion { arm64, arm32 }
 
 class UpdateSheetModel extends ReactiveViewModel {
   final _updater = locator<UpdaterService>();
+  final _snackbar = locator<SnackbarService>();
+
+  final token = CancelToken();
+
   double get progress => _updater.downloadProgress;
 
   bool _started = false;
@@ -25,13 +32,23 @@ class UpdateSheetModel extends ReactiveViewModel {
     }
   }
 
+  void cancelUpdate() {
+    if (_started) {
+      token.cancel();
+      _snackbar.showCustomSnackBar(
+        message: 'Update canceled',
+        variant: SnackbarType.info,
+      );
+    }
+  }
+
   Future<void> downloadUpdate() async {
     final version = pickedVersion == PickedVersion.arm64
         ? updateInfo!.arm64
         : updateInfo!.arm32;
     _started = true;
     notifyListeners();
-    await _updater.downloadUpdate(version);
+    await _updater.downloadUpdate(version, token);
   }
 
   Future<void> checkUpdates() async {

@@ -130,24 +130,6 @@ class DatabaseService {
     }
   }
 
-  Future<void> migrateFromOldDb(List<AppInfoItemCompanion> entities) async {
-    try {
-      await _db.batch((batch) {
-        batch.insertAll(
-          _db.appInfoItem,
-          entities,
-        );
-      });
-    } catch (e) {
-      FlutterLogs.logError(
-        runtimeType.toString(),
-        getFunctionName(),
-        'Error migrating apps',
-      );
-      rethrow;
-    }
-  }
-
   Future<List<String>> exportApps() async {
     final result = await (_db.select(_db.appInfoItem)).get();
     return result.map((e) => e.toJsonString()).toList();

@@ -98,13 +98,16 @@ Future<T?> showUpdaterSheet<T>() {
                     children: [
                       TextButton(
                         onPressed: () {
+                          viewModel.cancelUpdate();
                           Navigator.of(context).pop();
                         },
                         child: const Text('Cancel'),
                       ),
                       horizontalSpaceMedium,
                       FilledButton(
-                        onPressed: () => viewModel.downloadUpdate(),
+                        onPressed: viewModel.started
+                            ? null
+                            : () => viewModel.downloadUpdate(),
                         child: const Text('Update'),
                       )
                     ],
