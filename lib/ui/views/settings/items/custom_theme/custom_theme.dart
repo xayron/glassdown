@@ -16,7 +16,7 @@ class CustomTheme extends StackedView<CustomThemeModel> {
     Widget? child,
   ) {
     return InkWell(
-      onTap: () => viewModel.handleTap(),
+      onTap: !viewModel.monetEnabled ? () => viewModel.handleTap() : null,
       child: ItemWrapper(
         mainText: 'Theme color',
         secondaryText: 'Pick color manually',
