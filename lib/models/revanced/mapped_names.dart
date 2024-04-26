@@ -6,7 +6,6 @@ final class RevancedMapper {
   static final Map<String, MapperData> _mapper = {
     'com.google.android.youtube': (url: 'youtube', fullName: 'YouTube'),
     'com.strava': (url: 'strava-running-and-cycling-gps', fullName: 'Strava'),
-    // 'com.vsco.cam': (url: 'vsco-cam', fullName: 'VSCO'),
     'com.awedea.nyx': (url: 'nyx-music-player', fullName: 'Nyx Music Player'),
     'com.ss.android.ugc.trill': (url: 'tik-tok', fullName: 'TikTok'),
     'tv.twitch.android.app': (url: 'twitch', fullName: 'Twitch'),
@@ -111,6 +110,10 @@ final class RevancedMapper {
       url: 'irplus-infrared-remote',
       fullName: 'irplus - Infrared Remote'
     ),
+    'com.amazon.mshop.android.shopping': (
+      url: 'amazon-shopping',
+      fullName: 'Amazon Shopping'
+    )
   };
 
   static MapperData? getMappedAppName(String packageName) {
