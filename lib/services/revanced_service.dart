@@ -86,15 +86,6 @@ class RevancedService with ListenableServiceMixin {
         }
       }
 
-      // _apps.sort((a, b) {
-      //   if (a.mapperData?.fullName != null && b.mapperData?.fullName != null) {
-      //     final first = a.mapperData!.fullName.toLowerCase();
-      //     final second = b.mapperData!.fullName.toLowerCase();
-      //     return first.compareTo(second);
-      //   }
-      //   return -1;
-      // });
-
       _loadingPatches = false;
       notifyListeners();
     } catch (e) {
