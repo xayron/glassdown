@@ -111,6 +111,10 @@ final class RevancedMapper {
       url: 'irplus-infrared-remote',
       fullName: 'irplus - Infrared Remote'
     ),
+    'com.amazon.mshop.android.shopping': (
+      url: 'amazon-shopping',
+      fullName: 'Amazon Shopping'
+    )
   };
 
   static MapperData? getMappedAppName(String packageName) {
