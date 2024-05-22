@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:android_system_font/android_system_font.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_archive/flutter_archive.dart';
@@ -57,6 +58,11 @@ class FontImporterService {
       );
       rethrow;
     }
+  }
+
+  Future<ByteData> _readFileBytes(String path) async {
+    var bytes = await File(path).readAsBytes();
+    return ByteData.view(bytes.buffer);
   }
 
   Future<bool> deleteFont(String fontName) async {
@@ -151,6 +157,16 @@ class FontImporterService {
 
   Future<void> loadFonts(String fontName) async {
     try {
+      if (fontName == 'System') {
+        final systemFontPath = await AndroidSystemFont().getFilePath();
+        if (systemFontPath == null) {
+          return;
+        }
+        _fontLoader = FontLoader('CustomFont');
+        _fontLoader!.addFont(_readFileBytes(systemFontPath));
+        _fontLoader!.load();
+        return;
+      }
       final importedFonts = await _getImportedFonts(fontName);
 
       if (importedFonts == null || importedFonts.len == 0) {
