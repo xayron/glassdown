@@ -48,7 +48,7 @@ class AppsView extends StackedView<AppsViewModel> {
                     : 'assets/revanced/revanced-logo-shape-dark.svg',
                 height: 16,
                 colorFilter: ColorFilter.mode(
-                  Theme.of(context).colorScheme.secondary,
+                  Theme.of(context).colorScheme.primary,
                   BlendMode.srcIn,
                 ),
               ),
