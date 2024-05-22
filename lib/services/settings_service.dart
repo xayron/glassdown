@@ -25,6 +25,7 @@ enum SettingsKey {
   apkSavePath,
   useImportedFont,
   customFont,
+  shizuku,
 }
 
 // ignore: constant_identifier_names
@@ -53,6 +54,7 @@ class SettingsService
       _autoRemove,
       _offerRemoval,
       _exportLogsPath,
+      _shizuku,
     ]);
   }
 
@@ -186,6 +188,13 @@ class SettingsService
     notifyListeners();
   }
 
+  bool _shizuku = false;
+  bool get shizuku => _shizuku;
+  void setShizuku(bool val) {
+    _shizuku = val;
+    notifyListeners();
+  }
+
   @override
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -233,6 +242,7 @@ class SettingsService
     _useImportedFont =
         _prefs.getBool(SettingsKey.useImportedFont.name) ?? _useImportedFont;
     _customFont = _prefs.getString(SettingsKey.customFont.name) ?? _customFont;
+    _shizuku = _prefs.getBool(SettingsKey.shizuku.name) ?? _shizuku;
   }
 
   Future<void> ensureAppDirExists() async {

@@ -18,6 +18,7 @@ import 'package:glass_down_v2/ui/views/settings/items/import_font/import_font.da
 import 'package:glass_down_v2/ui/views/settings/items/monet_theme/monet_theme.dart';
 import 'package:glass_down_v2/ui/views/settings/items/offer_deleting_old_apks/offer_deleting_old_apks.dart';
 import 'package:glass_down_v2/ui/views/settings/items/pages_count/pages_count.dart';
+import 'package:glass_down_v2/ui/views/settings/items/shizuku_installer/shizuku_installer.dart';
 import 'package:glass_down_v2/ui/views/settings/items/show_logs/show_logs.dart';
 import 'package:glass_down_v2/ui/widgets/common/divider.dart';
 import 'package:glass_down_v2/ui/widgets/settings/common/group_header.dart';
@@ -82,6 +83,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   DeleteLogs(),
                   ItemDivider(),
                   GroupHeader(name: 'About'),
+                  ShizukuInstaller(),
                   CheckUpdates(),
                   AboutApp(),
                 ],
