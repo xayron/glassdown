@@ -193,6 +193,7 @@ class SettingsService
   void setShizuku(bool val) {
     _shizuku = val;
     notifyListeners();
+    _savePref<bool>(SettingsKey.shizuku, val);
   }
 
   @override
