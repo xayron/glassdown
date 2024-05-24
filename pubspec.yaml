@@ -34,17 +34,13 @@ dependencies:
   stacked: ^3.4.2
   stacked_services: ^1.5.0
   drift: ^2.18.0
-  sqlite3_flutter_libs: ^0.5.21
+  sqlite3_flutter_libs: ^0.5.22
   sqlite3: ^2.4.3
   flutter_svg: ^2.0.10+1
   device_apps: ^2.2.0
   android_system_font:
     git:
       url: https://github.com/re7gog/android_system_font
-      ref: master
-  shizuku_apk_installer:
-    git:
-      url: https://github.com/re7gog/shizuku_apk_installer
       ref: master
 
 dev_dependencies:

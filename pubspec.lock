@@ -1041,15 +1041,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
-  shizuku_apk_installer:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: master
-      resolved-ref: "25acc02612c2e0fcae40d312e047ac48106f8f6b"
-      url: "https://github.com/re7gog/shizuku_apk_installer"
-    source: git
-    version: "0.0.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -1107,10 +1098,10 @@ packages:
     dependency: "direct main"
     description:
       name: sqlite3_flutter_libs
-      sha256: fb2a106a2ea6042fe57de2c47074cc31539a941819c91e105b864744605da3f5
+      sha256: "1e62698dc1ab396152ccaf3b3990d826244e9f3c8c39b51805f209adcd6dbea3"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.21"
+    version: "0.5.22"
   sqlparser:
     dependency: transitive
     description:
