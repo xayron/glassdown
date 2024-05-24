@@ -53,6 +53,10 @@ Future<T?> showAddAppSheet<T>() {
                             hintText: 'Search app',
                             filled: true,
                             isDense: true,
+                            fillColor: Theme.of(context)
+                                .colorScheme
+                                .surfaceTint
+                                .withAlpha(50),
                             hintStyle: const TextStyle(fontSize: 16),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(75),

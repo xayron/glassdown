@@ -29,16 +29,18 @@ class AppsView extends StackedView<AppsViewModel> {
         icon: const Icon(Icons.add),
         elevation: 0,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
+        color: Theme.of(context).colorScheme.surfaceTint.withAlpha(10),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
+            TextButton.icon(
               onPressed: () => viewModel.showSettings(),
               icon: const Icon(Icons.settings),
-              tooltip: 'Settings',
+              label: const Text('Settings'),
             ),
-            IconButton(
+            TextButton.icon(
               onPressed: () => viewModel.showRevancedIntegration(),
               icon: SvgPicture.asset(
                 Theme.of(context).brightness == Brightness.light
@@ -46,11 +48,11 @@ class AppsView extends StackedView<AppsViewModel> {
                     : 'assets/revanced/revanced-logo-shape-dark.svg',
                 height: 16,
                 colorFilter: ColorFilter.mode(
-                  Theme.of(context).colorScheme.secondary,
+                  Theme.of(context).colorScheme.primary,
                   BlendMode.srcIn,
                 ),
               ),
-              tooltip: 'Revanced Integration',
+              label: const Text('Revanced'),
             ),
           ],
         ),

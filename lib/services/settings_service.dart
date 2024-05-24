@@ -25,6 +25,7 @@ enum SettingsKey {
   apkSavePath,
   useImportedFont,
   customFont,
+  shizuku,
 }
 
 // ignore: constant_identifier_names

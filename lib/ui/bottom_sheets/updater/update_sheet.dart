@@ -53,10 +53,16 @@ Future<T?> showUpdaterSheet<T>() {
                   verticalSpaceSmall,
                   Card(
                     clipBehavior: Clip.antiAlias,
+                    color:
+                        Theme.of(context).colorScheme.surfaceContainerHighest,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         RadioListTile<PickedVersion>(
+                          tileColor: Theme.of(context)
+                              .colorScheme
+                              .surfaceTint
+                              .withAlpha(20),
                           value: PickedVersion.arm64,
                           groupValue: viewModel.pickedVersion,
                           onChanged: (value) => viewModel.updateVersion(value),
@@ -64,6 +70,10 @@ Future<T?> showUpdaterSheet<T>() {
                               viewModel.updateInfo?.arm64.name ?? 'Loading...'),
                         ),
                         RadioListTile<PickedVersion>(
+                          tileColor: Theme.of(context)
+                              .colorScheme
+                              .surfaceTint
+                              .withAlpha(20),
                           value: PickedVersion.arm32,
                           groupValue: viewModel.pickedVersion,
                           onChanged: (value) => viewModel.updateVersion(value),

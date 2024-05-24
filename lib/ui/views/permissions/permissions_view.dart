@@ -13,7 +13,7 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Container(
         padding: const EdgeInsets.only(left: 25.0, right: 25.0),
         child: Column(
@@ -30,7 +30,9 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
                     Card(
                       clipBehavior: Clip.antiAlias,
                       color: !viewModel.storage
-                          ? Theme.of(context).colorScheme.surfaceVariant
+                          ? Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerHighest
                           : null,
                       child: ListTile(
                         onTap: () => viewModel.requestStoragePermission(),
@@ -54,7 +56,9 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
                     Card(
                       clipBehavior: Clip.antiAlias,
                       color: !viewModel.install
-                          ? Theme.of(context).colorScheme.surfaceVariant
+                          ? Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerHighest
                           : null,
                       elevation: 1,
                       child: ListTile(

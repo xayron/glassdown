@@ -35,9 +35,9 @@ class AppArchitecture extends StackedView<AppArchitectureModel> {
               )
           ],
           child: FilledButton.tonal(
-            style: ButtonStyle(
-              fixedSize: MaterialStateProperty.all<Size>(
-                const Size(140, 0),
+            style: const ButtonStyle(
+              fixedSize: WidgetStatePropertyAll<Size>(
+                Size(140, 0),
               ),
             ),
             onPressed: () => viewModel.handleTap(),

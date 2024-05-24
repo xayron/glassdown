@@ -53,6 +53,17 @@ Future<T?> showFontManagerSheet<T>() {
                               : null,
                         ),
                       ),
+                      Card(
+                        clipBehavior: Clip.antiAlias,
+                        surfaceTintColor: Theme.of(context).colorScheme.primary,
+                        child: ListTile(
+                          onTap: () => viewModel.pickFont('System'),
+                          title: const Text('System'),
+                          leading: viewModel.pickedFont == 'System'
+                              ? const Icon(Icons.check)
+                              : null,
+                        ),
+                      ),
                       for (final font in viewModel.fontsList)
                         Card(
                           clipBehavior: Clip.antiAlias,
