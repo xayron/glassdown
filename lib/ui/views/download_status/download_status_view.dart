@@ -110,8 +110,8 @@ class DownloadStatusView extends StackedView<DownloadStatusViewModel> {
                             onPressed: viewModel.success
                                 ? () => viewModel.openApk()
                                 : null,
-                            icon: const Icon(Icons.open_in_new),
-                            label: const Text('Open APK'),
+                            icon: const Icon(Icons.install_mobile),
+                            label: const Text('Install APK'),
                           ),
                         ),
                       ),
