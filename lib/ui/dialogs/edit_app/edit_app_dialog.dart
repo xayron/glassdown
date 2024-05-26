@@ -47,8 +47,17 @@ class EditAppDialog extends StackedView<EditAppDialogModel>
         children: [
           TextFormField(
             controller: appNameController,
-            decoration: const InputDecoration(
-              label: Text('App name'),
+            decoration: InputDecoration(
+              fillColor:
+                  Theme.of(context).colorScheme.surfaceTint.withAlpha(50),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(75),
+                borderSide: const BorderSide(
+                  width: 0,
+                  style: BorderStyle.none,
+                ),
+              ),
+              label: const Text('App name'),
               filled: true,
               isDense: true,
             ),
@@ -57,13 +66,22 @@ class EditAppDialog extends StackedView<EditAppDialogModel>
             verticalSpaceTiny,
             ValidationErrorMessage(viewModel.appNameValidationMessage!),
           ],
-          const SizedBox(height: 16),
+          const SizedBox(height: 24),
           TextFormField(
             controller: appUrlController,
-            decoration: const InputDecoration(
-              label: Text('App url'),
+            decoration: InputDecoration(
+              fillColor:
+                  Theme.of(context).colorScheme.surfaceTint.withAlpha(50),
+              label: const Text('App url'),
               filled: true,
               isDense: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(75),
+                borderSide: const BorderSide(
+                  width: 0,
+                  style: BorderStyle.none,
+                ),
+              ),
             ),
           ),
           if (viewModel.hasAppUrlValidationMessage) ...[

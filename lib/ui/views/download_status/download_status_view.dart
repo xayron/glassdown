@@ -129,7 +129,10 @@ class DownloadStatusView extends StackedView<DownloadStatusViewModel> {
                                           viewModel.success
                                       ? 'assets/revanced/revanced-logo-shape-dark.svg'
                                       : 'assets/revanced/revanced-logo-shape-light.svg'
-                                  : 'assets/revanced/revanced-logo-shape-light.svg',
+                                  : viewModel.revancedExists &&
+                                          viewModel.success
+                                      ? 'assets/revanced/revanced-logo-shape-light.svg'
+                                      : 'assets/revanced/revanced-logo-shape-dark.svg',
                               height: 16,
                             ),
                             label: const Text('Open Revanced'),

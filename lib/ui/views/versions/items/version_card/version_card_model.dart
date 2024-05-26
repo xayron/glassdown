@@ -25,7 +25,11 @@ class VersionCardModel extends BaseViewModel {
   void checkVersions(AppInfo app) {
     final result = _revanced.getRevancedApp(app.appUrl);
     if (result != null) {
-      _versions.addAll(result.versions ?? <String>{'*'});
+      if (result.versions.isEmpty) {
+        _versions.addAll(<String>{'*'});
+      } else {
+        _versions.addAll(result.versions);
+      }
     }
     rebuildUi();
   }
