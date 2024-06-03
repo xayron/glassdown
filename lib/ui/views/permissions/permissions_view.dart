@@ -29,17 +29,18 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
                     ),
                     Card(
                       clipBehavior: Clip.antiAlias,
-                      color: !viewModel.storage
-                          ? Theme.of(context)
-                              .colorScheme
-                              .surfaceContainerHighest
-                          : null,
                       child: ListTile(
                         onTap: () => viewModel.requestStoragePermission(),
                         title: const Text('Storage'),
                         subtitle: const Text(
                           'Needed for importing/exporting app list, deleting already downloaded APKs etc.',
                         ),
+                        tileColor: !viewModel.storage
+                            ? Theme.of(context)
+                                .colorScheme
+                                .surfaceTint
+                                .withAlpha(20)
+                            : Colors.lightGreenAccent.withAlpha(40),
                         trailing: !viewModel.storage
                             ? const Icon(
                                 Icons.close,
@@ -55,11 +56,6 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
                     ),
                     Card(
                       clipBehavior: Clip.antiAlias,
-                      color: !viewModel.install
-                          ? Theme.of(context)
-                              .colorScheme
-                              .surfaceContainerHighest
-                          : null,
                       elevation: 1,
                       child: ListTile(
                         onTap: () => viewModel.requestInstallPermission(),
@@ -67,6 +63,12 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
                         subtitle: const Text(
                           'Needed for installing newer version of this app from GitHub',
                         ),
+                        tileColor: !viewModel.install
+                            ? Theme.of(context)
+                                .colorScheme
+                                .surfaceTint
+                                .withAlpha(40)
+                            : Colors.lightGreenAccent.withAlpha(40),
                         trailing: !viewModel.install
                             ? const Icon(
                                 Icons.close,
