@@ -30,6 +30,8 @@ class ScraperService with ListenableServiceMixin {
   final _settings = locator<SettingsService>();
   final _paths = locator<PathsService>();
 
+  final badChars = RegExp(r'[ .:/+]+');
+
   Status _pageStatus = (null, null);
   Status _linkStatus = (null, null);
   Status _apkStatus = (null, null);
@@ -622,12 +624,12 @@ class ScraperService with ListenableServiceMixin {
       );
 
       final appName = app.name.toLowerCase().replaceAll(
-            RegExp(r'[ .:/+]+'),
+            badChars,
             '_',
           );
       String archName = app.pickedType!.archDpi.split(',')[0];
       archName = archName.replaceAll(' + ', '_');
-      final versionName = app.pickedVersion?.name.replaceAll('.', '_');
+      final versionName = app.pickedVersion?.name.replaceAll(badChars, '_');
       final name = '${appName}_${versionName}_$archName';
 
       final extension = app.pickedType!.isBundle ? 'apkm' : 'apk';
