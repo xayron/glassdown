@@ -9,6 +9,7 @@ import 'package:glass_down_v2/services/scraper_service.dart';
 import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:glass_down_v2/ui/views/apps/apps_view.dart';
 import 'package:open_filex/open_filex.dart';
+import 'package:shizuku_apk_installer/shizuku_apk_installer.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -37,7 +38,7 @@ class DownloadStatusViewModel extends ReactiveViewModel {
   Status get linkStatus => _scraper.linkStatus;
   Status get apkStatus => _scraper.apkStatus;
   double? get downloadProgress => _scraper.downloadProgress;
-  Status get saveStatus => _scraper.saveStatus;
+  StatusWithUri get saveStatus => _scraper.saveStatus;
   bool get success => operation?.isCompleted ?? false;
 
   bool _revancedExists = false;
@@ -95,8 +96,20 @@ class DownloadStatusViewModel extends ReactiveViewModel {
 
   Future<void> openApk() async {
     try {
+      final shizukuAllowed = _settings.shizuku;
+      bool shizukuAvailable = false;
+      if (shizukuAllowed) {
+        shizukuAvailable = await _settings.shizukuAvailable();
+      }
       final isBundle = saveStatus.$2!.split('.').last == 'apkm';
       if (isBundle) {
+        if (shizukuAvailable) {
+          await ShizukuApkInstaller.installAPK(
+            saveStatus.$3.toString(),
+            'com.sinneida.glassdown2',
+          );
+          return;
+        }
         if (_saiExists) {
           await DeviceApps.openApp(saiPackageName);
         } else {
@@ -105,6 +118,13 @@ class DownloadStatusViewModel extends ReactiveViewModel {
           );
         }
       } else {
+        if (shizukuAvailable) {
+          await ShizukuApkInstaller.installAPK(
+            saveStatus.$3.toString(),
+            'com.sinneida.glassdown2',
+          );
+          return;
+        }
         OpenFilex.open(saveStatus.$2);
       }
     } catch (e) {
