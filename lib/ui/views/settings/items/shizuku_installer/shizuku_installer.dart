@@ -14,13 +14,17 @@ class ShizukuInstaller extends StackedView<ShizukuInstallerModel> {
     Widget? child,
   ) {
     return InkWell(
-      onTap: () => viewModel.updateValue(!viewModel.shizukuEnabled),
+      onTap: viewModel.shizukuAvailable
+          ? () => viewModel.updateValue(!viewModel.shizukuEnabled)
+          : null,
       child: ItemWrapper(
         mainText: 'Shizuku installer',
         secondaryText: viewModel.getStatus(),
         threeLined: true,
         trailingWidget: Switch(
-          onChanged: (value) => viewModel.updateValue(value),
+          onChanged: viewModel.shizukuAvailable
+              ? (value) => viewModel.updateValue(value)
+              : null,
           value: viewModel.shizukuEnabled,
         ),
       ),
@@ -32,10 +36,4 @@ class ShizukuInstaller extends StackedView<ShizukuInstallerModel> {
     BuildContext context,
   ) =>
       ShizukuInstallerModel();
-
-  @override
-  void onViewModelReady(ShizukuInstallerModel viewModel) {
-    super.onViewModelReady(viewModel);
-    viewModel.checkShizukuStatus();
-  }
 }

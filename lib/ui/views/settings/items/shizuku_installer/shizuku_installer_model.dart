@@ -11,6 +11,17 @@ class ShizukuInstallerModel extends BaseViewModel {
   String? _status;
   String? get status => _status;
 
+  bool get shizukuAvailable {
+    if (_status != null) {
+      if (!_status!.contains('binder_not_found')) {
+        return true;
+      }
+    } else {
+      return true;
+    }
+    return false;
+  }
+
   Future<void> checkShizukuStatus() async {
     _status = await ShizukuApkInstaller.checkPermission();
     rebuildUi();
@@ -42,8 +53,21 @@ class ShizukuInstallerModel extends BaseViewModel {
     return '$description\n$status\n$message';
   }
 
-  void updateValue(bool value) {
-    _settings.setShizuku(value);
+  Future<void> updateValue(bool value) async {
+    _status = await ShizukuApkInstaller.checkPermission();
+    print(status);
+    if (_status != null) {
+      if (_status!.contains('granted')) {
+        _settings.setShizuku(value);
+        rebuildUi();
+        return;
+      } else {
+        _settings.setShizuku(false);
+        rebuildUi();
+        return;
+      }
+    }
+    _settings.setShizuku(false);
     rebuildUi();
   }
 }
