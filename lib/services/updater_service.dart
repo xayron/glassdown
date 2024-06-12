@@ -68,7 +68,7 @@ class UpdaterService with ListenableServiceMixin {
       final shizukuAvailable = await _settings.checkShizukuStatus();
       final granted = shizukuAvailable?.contains('granted');
       if (granted != null && _settings.shizuku) {
-        await ShizukuApkInstaller.installAPK(file.path, 'GlassDown');
+        await ShizukuApkInstaller.installAPK(file.uri.toString(), 'GlassDown');
       }
       OpenFilex.open(file.path);
     } catch (e) {
