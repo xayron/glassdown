@@ -14,7 +14,10 @@ Future<T?> showUpdaterSheet<T>() {
     builder: (context) {
       return ViewModelBuilder.reactive(
         viewModelBuilder: () => UpdateSheetModel(),
-        onViewModelReady: (viewModel) => viewModel.checkUpdates(),
+        onViewModelReady: (viewModel) {
+          viewModel.checkUpdates();
+          viewModel.canInstallPackages();
+        },
         builder: (context, viewModel, child) {
           return Container(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
@@ -111,6 +114,14 @@ Future<T?> showUpdaterSheet<T>() {
                     ),
                   ],
                   verticalSpaceSmall,
+                  if (!viewModel.installStatus) ...[
+                    const ListTile(
+                      title: Text(
+                        'App has not been granted permission to install packages. Grant it via "Show permissions page" option in Settings to enable auto updating.',
+                      ),
+                    ),
+                    verticalSpaceSmall,
+                  ],
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -123,7 +134,7 @@ Future<T?> showUpdaterSheet<T>() {
                       ),
                       horizontalSpaceMedium,
                       FilledButton(
-                        onPressed: viewModel.started
+                        onPressed: viewModel.started || !viewModel.installStatus
                             ? null
                             : () => viewModel.downloadUpdate(),
                         child: const Text('Update'),
