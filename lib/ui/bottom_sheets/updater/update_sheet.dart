@@ -91,8 +91,16 @@ Future<T?> showUpdaterSheet<T>() {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           ListTile(
+                            tileColor: Theme.of(context)
+                                .colorScheme
+                                .surfaceTint
+                                .withAlpha(20),
                             title: LinearProgressIndicator(
                               value: viewModel.progress.toInt() / 100,
+                              backgroundColor: Theme.of(context)
+                                  .colorScheme
+                                  .surfaceTint
+                                  .withAlpha(20),
                             ),
                             trailing: Text(
                               '${viewModel.progress.toStringAsFixed((0))}%',
