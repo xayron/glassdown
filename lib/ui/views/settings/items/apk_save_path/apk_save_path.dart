@@ -14,10 +14,12 @@ class ApkSavePath extends StackedView<ApkSavePathModel> {
     Widget? child,
   ) {
     return InkWell(
-      onTap: () => viewModel.pickFolder(context),
+      onTap:
+          viewModel.storageStatus ? () => viewModel.pickFolder(context) : null,
       child: ItemWrapper(
         mainText: 'Change APK save path',
         secondaryText: 'Saved in: ${viewModel.exportApkPath}',
+        enabled: viewModel.storageStatus,
       ),
     );
   }
@@ -27,4 +29,10 @@ class ApkSavePath extends StackedView<ApkSavePathModel> {
     BuildContext context,
   ) =>
       ApkSavePathModel();
+
+  @override
+  void onViewModelReady(ApkSavePathModel viewModel) {
+    super.onViewModelReady(viewModel);
+    viewModel.getStoragePermissionStatus();
+  }
 }
