@@ -19,7 +19,9 @@ class ExportLogs extends StackedView<ExportLogsModel> {
         mainText: 'Export logs',
         secondaryText: 'Saved in: ${viewModel.exportLogsPath}',
         trailingWidget: FilledButton.tonal(
-          onPressed: () => viewModel.pickFolder(context),
+          onPressed: viewModel.storageStatus
+              ? () => viewModel.pickFolder(context)
+              : null,
           child: const Text('Change path'),
         ),
       ),

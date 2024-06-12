@@ -17,6 +17,21 @@ class ExportLogsModel extends ReactiveViewModel {
   final _snackbar = locator<SnackbarService>();
   final _settings = locator<SettingsService>();
 
+  bool _storageStatus = false;
+  bool get storageStatus => _storageStatus;
+
+  Future<void> getStoragePermissionStatus() async {
+    try {
+      _storageStatus = await _settings.storageGranted();
+      rebuildUi();
+    } catch (e) {
+      _snackbar.showCustomSnackBar(
+        message: e is IOError ? e.message : "Can't pick this folder",
+        variant: SnackbarType.info,
+      );
+    }
+  }
+
   String get exportLogsPath {
     if (_settings.exportLogsPath.length <= 20) {
       return 'Main Storage';

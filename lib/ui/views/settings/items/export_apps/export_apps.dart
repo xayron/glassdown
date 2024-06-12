@@ -19,7 +19,9 @@ class ExportApps extends StackedView<ExportAppsModel> {
         mainText: 'Export apps',
         secondaryText: 'Saved in: ${viewModel.exportAppsPath}',
         trailingWidget: FilledButton.tonal(
-          onPressed: () => viewModel.pickFolder(context),
+          onPressed: viewModel.storageStatus
+              ? () => viewModel.pickFolder(context)
+              : null,
           child: const Text('Change path'),
         ),
       ),
