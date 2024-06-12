@@ -8,6 +8,7 @@ import 'package:glass_down_v2/util/function_name.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shizuku_apk_installer/shizuku_apk_installer.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
@@ -335,5 +336,9 @@ class SettingsService
       );
     }
     return false;
+  }
+
+  Future<String?> checkShizukuStatus() async {
+    return await ShizukuApkInstaller.checkPermission();
   }
 }
