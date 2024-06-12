@@ -14,15 +14,14 @@ class ShizukuInstaller extends StackedView<ShizukuInstallerModel> {
     Widget? child,
   ) {
     return InkWell(
-      onTap: viewModel.shizukuAvailable
+      onTap: viewModel.shizukuAvailable()
           ? () => viewModel.updateValue(!viewModel.shizukuEnabled)
           : null,
       child: ItemWrapper(
         mainText: 'Shizuku installer (BETA)',
-        secondaryText: viewModel.getStatus(),
-        threeLined: true,
+        secondaryText: 'Install APKs without interaction',
         trailingWidget: Switch(
-          onChanged: viewModel.shizukuAvailable
+          onChanged: viewModel.shizukuAvailable()
               ? (value) => viewModel.updateValue(value)
               : null,
           value: viewModel.shizukuEnabled,
