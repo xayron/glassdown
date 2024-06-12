@@ -34,6 +34,8 @@ class PermissionsViewModel extends BaseViewModel {
     }
     final installGranted =
         await Permission.requestInstallPackages.status.isGranted;
+    final result = await ShizukuApkInstaller.checkPermission();
+    _shizuku = result?.contains('granted') ?? false;
     _storage = storageGranted;
     _install = installGranted;
     rebuildUi();
