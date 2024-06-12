@@ -18,7 +18,7 @@ class ShizukuInstaller extends StackedView<ShizukuInstallerModel> {
           ? () => viewModel.updateValue(!viewModel.shizukuEnabled)
           : null,
       child: ItemWrapper(
-        mainText: 'Shizuku installer',
+        mainText: 'Shizuku installer (BETA)',
         secondaryText: viewModel.getStatus(),
         threeLined: true,
         trailingWidget: Switch(
