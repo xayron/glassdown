@@ -9,6 +9,7 @@ import 'package:glass_down_v2/util/function_name.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:glass_down_v2/models/errors/scrape_error.dart';
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 
 typedef ApkTypeRecord = (String link, String arch);
@@ -640,9 +641,16 @@ class ScraperService with ListenableServiceMixin {
 
       final extension = app.pickedType!.isBundle ? 'apkm' : 'apk';
 
-      final file = File(
-        '${savePlace.path}/$name.$extension',
-      );
+      final finalPath = '${savePlace.path}/$name.$extension';
+      final exists = await File(finalPath).exists();
+
+      File file;
+      if (!exists) {
+        file = File(finalPath);
+      } else {
+        final date = DateFormat('HH_mm_ss').format(DateTime.now());
+        file = File('${savePlace.path}/${name}_$date.$extension');
+      }
       FlutterLogs.logInfo(
         runtimeType.toString(),
         getFunctionName(),
