@@ -6,6 +6,7 @@ import 'package:glass_down_v2/ui/views/settings/items/exclude_bundles/exclude_bu
 import 'package:glass_down_v2/ui/views/settings/items/exclude_unstable/exclude_unstable.dart';
 import 'package:glass_down_v2/ui/views/settings/items/offer_deleting_old_apks/offer_deleting_old_apks.dart';
 import 'package:glass_down_v2/ui/views/settings/items/pages_count/pages_count.dart';
+import 'package:glass_down_v2/ui/views/settings/items/shizuku_installer/shizuku_installer.dart';
 import 'package:glass_down_v2/ui/widgets/settings/common/group_header.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -63,6 +64,8 @@ Future<T?> showQuickSettingsSheet<T>() {
                             GroupHeader(name: 'Apps'),
                             DeleteOldVersions(rounded: true),
                             OfferDeletingOldApks(rounded: true),
+                            GroupHeader(name: 'Others'),
+                            ShizukuInstaller(rounded: true),
                           ],
                         ),
                       ),

@@ -5,7 +5,12 @@ import 'package:stacked/stacked.dart';
 import 'shizuku_installer_model.dart';
 
 class ShizukuInstaller extends StackedView<ShizukuInstallerModel> {
-  const ShizukuInstaller({super.key});
+  const ShizukuInstaller({
+    super.key,
+    this.rounded = false,
+  });
+
+  final bool rounded;
 
   @override
   Widget builder(
@@ -14,6 +19,7 @@ class ShizukuInstaller extends StackedView<ShizukuInstallerModel> {
     Widget? child,
   ) {
     return InkWell(
+      borderRadius: rounded ? BorderRadius.circular(16) : null,
       onTap: viewModel.shizukuAvailable()
           ? () => viewModel.updateValue(!viewModel.shizukuEnabled)
           : null,
