@@ -114,14 +114,6 @@ Future<T?> showUpdaterSheet<T>() {
                     ),
                   ],
                   verticalSpaceSmall,
-                  if (!viewModel.installStatus) ...[
-                    const ListTile(
-                      title: Text(
-                        'App has not been granted permission to install packages. Grant it via "Show permissions page" option in Settings to enable auto updating.',
-                      ),
-                    ),
-                    verticalSpaceSmall,
-                  ],
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -134,7 +126,7 @@ Future<T?> showUpdaterSheet<T>() {
                       ),
                       horizontalSpaceMedium,
                       FilledButton(
-                        onPressed: viewModel.started || !viewModel.installStatus
+                        onPressed: viewModel.started
                             ? null
                             : () => viewModel.downloadUpdate(),
                         child: const Text('Update'),
