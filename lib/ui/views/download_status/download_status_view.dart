@@ -78,22 +78,22 @@ class DownloadStatusView extends StackedView<DownloadStatusViewModel> {
                     child: Column(
                       children: [
                         StatusCard(
-                          title: 'Scrapping download page',
+                          title: 'Scrape download page',
                           complete: viewModel.pageStatus.$1,
                           // subTitle: viewModel.pageStatus.$2,
                         ),
                         StatusCard(
-                          title: 'Scrapping download link',
+                          title: 'Scrape download link',
                           complete: viewModel.linkStatus.$1,
                           // subTitle: viewModel.linkStatus.$2,
                         ),
                         StatusCard(
-                          title: 'Getting save path',
+                          title: 'Get save path',
                           complete: viewModel.saveStatus.$1,
                           // subTitle: viewModel.saveStatus.$2,
                         ),
                         ProgressCard(
-                          title: 'Downloading & saving APK',
+                          title: 'Download APK',
                           complete: viewModel.apkStatus.$1 ?? true,
                           progress: viewModel.downloadProgress,
                         ),
@@ -107,9 +107,10 @@ class DownloadStatusView extends StackedView<DownloadStatusViewModel> {
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(16, 16, 4, 0),
                           child: FilledButton.icon(
-                            onPressed: viewModel.success
-                                ? () => viewModel.openApk()
-                                : null,
+                            onPressed:
+                                viewModel.success && viewModel.installStatus
+                                    ? () => viewModel.openApk()
+                                    : null,
                             icon: const Icon(Icons.install_mobile),
                             label: const Text('Install APK'),
                           ),
