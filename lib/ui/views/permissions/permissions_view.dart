@@ -84,6 +84,35 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
                               ),
                       ),
                     ),
+                    verticalSpaceTiny,
+                    Card(
+                      clipBehavior: Clip.antiAlias,
+                      elevation: 1,
+                      child: ListTile(
+                        onTap: () => viewModel.requestShizukuPermission(),
+                        title: const Text('Shizuku installer'),
+                        subtitle: const Text(
+                          'Needed for installing APKs without user interaction',
+                        ),
+                        tileColor: !viewModel.shizuku
+                            ? Theme.of(context)
+                                .colorScheme
+                                .surfaceTint
+                                .withAlpha(20)
+                            : Colors.lightGreenAccent.withAlpha(40),
+                        trailing: !viewModel.shizuku
+                            ? const Icon(
+                                Icons.close,
+                                color: Colors.redAccent,
+                                size: 30,
+                              )
+                            : const Icon(
+                                Icons.check,
+                                color: Colors.green,
+                                size: 30,
+                              ),
+                      ),
+                    ),
                     verticalSpaceSmall,
                     Row(
                       children: [

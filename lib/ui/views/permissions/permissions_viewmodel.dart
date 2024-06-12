@@ -4,6 +4,7 @@ import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:glass_down_v2/ui/views/apps/apps_view.dart';
 import 'package:glass_down_v2/util/function_name.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shizuku_apk_installer/shizuku_apk_installer.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -19,6 +20,9 @@ class PermissionsViewModel extends BaseViewModel {
 
   bool _install = false;
   bool get install => _install;
+
+  bool _shizuku = false;
+  bool get shizuku => _shizuku;
 
   Future<void> init() async {
     final sdk = await _settings.getSdkVersion();
@@ -68,6 +72,12 @@ class PermissionsViewModel extends BaseViewModel {
   Future<void> requestInstallPermission() async {
     final result = await Permission.requestInstallPackages.request();
     _install = result.isGranted;
+    rebuildUi();
+  }
+
+  Future<void> requestShizukuPermission() async {
+    final result = await ShizukuApkInstaller.checkPermission();
+    _shizuku = result?.contains('granted') ?? false;
     rebuildUi();
   }
 }
