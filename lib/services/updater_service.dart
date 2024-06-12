@@ -65,10 +65,12 @@ class UpdaterService with ListenableServiceMixin {
       raf.writeFromSync(app.data!);
       raf.closeSync();
 
-      final shizukuAvailable = await _settings.checkShizukuStatus();
-      final granted = shizukuAvailable?.contains('granted');
-      if (granted != null && _settings.shizuku) {
-        await ShizukuApkInstaller.installAPK(file.uri.toString(), 'GlassDown');
+      final shizukuAvailable = await _settings.shizukuAvailable();
+      if (shizukuAvailable) {
+        await ShizukuApkInstaller.installAPK(
+          file.uri.toString(),
+          'com.sinneida.glassdown2',
+        );
       }
       OpenFilex.open(file.path);
     } catch (e) {
