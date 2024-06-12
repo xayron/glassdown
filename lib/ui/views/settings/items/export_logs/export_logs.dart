@@ -33,4 +33,10 @@ class ExportLogs extends StackedView<ExportLogsModel> {
     BuildContext context,
   ) =>
       ExportLogsModel();
+
+  @override
+  void onViewModelReady(ExportLogsModel viewModel) {
+    super.onViewModelReady(viewModel);
+    viewModel.getStoragePermissionStatus();
+  }
 }
