@@ -338,7 +338,12 @@ class SettingsService
     return false;
   }
 
-  Future<String?> checkShizukuStatus() async {
-    return await ShizukuApkInstaller.checkPermission();
+  Future<bool> shizukuAvailable() async {
+    final status = await ShizukuApkInstaller.checkPermission();
+    final granted = status?.contains('granted');
+    if (granted != null && _shizuku) {
+      return true;
+    }
+    return false;
   }
 }
