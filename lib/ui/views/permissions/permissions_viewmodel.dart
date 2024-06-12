@@ -37,6 +37,7 @@ class PermissionsViewModel extends BaseViewModel {
 
   Future<void> goHome() async {
     await createAppDir();
+    _settings.setShownPermissions(true);
     _nav.clearStackAndShowView(const AppsView());
   }
 

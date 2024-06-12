@@ -29,6 +29,7 @@ enum SettingsKey {
   useImportedFont,
   customFont,
   shizuku,
+  shownPermissions,
 }
 
 // ignore: constant_identifier_names
@@ -58,6 +59,7 @@ class SettingsService
       _offerRemoval,
       _exportLogsPath,
       _shizuku,
+      _shownPermissions,
     ]);
   }
 
@@ -199,6 +201,14 @@ class SettingsService
     _savePref<bool>(SettingsKey.shizuku, val);
   }
 
+  bool _shownPermissions = false;
+  bool get shownPermissions => _shownPermissions;
+  void setShownPermissions(bool val) {
+    _shownPermissions = val;
+    notifyListeners();
+    _savePref<bool>(SettingsKey.shownPermissions, val);
+  }
+
   @override
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -247,6 +257,7 @@ class SettingsService
         _prefs.getBool(SettingsKey.useImportedFont.name) ?? _useImportedFont;
     _customFont = _prefs.getString(SettingsKey.customFont.name) ?? _customFont;
     _shizuku = _prefs.getBool(SettingsKey.shizuku.name) ?? _shizuku;
+    _shownPermissions = _prefs.getBool(SettingsKey.shownPermissions.name) ?? _shownPermissions;
   }
 
   Future<void> ensureAppDirExists() async {
