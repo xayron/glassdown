@@ -3,18 +3,23 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/models/errors/update_error.dart';
 import 'package:glass_down_v2/models/update_info.dart';
+import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:glass_down_v2/util/function_name.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shizuku_apk_installer/shizuku_apk_installer.dart';
 import 'package:stacked/stacked.dart';
 
 class UpdaterService with ListenableServiceMixin {
   UpdaterService() {
     listenToReactiveValues([_downloadProgress]);
   }
+
+  final _settings = locator<SettingsService>();
 
   final _url = 'https://api.github.com/repos/sinneida/glassdown/releases';
   final _dio = Dio(BaseOptions(method: 'get'));
@@ -60,6 +65,11 @@ class UpdaterService with ListenableServiceMixin {
       raf.writeFromSync(app.data!);
       raf.closeSync();
 
+      final shizukuAvailable = await _settings.checkShizukuStatus();
+      final granted = shizukuAvailable?.contains('granted');
+      if (granted != null && _settings.shizuku) {
+        await ShizukuApkInstaller.installAPK(file.path, 'GlassDown');
+      }
       OpenFilex.open(file.path);
     } catch (e) {
       FlutterLogs.logError(
