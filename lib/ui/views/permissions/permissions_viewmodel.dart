@@ -12,7 +12,7 @@ class PermissionsViewModel extends BaseViewModel {
   final _settings = locator<SettingsService>();
 
   final description =
-      'Following permissions are required for the app to run. Click on the tile to enable them.';
+      'Following permissions are optional. Click on the tile to enable them.';
 
   bool _storage = false;
   bool get storage => _storage;

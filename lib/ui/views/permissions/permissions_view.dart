@@ -33,7 +33,7 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
                         onTap: () => viewModel.requestStoragePermission(),
                         title: const Text('Storage'),
                         subtitle: const Text(
-                          'Needed for importing/exporting app list, deleting already downloaded APKs etc.',
+                          'Needed if you want a different file system localisation for importing/exporting app list, deleting already downloaded APKs etc. than default one (Downloads/GlassDown)',
                         ),
                         tileColor: !viewModel.storage
                             ? Theme.of(context)
@@ -67,7 +67,7 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
                             ? Theme.of(context)
                                 .colorScheme
                                 .surfaceTint
-                                .withAlpha(40)
+                                .withAlpha(20)
                             : Colors.lightGreenAccent.withAlpha(40),
                         trailing: !viewModel.install
                             ? const Icon(
@@ -82,17 +82,17 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
                               ),
                       ),
                     ),
-                    if (viewModel.install && viewModel.storage)
-                      Row(
-                        children: [
-                          Expanded(
-                            child: FilledButton(
-                              onPressed: () => viewModel.goHome(),
-                              child: const Text('Finish'),
-                            ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: FilledButton(
+                            onPressed: () => viewModel.goHome(),
+                            child: const Text('Finish'),
                           ),
-                        ],
-                      )
+                        ),
+                      ],
+                    )
+                    // if (viewModel.storage)
                   ],
                 ),
               ),
