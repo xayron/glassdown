@@ -61,7 +61,11 @@ class UpdaterService with ListenableServiceMixin {
       raf.writeFromSync(app.data!);
       raf.closeSync();
 
-      final shizukuAvailable = await _settings.shizukuAvailable();
+      final shizukuAllowed = _settings.shizuku;
+      bool shizukuAvailable = false;
+      if (shizukuAllowed) {
+        shizukuAvailable = await _settings.shizukuAvailable();
+      }
       if (shizukuAvailable) {
         await ShizukuApkInstaller.installAPK(
           file.uri.toString(),
