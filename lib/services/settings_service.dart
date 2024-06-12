@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:glass_down_v2/services/custom_themes_service.dart';
+import 'package:glass_down_v2/util/function_name.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
@@ -276,5 +279,26 @@ class SettingsService
   Future<int> getSdkVersion() async {
     final deviceInfo = await DeviceInfoPlugin().androidInfo;
     return deviceInfo.version.sdkInt;
+  }
+
+  Future<bool> storageGranted() async {
+    try {
+      final sdk = await getSdkVersion();
+      bool storageGranted = false;
+      if (sdk >= 30) {
+        storageGranted =
+            await Permission.manageExternalStorage.status.isGranted;
+      } else {
+        storageGranted = await Permission.storage.status.isGranted;
+      }
+      return storageGranted;
+    } catch (e) {
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        getFunctionName(),
+        'Cannot write to this folder',
+      );
+    }
+    return false;
   }
 }
