@@ -107,10 +107,9 @@ class DownloadStatusView extends StackedView<DownloadStatusViewModel> {
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(16, 16, 4, 0),
                           child: FilledButton.icon(
-                            onPressed:
-                                viewModel.success && viewModel.installStatus
-                                    ? () => viewModel.openApk()
-                                    : null,
+                            onPressed: viewModel.success
+                                ? () => viewModel.openApk()
+                                : null,
                             icon: const Icon(Icons.install_mobile),
                             label: const Text('Install APK'),
                           ),
