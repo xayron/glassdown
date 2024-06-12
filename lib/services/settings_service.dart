@@ -257,7 +257,8 @@ class SettingsService
         _prefs.getBool(SettingsKey.useImportedFont.name) ?? _useImportedFont;
     _customFont = _prefs.getString(SettingsKey.customFont.name) ?? _customFont;
     _shizuku = _prefs.getBool(SettingsKey.shizuku.name) ?? _shizuku;
-    _shownPermissions = _prefs.getBool(SettingsKey.shownPermissions.name) ?? _shownPermissions;
+    _shownPermissions =
+        _prefs.getBool(SettingsKey.shownPermissions.name) ?? _shownPermissions;
   }
 
   Future<void> ensureAppDirExists() async {
@@ -313,6 +314,19 @@ class SettingsService
         storageGranted = await Permission.storage.status.isGranted;
       }
       return storageGranted;
+    } catch (e) {
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        getFunctionName(),
+        'Cannot write to this folder',
+      );
+    }
+    return false;
+  }
+
+  Future<bool> installGranted() async {
+    try {
+      return await Permission.requestInstallPackages.status.isGranted;
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
