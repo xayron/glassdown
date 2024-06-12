@@ -15,6 +15,8 @@ typedef ApkTypeRecord = (String link, String arch);
 
 typedef Status = (bool? status, String? message);
 
+typedef StatusWithUri = (bool? status, String? message, Uri? uri);
+
 typedef SearchResult = ({String imgLink, String name, String link});
 
 class ScraperService with ListenableServiceMixin {
@@ -36,20 +38,20 @@ class ScraperService with ListenableServiceMixin {
   Status _linkStatus = (null, null);
   Status _apkStatus = (null, null);
   double? _downloadProgress;
-  Status _saveStatus = (null, null);
+  StatusWithUri _saveStatus = (null, null, null);
 
   Status get pageStatus => _pageStatus;
   Status get linkStatus => _linkStatus;
   Status get apkStatus => _apkStatus;
   double? get downloadProgress => _downloadProgress;
-  Status get saveStatus => _saveStatus;
+  StatusWithUri get saveStatus => _saveStatus;
 
   void clearStatuses() {
     _pageStatus = (null, null);
     _linkStatus = (null, null);
     _apkStatus = (null, null);
     _downloadProgress = null;
-    _saveStatus = (null, null);
+    _saveStatus = (null, null, null);
   }
 
   String _getErrorMessage(dynamic e) {
@@ -643,7 +645,7 @@ class ScraperService with ListenableServiceMixin {
         'Saving to: ${file.path}',
       );
 
-      _saveStatus = (true, file.path);
+      _saveStatus = (true, file.path, file.uri);
 
       return file.path;
     } catch (e) {
@@ -652,7 +654,7 @@ class ScraperService with ListenableServiceMixin {
         getFunctionName(),
         e is DioException ? e.message ?? e.error.toString() : e.toString(),
       );
-      _saveStatus = (false, _getErrorMessage(e));
+      _saveStatus = (false, _getErrorMessage(e), null);
       _apkStatus = (false, _getErrorMessage(e));
       rethrow;
     } finally {
@@ -691,7 +693,7 @@ class ScraperService with ListenableServiceMixin {
         message,
       );
       if (_saveStatus.$1 == null) {
-        _saveStatus = (false, _getErrorMessage(e));
+        _saveStatus = (false, _getErrorMessage(e), null);
       }
       _apkStatus = (false, _getErrorMessage(e));
       rethrow;
