@@ -17,7 +17,7 @@ class ShizukuInstaller extends StackedView<ShizukuInstallerModel> {
       onTap: () => viewModel.updateValue(!viewModel.shizukuEnabled),
       child: ItemWrapper(
         mainText: 'Shizuku installer',
-        secondaryText: 'Install updates automatically\nStatus: <status>',
+        secondaryText: 'Install APKs without interaction\nStatus: <status>',
         threeLined: true,
         enabled: false,
         trailingWidget: Switch(
