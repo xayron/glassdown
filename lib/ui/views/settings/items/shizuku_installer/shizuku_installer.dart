@@ -17,7 +17,7 @@ class ShizukuInstaller extends StackedView<ShizukuInstallerModel> {
       onTap: () => viewModel.updateValue(!viewModel.shizukuEnabled),
       child: ItemWrapper(
         mainText: 'Shizuku installer',
-        secondaryText: 'Install APKs without interaction\nStatus: <status>',
+        secondaryText: viewModel.getStatus(),
         threeLined: true,
         enabled: false,
         trailingWidget: Switch(
@@ -34,4 +34,10 @@ class ShizukuInstaller extends StackedView<ShizukuInstallerModel> {
     BuildContext context,
   ) =>
       ShizukuInstallerModel();
+
+  @override
+  void onViewModelReady(ShizukuInstallerModel viewModel) {
+    super.onViewModelReady(viewModel);
+    viewModel.checkShizukuStatus();
+  }
 }
