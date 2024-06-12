@@ -10,7 +10,6 @@ import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:glass_down_v2/util/function_name.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:shizuku_apk_installer/shizuku_apk_installer.dart';
 import 'package:stacked/stacked.dart';
 
 class UpdaterService with ListenableServiceMixin {
@@ -58,20 +57,8 @@ class UpdaterService with ListenableServiceMixin {
 
       final raf = file.openSync(mode: FileMode.writeOnly);
 
-      raf.writeFromSync(app.data!);
-      raf.closeSync();
-
-      final shizukuAllowed = _settings.shizuku;
-      bool shizukuAvailable = false;
-      if (shizukuAllowed) {
-        shizukuAvailable = await _settings.shizukuAvailable();
-      }
-      if (shizukuAvailable) {
-        await ShizukuApkInstaller.installAPK(
-          file.uri.toString(),
-          'com.sinneida.glassdown2',
-        );
-      }
+      await raf.writeFrom(app.data!);
+      await raf.close();
 
       final installGranted = await _settings.installGranted();
       if (installGranted) {
