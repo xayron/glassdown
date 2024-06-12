@@ -114,7 +114,6 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
 
   @override
   void onViewModelReady(PermissionsViewModel viewModel) {
-    super.onViewModelReady(viewModel);
     viewModel.init();
   }
 }

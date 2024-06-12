@@ -112,7 +112,6 @@ class AppsView extends StackedView<AppsViewModel> {
   @override
   void onViewModelReady(AppsViewModel viewModel) {
     super.onViewModelReady(viewModel);
-    viewModel.checkPermissions();
     viewModel.allApps();
     viewModel.getLatestPatches();
     viewModel.checkUpdates();
