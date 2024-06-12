@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glass_down_v2/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 
 import 'permissions_viewmodel.dart';
@@ -54,6 +55,7 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
                               ),
                       ),
                     ),
+                    verticalSpaceTiny,
                     Card(
                       clipBehavior: Clip.antiAlias,
                       elevation: 1,
@@ -82,6 +84,7 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
                               ),
                       ),
                     ),
+                    verticalSpaceSmall,
                     Row(
                       children: [
                         Expanded(
