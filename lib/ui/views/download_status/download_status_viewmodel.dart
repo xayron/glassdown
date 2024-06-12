@@ -34,6 +34,9 @@ class DownloadStatusViewModel extends ReactiveViewModel {
     return _canPop;
   }
 
+  bool _installing = false;
+  bool get installing => _installing;
+
   Status get pageStatus => _scraper.pageStatus;
   Status get linkStatus => _scraper.linkStatus;
   Status get apkStatus => _scraper.apkStatus;
@@ -104,10 +107,15 @@ class DownloadStatusViewModel extends ReactiveViewModel {
       final isBundle = saveStatus.$2!.split('.').last == 'apkm';
       if (isBundle) {
         if (shizukuAvailable) {
-          await ShizukuApkInstaller.installAPK(
-            saveStatus.$3.toString(),
-            'com.sinneida.glassdown2',
-          );
+          _installing = true;
+          rebuildUi();
+          // await ShizukuApkInstaller.installAPK(
+          //   saveStatus.$3.toString(),
+          //   'com.sinneida.glassdown2',
+          // );
+          await Future.delayed(const Duration(seconds: 4));
+          _installing = false;
+          rebuildUi();
           return;
         }
         if (_saiExists) {
@@ -119,16 +127,23 @@ class DownloadStatusViewModel extends ReactiveViewModel {
         }
       } else {
         if (shizukuAvailable) {
+          _installing = true;
+          rebuildUi();
           await ShizukuApkInstaller.installAPK(
             saveStatus.$3.toString(),
             'com.sinneida.glassdown2',
           );
+          _installing = false;
+          rebuildUi();
           return;
         }
         OpenFilex.open(saveStatus.$2);
       }
     } catch (e) {
       showSnackbar('Cannot open downloaded APK');
+      _installing = false;
+    } finally {
+      rebuildUi();
     }
   }
 

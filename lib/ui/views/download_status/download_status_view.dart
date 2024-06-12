@@ -103,26 +103,39 @@ class DownloadStatusView extends StackedView<DownloadStatusViewModel> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 4, 0),
-                          child: FilledButton.icon(
-                            onPressed: viewModel.success
-                                ? () => viewModel.openApk()
-                                : null,
-                            icon: const Icon(Icons.install_mobile),
-                            label: const Text('Install APK'),
+                      if (viewModel.installing)
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 16, 4, 0),
+                            child: FilledButton.icon(
+                              onPressed: null,
+                              icon: const Icon(Icons.downloading),
+                              label: const Text('Installing...'),
+                            ),
+                          ),
+                        )
+                      else
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 16, 4, 0),
+                            child: FilledButton.icon(
+                              onPressed: viewModel.success
+                                  ? () => viewModel.openApk()
+                                  : null,
+                              icon: const Icon(Icons.install_mobile),
+                              label: const Text('Install APK'),
+                            ),
                           ),
                         ),
-                      ),
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(4, 16, 16, 0),
                           child: FilledButton.icon(
-                            onPressed:
-                                viewModel.revancedExists && viewModel.success
-                                    ? () => viewModel.openRevanced()
-                                    : null,
+                            onPressed: viewModel.revancedExists &&
+                                    viewModel.success &&
+                                    !viewModel.installing
+                                ? () => viewModel.openRevanced()
+                                : null,
                             icon: SvgPicture.asset(
                               Theme.of(context).brightness == Brightness.light
                                   ? viewModel.revancedExists &&
@@ -148,10 +161,12 @@ class DownloadStatusView extends StackedView<DownloadStatusViewModel> {
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
                           child: FilledButton.tonalIcon(
-                            onPressed: () {
-                              viewModel.cancel();
-                              viewModel.returnTo(home: true);
-                            },
+                            onPressed: !viewModel.installing
+                                ? () {
+                                    viewModel.cancel();
+                                    viewModel.returnTo(home: true);
+                                  }
+                                : null,
                             icon: const Icon(
                               Icons.keyboard_double_arrow_left_rounded,
                             ),
