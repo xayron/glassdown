@@ -33,6 +33,7 @@ enum SettingsKey {
   shizuku,
   shownPermissions,
   disableUpdates,
+  patchesSource,
 }
 
 // ignore: constant_identifier_names
@@ -65,6 +66,7 @@ class SettingsService
       _shizuku,
       _shownPermissions,
       _disableUpdates,
+      _patchesSource,
     ]);
   }
 
@@ -230,6 +232,14 @@ class SettingsService
     _savePref<bool>(SettingsKey.disableUpdates, val);
   }
 
+  String _patchesSource = 'revanced';
+  String get patchesSource => _patchesSource;
+  void setPatchesSource(String val) {
+    _patchesSource = val;
+    notifyListeners();
+    _savePref<String>(SettingsKey.patchesSource, val);
+  }
+
   @override
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -284,6 +294,8 @@ class SettingsService
         _prefs.getBool(SettingsKey.shownPermissions.name) ?? _shownPermissions;
     _disableUpdates =
         _prefs.getBool(SettingsKey.disableUpdates.name) ?? _disableUpdates;
+    _patchesSource =
+        _prefs.getString(SettingsKey.patchesSource.name) ?? _patchesSource;
   }
 
   Future<void> ensureAppDirExists() async {
