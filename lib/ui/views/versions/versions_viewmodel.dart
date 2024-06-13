@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/models/app_info.dart';
@@ -29,7 +30,7 @@ class VersionsViewModel extends ReactiveViewModel {
 
   int get settingsPages => _settings.pagesAmount;
 
-  final myScroller = ScrollController();
+  late final myScroller = ScrollController()..addListener(onScroll);
 
   Future<void> showQuickSettingsModal() async {
     try {
@@ -60,6 +61,16 @@ class VersionsViewModel extends ReactiveViewModel {
       setError(e);
     } finally {
       setBusy(false);
+    }
+  }
+
+  Future<void> onScroll() async {
+    final maxScroll = myScroller.position.maxScrollExtent;
+    final currentScroll = myScroller.position.pixels;
+    if (maxScroll - currentScroll == 0) {
+      if (_app != null) {
+        await loadMore(_app!);
+      }
     }
   }
 

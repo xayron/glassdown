@@ -91,14 +91,8 @@ class VersionsView extends StackedView<VersionsViewModel> {
                       final endOfList =
                           viewModel.appWithLinks!.links.length - 1;
                       if (index == endOfList) {
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 12, 16, 48),
-                          child: !viewModel.isBusy
-                              ? FilledButton.tonal(
-                                  onPressed: () => viewModel.loadMore(app),
-                                  child: const Text('Load more'),
-                                )
-                              : null,
+                        return const Padding(
+                          padding: EdgeInsets.fromLTRB(16, 12, 16, 48),
                         );
                       }
                       return ListView(
