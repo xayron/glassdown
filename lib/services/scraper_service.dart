@@ -299,14 +299,29 @@ class ScraperService with ListenableServiceMixin {
       List<VersionLink?> links;
 
       if (!_settings.excludeUnstable) {
-        links = apkList.map(
-          (e) {
-            return (
-              name: _trimVersion(e.text),
-              url: e.attributes['href'] ?? '',
-            );
-          },
-        ).toList();
+        if (_settings.onlyUnstable) {
+          links = apkList.map(
+            (e) {
+              final isUnstable =
+                  e.outerHtml.contains('alpha') || e.outerHtml.contains('beta');
+              if (isUnstable) {
+                return (
+                  name: _trimVersion(e.text),
+                  url: e.attributes['href'] ?? '',
+                );
+              }
+            },
+          ).toList();
+        } else {
+          links = apkList.map(
+            (e) {
+              return (
+                name: _trimVersion(e.text),
+                url: e.attributes['href'] ?? '',
+              );
+            },
+          ).toList();
+        }
       } else {
         links = apkList.map(
           (e) {
