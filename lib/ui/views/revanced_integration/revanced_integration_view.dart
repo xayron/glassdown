@@ -21,9 +21,7 @@ class RevancedIntegrationView extends StackedView<RevancedIntegrationModel> {
           ? FloatingActionButton.extended(
               onPressed: () => viewModel.getLatestPatches(),
               label: Text(
-                viewModel.apps.isEmpty || viewModel.unsupportedApps.isEmpty
-                    ? 'Get apps'
-                    : 'Refresh apps',
+                viewModel.apps.isEmpty ? 'Get apps' : 'Refresh apps',
               ),
               icon: const Icon(Icons.download),
             )
@@ -73,58 +71,64 @@ class RevancedIntegrationView extends StackedView<RevancedIntegrationModel> {
             )
           else
             SliverList(
-              delegate: SliverChildListDelegate.fixed([
+              delegate: SliverChildListDelegate([
+                const Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 16,
+                  ),
+                  child: Text(
+                    'Select a patch source below to change which source shows Revanced supported versions',
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 16,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: DropdownMenu<String>(
+                          expandedInsets: EdgeInsets.zero,
+                          inputDecorationTheme: InputDecorationTheme(
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 6,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.solid,
+                              ),
+                            ),
+                          ),
+                          initialSelection: viewModel.patches,
+                          label: const Text('Patches source'),
+                          dropdownMenuEntries: const [
+                            DropdownMenuEntry(
+                              value: 'revanced',
+                              label: 'Revanced',
+                            ),
+                            DropdownMenuEntry(
+                              value: 'revanced_extended',
+                              label: 'Revanced Extended',
+                            ),
+                          ],
+                          onSelected: (value) =>
+                              viewModel.updatePatchesSelection(value),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 ListView(
                   padding: const EdgeInsets.fromLTRB(12, 0, 12, 30),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(6, 6, 12, 12),
-                      child: Text(
-                        'Select a patch source below to change which source shows Revanced supported versions',
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: DropdownMenu<String>(
-                              expandedInsets: EdgeInsets.zero,
-                              inputDecorationTheme: InputDecorationTheme(
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 6,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  borderSide: const BorderSide(
-                                    width: 0,
-                                    style: BorderStyle.solid,
-                                  ),
-                                ),
-                              ),
-                              initialSelection: viewModel.patches,
-                              label: const Text('Patches source'),
-                              dropdownMenuEntries: const [
-                                DropdownMenuEntry(
-                                  value: 'revanced',
-                                  label: 'Revanced',
-                                ),
-                                DropdownMenuEntry(
-                                  value: 'revanced_extended',
-                                  label: 'Revanced Extended',
-                                ),
-                              ],
-                              onSelected: (value) =>
-                                  viewModel.updatePatchesSelection(value),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                     const GroupHeader(name: 'Supported apps'),
                     for (final app in viewModel.apps)
                       RevancedAppCard(
