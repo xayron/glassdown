@@ -19,6 +19,7 @@ enum SettingsKey {
   customTheme,
   themeMode,
   arch,
+  onlyBundles,
   excludeBundles,
   excludeUnstable,
   pagesAmount,
@@ -31,6 +32,7 @@ enum SettingsKey {
   customFont,
   shizuku,
   shownPermissions,
+  disableUpdates,
 }
 
 // ignore: constant_identifier_names
@@ -52,6 +54,7 @@ class SettingsService
       _themeMode,
       _customColor,
       _monetEnabled,
+      _onlyBundles,
       _excludeBundles,
       _excludeUnstable,
       _architecture,
@@ -61,6 +64,7 @@ class SettingsService
       _exportLogsPath,
       _shizuku,
       _shownPermissions,
+      _disableUpdates,
     ]);
   }
 
@@ -97,6 +101,14 @@ class SettingsService
     _customColor = value;
     notifyListeners();
     _savePref<MainColor>(SettingsKey.customTheme, value);
+  }
+
+  bool _onlyBundles = false;
+  bool get onlyBundles => _onlyBundles;
+  void setOnlyBundles(bool value) {
+    _onlyBundles = value;
+    notifyListeners();
+    _savePref<bool>(SettingsKey.onlyBundles, value);
   }
 
   bool _excludeBundles = true;
@@ -210,6 +222,14 @@ class SettingsService
     _savePref<bool>(SettingsKey.shownPermissions, val);
   }
 
+  bool _disableUpdates = false;
+  bool get disableUpdates => _disableUpdates;
+  void setDisableUpdates(bool val) {
+    _disableUpdates = val;
+    notifyListeners();
+    _savePref<bool>(SettingsKey.disableUpdates, val);
+  }
+
   @override
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -233,6 +253,7 @@ class SettingsService
       _monetEnabled = _prefs.getBool(SettingsKey.monet.name) ?? _monetEnabled;
     }
 
+    _onlyBundles = _prefs.getBool(SettingsKey.onlyBundles.name) ?? _onlyBundles;
     _excludeBundles =
         _prefs.getBool(SettingsKey.excludeBundles.name) ?? _excludeBundles;
     _excludeUnstable =
