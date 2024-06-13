@@ -13,7 +13,8 @@ class RevancedService with ListenableServiceMixin {
     listenToReactiveValues([_apps]);
   }
 
-  final _url = 'https://api.revanced.app/v2/patches/latest';
+  final _url =
+      'https://api.github.com/repos/ReVanced/revanced-patches/releases/latest';
   final _dio = Dio(
     BaseOptions(method: 'get'),
   );
@@ -47,17 +48,27 @@ class RevancedService with ListenableServiceMixin {
       _apps.clear();
       _loadingPatches = true;
       notifyListeners();
-      final patches = await _dio.get<String>(_url);
+      final ghPatches = await _dio.get<String>(_url);
+      if (ghPatches.statusCode != 200 || ghPatches.data == null) {
+        throw AppError('Revanced API Error', ghPatches.statusMessage);
+      }
 
+      final decodeGithub = jsonDecode(ghPatches.data!);
+      final patchesUrl = decodeGithub['assets'][0]['browser_download_url'];
+
+      if (patchesUrl is! String) {
+        throw AppError('Revanced API Error', 'Cannot fetch link to patches');
+      }
+
+      final patches = await _dio.get(patchesUrl);
       if (patches.statusCode != 200 || patches.data == null) {
         throw AppError('Revanced API Error', patches.statusMessage);
       }
 
       final parsedPatches = jsonDecode(patches.data!);
 
-      final List<dynamic> packages = parsedPatches['patches']
-          .map((el) => el['compatiblePackages'])
-          .toList();
+      final List<dynamic> packages =
+          parsedPatches.map((el) => el['compatiblePackages']).toList();
 
       for (final pkgList in packages) {
         if (pkgList == null) {
