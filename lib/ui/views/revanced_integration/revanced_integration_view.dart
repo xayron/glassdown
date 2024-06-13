@@ -80,6 +80,52 @@ class RevancedIntegrationView extends StackedView<RevancedIntegrationModel> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(6, 6, 12, 12),
+                      child: Text(
+                        'Select a patch source below to change which source shows Revanced supported versions',
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: DropdownMenu<String>(
+                              expandedInsets: EdgeInsets.zero,
+                              inputDecorationTheme: InputDecorationTheme(
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 6,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  borderSide: const BorderSide(
+                                    width: 0,
+                                    style: BorderStyle.solid,
+                                  ),
+                                ),
+                              ),
+                              initialSelection: viewModel.patches,
+                              label: const Text('Patches source'),
+                              dropdownMenuEntries: const [
+                                DropdownMenuEntry(
+                                  value: 'revanced',
+                                  label: 'Revanced',
+                                ),
+                                DropdownMenuEntry(
+                                  value: 'revanced_extended',
+                                  label: 'Revanced Extended',
+                                ),
+                              ],
+                              onSelected: (value) =>
+                                  viewModel.updatePatchesSelection(value),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     const GroupHeader(name: 'Supported apps'),
                     for (final app in viewModel.apps)
                       RevancedAppCard(
