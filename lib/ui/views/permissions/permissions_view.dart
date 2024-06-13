@@ -113,6 +113,35 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
                               ),
                       ),
                     ),
+                    verticalSpaceTiny,
+                    Card(
+                      clipBehavior: Clip.antiAlias,
+                      elevation: 1,
+                      child: ListTile(
+                        onTap: () => viewModel.requestUpdatesPermission(),
+                        title: const Text('Disable updates prompting'),
+                        subtitle: const Text(
+                          'Disable showing that new update is available to download from GitHub',
+                        ),
+                        tileColor: !viewModel.updates
+                            ? Theme.of(context)
+                                .colorScheme
+                                .surfaceTint
+                                .withAlpha(20)
+                            : Colors.lightGreenAccent.withAlpha(40),
+                        trailing: !viewModel.updates
+                            ? const Icon(
+                                Icons.close,
+                                color: Colors.redAccent,
+                                size: 30,
+                              )
+                            : const Icon(
+                                Icons.check,
+                                color: Colors.green,
+                                size: 30,
+                              ),
+                      ),
+                    ),
                     verticalSpaceSmall,
                     Row(
                       children: [
