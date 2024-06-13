@@ -32,7 +32,7 @@ class RevancedIntegrationModel extends ReactiveViewModel {
   }
 
   @override
-  List<ListenableServiceMixin> get listenableServices => [_revanced];
+  List<ListenableServiceMixin> get listenableServices => [_revanced, _settings];
 
   Future<void> getLatestPatches() async {
     try {
