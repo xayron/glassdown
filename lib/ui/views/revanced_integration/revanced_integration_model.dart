@@ -21,9 +21,10 @@ class RevancedIntegrationModel extends ReactiveViewModel {
   bool get isAddingApp => _isAddingApp;
 
   String get patches => _settings.patchesSource;
-  void updatePatchesSelection(String? val) {
+  Future<void> updatePatchesSelection(String? val) async {
     if (val != null) {
       _settings.setPatchesSource(val);
+      await getLatestPatches();
     }
   }
 
