@@ -41,8 +41,7 @@ class RevancedIntegrationView extends StackedView<RevancedIntegrationModel> {
             ),
             automaticallyImplyLeading: true,
           ),
-          if ((viewModel.apps.isEmpty || viewModel.unsupportedApps.isEmpty) &&
-              !viewModel.isLoading)
+          if (viewModel.apps.isEmpty && !viewModel.isLoading)
             const PlaceholderText(
               text: [
                 "Please tap 'Get apps' below",
