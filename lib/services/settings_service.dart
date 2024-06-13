@@ -2,9 +2,13 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_logs/flutter_logs.dart';
 import 'package:glass_down_v2/services/custom_themes_service.dart';
+import 'package:glass_down_v2/util/function_name.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shizuku_apk_installer/shizuku_apk_installer.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
@@ -26,6 +30,7 @@ enum SettingsKey {
   useImportedFont,
   customFont,
   shizuku,
+  shownPermissions,
 }
 
 // ignore: constant_identifier_names
@@ -54,6 +59,8 @@ class SettingsService
       _autoRemove,
       _offerRemoval,
       _exportLogsPath,
+      _shizuku,
+      _shownPermissions,
     ]);
   }
 
@@ -187,6 +194,22 @@ class SettingsService
     notifyListeners();
   }
 
+  bool _shizuku = false;
+  bool get shizuku => _shizuku;
+  void setShizuku(bool val) {
+    _shizuku = val;
+    notifyListeners();
+    _savePref<bool>(SettingsKey.shizuku, val);
+  }
+
+  bool _shownPermissions = false;
+  bool get shownPermissions => _shownPermissions;
+  void setShownPermissions(bool val) {
+    _shownPermissions = val;
+    notifyListeners();
+    _savePref<bool>(SettingsKey.shownPermissions, val);
+  }
+
   @override
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -234,6 +257,9 @@ class SettingsService
     _useImportedFont =
         _prefs.getBool(SettingsKey.useImportedFont.name) ?? _useImportedFont;
     _customFont = _prefs.getString(SettingsKey.customFont.name) ?? _customFont;
+    _shizuku = _prefs.getBool(SettingsKey.shizuku.name) ?? _shizuku;
+    _shownPermissions =
+        _prefs.getBool(SettingsKey.shownPermissions.name) ?? _shownPermissions;
   }
 
   Future<void> ensureAppDirExists() async {
@@ -276,5 +302,48 @@ class SettingsService
   Future<int> getSdkVersion() async {
     final deviceInfo = await DeviceInfoPlugin().androidInfo;
     return deviceInfo.version.sdkInt;
+  }
+
+  Future<bool> storageGranted() async {
+    try {
+      final sdk = await getSdkVersion();
+      bool storageGranted = false;
+      if (sdk >= 30) {
+        storageGranted =
+            await Permission.manageExternalStorage.status.isGranted;
+      } else {
+        storageGranted = await Permission.storage.status.isGranted;
+      }
+      return storageGranted;
+    } catch (e) {
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        getFunctionName(),
+        'Cannot write to this folder',
+      );
+    }
+    return false;
+  }
+
+  Future<bool> installGranted() async {
+    try {
+      return await Permission.requestInstallPackages.status.isGranted;
+    } catch (e) {
+      FlutterLogs.logError(
+        runtimeType.toString(),
+        getFunctionName(),
+        'Cannot write to this folder',
+      );
+    }
+    return false;
+  }
+
+  Future<bool> shizukuAvailable() async {
+    final status = await ShizukuApkInstaller.checkPermission();
+    final granted = status?.contains('granted');
+    if (granted != null && _shizuku) {
+      return true;
+    }
+    return false;
   }
 }

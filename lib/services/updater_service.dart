@@ -3,18 +3,21 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/models/errors/update_error.dart';
 import 'package:glass_down_v2/models/update_info.dart';
+import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:glass_down_v2/util/function_name.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:stacked/stacked.dart';
 
 class UpdaterService with ListenableServiceMixin {
   UpdaterService() {
     listenToReactiveValues([_downloadProgress]);
   }
+
+  final _settings = locator<SettingsService>();
 
   final _url = 'https://api.github.com/repos/sinneida/glassdown/releases';
   final _dio = Dio(BaseOptions(method: 'get'));
@@ -26,7 +29,8 @@ class UpdaterService with ListenableServiceMixin {
   bool get isDev => _isDev;
   String _version = '';
 
-  Future<void> downloadUpdate(AppReleaseInfo version, CancelToken token) async {
+  Future<bool?> downloadUpdate(
+      AppReleaseInfo version, CancelToken token) async {
     try {
       final app = await _dio.get<List<int>>(
         version.url!,
@@ -47,20 +51,21 @@ class UpdaterService with ListenableServiceMixin {
         );
       }
 
-      final dir = await getExternalStorageDirectory();
-
-      if (dir == null) {
-        throw UpdateError('Cannot get save directory path');
-      }
+      final dir = Directory(defaultDirPath);
 
       final file = File('${dir.path}/${version.name}.apk');
 
       final raf = file.openSync(mode: FileMode.writeOnly);
 
-      raf.writeFromSync(app.data!);
-      raf.closeSync();
+      await raf.writeFrom(app.data!);
+      await raf.close();
 
-      OpenFilex.open(file.path);
+      final installGranted = await _settings.installGranted();
+      if (installGranted) {
+        OpenFilex.open(file.path);
+      } else {
+        return false;
+      }
     } catch (e) {
       FlutterLogs.logError(
         runtimeType.toString(),
@@ -72,6 +77,7 @@ class UpdaterService with ListenableServiceMixin {
     } finally {
       notifyListeners();
     }
+    return null;
   }
 
   String _getUpdateUrl() {

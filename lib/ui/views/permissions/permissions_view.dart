@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glass_down_v2/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 
 import 'permissions_viewmodel.dart';
@@ -33,7 +34,7 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
                         onTap: () => viewModel.requestStoragePermission(),
                         title: const Text('Storage'),
                         subtitle: const Text(
-                          'Needed for importing/exporting app list, deleting already downloaded APKs etc.',
+                          'Needed if you want a different file system localisation for importing/exporting app list, deleting already downloaded APKs etc. than default one (Downloads/GlassDown)',
                         ),
                         tileColor: !viewModel.storage
                             ? Theme.of(context)
@@ -54,6 +55,7 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
                               ),
                       ),
                     ),
+                    verticalSpaceTiny,
                     Card(
                       clipBehavior: Clip.antiAlias,
                       elevation: 1,
@@ -67,7 +69,7 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
                             ? Theme.of(context)
                                 .colorScheme
                                 .surfaceTint
-                                .withAlpha(40)
+                                .withAlpha(20)
                             : Colors.lightGreenAccent.withAlpha(40),
                         trailing: !viewModel.install
                             ? const Icon(
@@ -82,17 +84,47 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
                               ),
                       ),
                     ),
-                    if (viewModel.install && viewModel.storage)
-                      Row(
-                        children: [
-                          Expanded(
-                            child: FilledButton(
-                              onPressed: () => viewModel.goHome(),
-                              child: const Text('Finish'),
-                            ),
+                    verticalSpaceTiny,
+                    Card(
+                      clipBehavior: Clip.antiAlias,
+                      elevation: 1,
+                      child: ListTile(
+                        onTap: () => viewModel.requestShizukuPermission(),
+                        title: const Text('Shizuku installer'),
+                        subtitle: const Text(
+                          'Needed for installing APKs without user interaction',
+                        ),
+                        tileColor: !viewModel.shizuku
+                            ? Theme.of(context)
+                                .colorScheme
+                                .surfaceTint
+                                .withAlpha(20)
+                            : Colors.lightGreenAccent.withAlpha(40),
+                        trailing: !viewModel.shizuku
+                            ? const Icon(
+                                Icons.close,
+                                color: Colors.redAccent,
+                                size: 30,
+                              )
+                            : const Icon(
+                                Icons.check,
+                                color: Colors.green,
+                                size: 30,
+                              ),
+                      ),
+                    ),
+                    verticalSpaceSmall,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: FilledButton(
+                            onPressed: () => viewModel.goHome(),
+                            child: const Text('Finish'),
                           ),
-                        ],
-                      )
+                        ),
+                      ],
+                    )
+                    // if (viewModel.storage)
                   ],
                 ),
               ),
@@ -111,7 +143,6 @@ class PermissionsView extends StackedView<PermissionsViewModel> {
 
   @override
   void onViewModelReady(PermissionsViewModel viewModel) {
-    super.onViewModelReady(viewModel);
     viewModel.init();
   }
 }

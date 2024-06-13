@@ -11,9 +11,7 @@ import 'package:glass_down_v2/services/updater_service.dart';
 import 'package:glass_down_v2/ui/bottom_sheets/add_app/add_app.dart';
 import 'package:glass_down_v2/ui/bottom_sheets/updater/update_sheet.dart';
 import 'package:glass_down_v2/ui/transition/custom_transitions.dart';
-import 'package:glass_down_v2/ui/views/permissions/permissions_view.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -49,21 +47,6 @@ class AppsViewModel extends StreamViewModel {
 
   @override
   Stream<InternetStatus> get stream => InternetConnection().onStatusChange;
-
-  Future<void> checkPermissions() async {
-    final sdk = await _settings.getSdkVersion();
-    bool storageGranted = false;
-    if (sdk >= 30) {
-      storageGranted = await Permission.manageExternalStorage.status.isGranted;
-    } else {
-      storageGranted = await Permission.storage.status.isGranted;
-    }
-    final installGranted =
-        await Permission.requestInstallPackages.status.isGranted;
-    if (!storageGranted || !installGranted) {
-      _nav.replaceWithTransition(const PermissionsView());
-    }
-  }
 
   Future<void> showSettings() async {
     await _nav.navigateTo(

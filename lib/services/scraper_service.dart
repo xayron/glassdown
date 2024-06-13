@@ -9,11 +9,14 @@ import 'package:glass_down_v2/util/function_name.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:glass_down_v2/models/errors/scrape_error.dart';
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 
 typedef ApkTypeRecord = (String link, String arch);
 
 typedef Status = (bool? status, String? message);
+
+typedef StatusWithUri = (bool? status, String? message, Uri? uri);
 
 typedef SearchResult = ({String imgLink, String name, String link});
 
@@ -36,20 +39,20 @@ class ScraperService with ListenableServiceMixin {
   Status _linkStatus = (null, null);
   Status _apkStatus = (null, null);
   double? _downloadProgress;
-  Status _saveStatus = (null, null);
+  StatusWithUri _saveStatus = (null, null, null);
 
   Status get pageStatus => _pageStatus;
   Status get linkStatus => _linkStatus;
   Status get apkStatus => _apkStatus;
   double? get downloadProgress => _downloadProgress;
-  Status get saveStatus => _saveStatus;
+  StatusWithUri get saveStatus => _saveStatus;
 
   void clearStatuses() {
     _pageStatus = (null, null);
     _linkStatus = (null, null);
     _apkStatus = (null, null);
     _downloadProgress = null;
-    _saveStatus = (null, null);
+    _saveStatus = (null, null, null);
   }
 
   String _getErrorMessage(dynamic e) {
@@ -90,6 +93,10 @@ class ScraperService with ListenableServiceMixin {
       baseUrl: 'https://www.apkmirror.com/',
       followRedirects: true,
       method: 'get',
+      headers: {
+        HttpHeaders.userAgentHeader:
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0',
+      },
     ),
   );
 
@@ -127,7 +134,7 @@ class ScraperService with ListenableServiceMixin {
         final name = _trimAppName(textElement.text);
         final link = textElement.attributes['href'];
 
-        if (!appNames.contains(name)) {
+        if (!appNames.contains(name) && !name.contains('beta')) {
           searchResults.add((
             imgLink: 'https://www.apkmirror.com$logoUrl',
             name: name,
@@ -634,16 +641,23 @@ class ScraperService with ListenableServiceMixin {
 
       final extension = app.pickedType!.isBundle ? 'apkm' : 'apk';
 
-      final file = File(
-        '${savePlace.path}/$name.$extension',
-      );
+      final finalPath = '${savePlace.path}/$name.$extension';
+      final exists = await File(finalPath).exists();
+
+      File file;
+      if (!exists) {
+        file = File(finalPath);
+      } else {
+        final date = DateFormat('HH_mm_ss').format(DateTime.now());
+        file = File('${savePlace.path}/${name}_$date.$extension');
+      }
       FlutterLogs.logInfo(
         runtimeType.toString(),
         getFunctionName(),
         'Saving to: ${file.path}',
       );
 
-      _saveStatus = (true, file.path);
+      _saveStatus = (true, file.path, file.uri);
 
       return file.path;
     } catch (e) {
@@ -652,7 +666,7 @@ class ScraperService with ListenableServiceMixin {
         getFunctionName(),
         e is DioException ? e.message ?? e.error.toString() : e.toString(),
       );
-      _saveStatus = (false, _getErrorMessage(e));
+      _saveStatus = (false, _getErrorMessage(e), null);
       _apkStatus = (false, _getErrorMessage(e));
       rethrow;
     } finally {
@@ -691,7 +705,7 @@ class ScraperService with ListenableServiceMixin {
         message,
       );
       if (_saveStatus.$1 == null) {
-        _saveStatus = (false, _getErrorMessage(e));
+        _saveStatus = (false, _getErrorMessage(e), null);
       }
       _apkStatus = (false, _getErrorMessage(e));
       rethrow;

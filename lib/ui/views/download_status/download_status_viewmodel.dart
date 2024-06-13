@@ -6,8 +6,10 @@ import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/app/app.snackbar.dart';
 import 'package:glass_down_v2/models/app_info.dart';
 import 'package:glass_down_v2/services/scraper_service.dart';
+import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:glass_down_v2/ui/views/apps/apps_view.dart';
 import 'package:open_filex/open_filex.dart';
+import 'package:shizuku_apk_installer/shizuku_apk_installer.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -17,6 +19,7 @@ class DownloadStatusViewModel extends ReactiveViewModel {
   final _token = CancelToken();
   final _snackbar = locator<SnackbarService>();
   final _dialog = locator<DialogService>();
+  final _settings = locator<SettingsService>();
 
   CancelableOperation<bool>? operation;
 
@@ -31,11 +34,14 @@ class DownloadStatusViewModel extends ReactiveViewModel {
     return _canPop;
   }
 
+  bool _installing = false;
+  bool get installing => _installing;
+
   Status get pageStatus => _scraper.pageStatus;
   Status get linkStatus => _scraper.linkStatus;
   Status get apkStatus => _scraper.apkStatus;
   double? get downloadProgress => _scraper.downloadProgress;
-  Status get saveStatus => _scraper.saveStatus;
+  StatusWithUri get saveStatus => _scraper.saveStatus;
   bool get success => operation?.isCompleted ?? false;
 
   bool _revancedExists = false;
@@ -43,6 +49,21 @@ class DownloadStatusViewModel extends ReactiveViewModel {
 
   bool _saiExists = false;
   bool get saiExists => _saiExists;
+
+  bool _installStatus = false;
+  bool get installStatus => _installStatus;
+
+  Future<void> canInstallPackages() async {
+    try {
+      _installStatus = await _settings.installGranted();
+      rebuildUi();
+    } catch (e) {
+      _snackbar.showCustomSnackBar(
+        message: "Cannot check install packages permission",
+        variant: SnackbarType.info,
+      );
+    }
+  }
 
   Future<void> cancel() async {
     try {
@@ -78,8 +99,25 @@ class DownloadStatusViewModel extends ReactiveViewModel {
 
   Future<void> openApk() async {
     try {
+      final shizukuAllowed = _settings.shizuku;
+      bool shizukuAvailable = false;
+      if (shizukuAllowed) {
+        shizukuAvailable = await _settings.shizukuAvailable();
+      }
       final isBundle = saveStatus.$2!.split('.').last == 'apkm';
       if (isBundle) {
+        if (shizukuAvailable) {
+          _installing = true;
+          rebuildUi();
+          // await ShizukuApkInstaller.installAPK(
+          //   saveStatus.$3.toString(),
+          //   'com.sinneida.glassdown2',
+          // );
+          await Future.delayed(const Duration(seconds: 4));
+          _installing = false;
+          rebuildUi();
+          return;
+        }
         if (_saiExists) {
           await DeviceApps.openApp(saiPackageName);
         } else {
@@ -88,10 +126,24 @@ class DownloadStatusViewModel extends ReactiveViewModel {
           );
         }
       } else {
+        if (shizukuAvailable) {
+          _installing = true;
+          rebuildUi();
+          await ShizukuApkInstaller.installAPK(
+            saveStatus.$3.toString(),
+            'com.sinneida.glassdown2',
+          );
+          _installing = false;
+          rebuildUi();
+          return;
+        }
         OpenFilex.open(saveStatus.$2);
       }
     } catch (e) {
       showSnackbar('Cannot open downloaded APK');
+      _installing = false;
+    } finally {
+      rebuildUi();
     }
   }
 

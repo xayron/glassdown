@@ -14,6 +14,7 @@ class ThemeBuilderModel extends ReactiveViewModel {
   bool get monetEnabled => _settings.monetEnabled;
   MainColor get customTheme => _settings.customColor;
   bool get useImportedFont => _settings.useImportedFont;
+  bool get shownPermissions => _settings.shownPermissions;
 
   ThemeScheme getTheme(MainColor color) {
     return _themes.getTheme(color);

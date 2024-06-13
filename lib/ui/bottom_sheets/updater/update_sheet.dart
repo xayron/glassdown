@@ -14,7 +14,10 @@ Future<T?> showUpdaterSheet<T>() {
     builder: (context) {
       return ViewModelBuilder.reactive(
         viewModelBuilder: () => UpdateSheetModel(),
-        onViewModelReady: (viewModel) => viewModel.checkUpdates(),
+        onViewModelReady: (viewModel) {
+          viewModel.checkUpdates();
+          viewModel.canInstallPackages();
+        },
         builder: (context, viewModel, child) {
           return Container(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
@@ -91,8 +94,16 @@ Future<T?> showUpdaterSheet<T>() {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           ListTile(
+                            tileColor: Theme.of(context)
+                                .colorScheme
+                                .surfaceTint
+                                .withAlpha(20),
                             title: LinearProgressIndicator(
                               value: viewModel.progress.toInt() / 100,
+                              backgroundColor: Theme.of(context)
+                                  .colorScheme
+                                  .surfaceTint
+                                  .withAlpha(20),
                             ),
                             trailing: Text(
                               '${viewModel.progress.toStringAsFixed((0))}%',
