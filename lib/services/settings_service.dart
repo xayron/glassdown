@@ -19,7 +19,7 @@ enum SettingsKey {
   customTheme,
   themeMode,
   arch,
-  onlyBundles,
+  onlyUnstable,
   excludeBundles,
   excludeUnstable,
   pagesAmount,
@@ -54,7 +54,7 @@ class SettingsService
       _themeMode,
       _customColor,
       _monetEnabled,
-      _onlyBundles,
+      _onlyUnstable,
       _excludeBundles,
       _excludeUnstable,
       _architecture,
@@ -103,12 +103,12 @@ class SettingsService
     _savePref<MainColor>(SettingsKey.customTheme, value);
   }
 
-  bool _onlyBundles = false;
-  bool get onlyBundles => _onlyBundles;
-  void setOnlyBundles(bool value) {
-    _onlyBundles = value;
+  bool _onlyUnstable = false;
+  bool get onlyUnstable => _onlyUnstable;
+  void setOnlyUnstable(bool value) {
+    _onlyUnstable = value;
     notifyListeners();
-    _savePref<bool>(SettingsKey.onlyBundles, value);
+    _savePref<bool>(SettingsKey.onlyUnstable, value);
   }
 
   bool _excludeBundles = true;
@@ -253,7 +253,8 @@ class SettingsService
       _monetEnabled = _prefs.getBool(SettingsKey.monet.name) ?? _monetEnabled;
     }
 
-    _onlyBundles = _prefs.getBool(SettingsKey.onlyBundles.name) ?? _onlyBundles;
+    _onlyUnstable =
+        _prefs.getBool(SettingsKey.onlyUnstable.name) ?? _onlyUnstable;
     _excludeBundles =
         _prefs.getBool(SettingsKey.excludeBundles.name) ?? _excludeBundles;
     _excludeUnstable =
