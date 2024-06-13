@@ -19,6 +19,7 @@ enum SettingsKey {
   customTheme,
   themeMode,
   arch,
+  onlyUnstable,
   excludeBundles,
   excludeUnstable,
   pagesAmount,
@@ -31,6 +32,8 @@ enum SettingsKey {
   customFont,
   shizuku,
   shownPermissions,
+  disableUpdates,
+  patchesSource,
 }
 
 // ignore: constant_identifier_names
@@ -52,6 +55,7 @@ class SettingsService
       _themeMode,
       _customColor,
       _monetEnabled,
+      _onlyUnstable,
       _excludeBundles,
       _excludeUnstable,
       _architecture,
@@ -61,6 +65,8 @@ class SettingsService
       _exportLogsPath,
       _shizuku,
       _shownPermissions,
+      _disableUpdates,
+      _patchesSource,
     ]);
   }
 
@@ -97,6 +103,14 @@ class SettingsService
     _customColor = value;
     notifyListeners();
     _savePref<MainColor>(SettingsKey.customTheme, value);
+  }
+
+  bool _onlyUnstable = false;
+  bool get onlyUnstable => _onlyUnstable;
+  void setOnlyUnstable(bool value) {
+    _onlyUnstable = value;
+    notifyListeners();
+    _savePref<bool>(SettingsKey.onlyUnstable, value);
   }
 
   bool _excludeBundles = true;
@@ -210,6 +224,22 @@ class SettingsService
     _savePref<bool>(SettingsKey.shownPermissions, val);
   }
 
+  bool _disableUpdates = false;
+  bool get disableUpdates => _disableUpdates;
+  void setDisableUpdates(bool val) {
+    _disableUpdates = val;
+    notifyListeners();
+    _savePref<bool>(SettingsKey.disableUpdates, val);
+  }
+
+  String _patchesSource = 'revanced';
+  String get patchesSource => _patchesSource;
+  void setPatchesSource(String val) {
+    _patchesSource = val;
+    notifyListeners();
+    _savePref<String>(SettingsKey.patchesSource, val);
+  }
+
   @override
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -233,6 +263,8 @@ class SettingsService
       _monetEnabled = _prefs.getBool(SettingsKey.monet.name) ?? _monetEnabled;
     }
 
+    _onlyUnstable =
+        _prefs.getBool(SettingsKey.onlyUnstable.name) ?? _onlyUnstable;
     _excludeBundles =
         _prefs.getBool(SettingsKey.excludeBundles.name) ?? _excludeBundles;
     _excludeUnstable =
@@ -260,6 +292,10 @@ class SettingsService
     _shizuku = _prefs.getBool(SettingsKey.shizuku.name) ?? _shizuku;
     _shownPermissions =
         _prefs.getBool(SettingsKey.shownPermissions.name) ?? _shownPermissions;
+    _disableUpdates =
+        _prefs.getBool(SettingsKey.disableUpdates.name) ?? _disableUpdates;
+    _patchesSource =
+        _prefs.getString(SettingsKey.patchesSource.name) ?? _patchesSource;
   }
 
   Future<void> ensureAppDirExists() async {

@@ -9,6 +9,7 @@ import 'package:glass_down_v2/ui/views/settings/items/custom_theme/custom_theme.
 import 'package:glass_down_v2/ui/views/settings/items/delete_apps/delete_apps.dart';
 import 'package:glass_down_v2/ui/views/settings/items/delete_logs/delete_logs.dart';
 import 'package:glass_down_v2/ui/views/settings/items/delete_old_versions/delete_old_versions.dart';
+import 'package:glass_down_v2/ui/views/settings/items/disable_updates/disable_updates.dart';
 import 'package:glass_down_v2/ui/views/settings/items/exclude_bundles/exclude_bundles.dart';
 import 'package:glass_down_v2/ui/views/settings/items/exclude_unstable/exclude_unstable.dart';
 import 'package:glass_down_v2/ui/views/settings/items/export_apps/export_apps.dart';
@@ -17,6 +18,7 @@ import 'package:glass_down_v2/ui/views/settings/items/import_apps/import_apps.da
 import 'package:glass_down_v2/ui/views/settings/items/import_font/import_font.dart';
 import 'package:glass_down_v2/ui/views/settings/items/monet_theme/monet_theme.dart';
 import 'package:glass_down_v2/ui/views/settings/items/offer_deleting_old_apks/offer_deleting_old_apks.dart';
+import 'package:glass_down_v2/ui/views/settings/items/only_unstable/only_unstable.dart';
 import 'package:glass_down_v2/ui/views/settings/items/pages_count/pages_count.dart';
 import 'package:glass_down_v2/ui/views/settings/items/shizuku_installer/shizuku_installer.dart';
 import 'package:glass_down_v2/ui/views/settings/items/show_logs/show_logs.dart';
@@ -67,10 +69,12 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   GroupHeader(name: 'Filters'),
                   ExcludeBundles(),
                   ExcludeUnstable(),
+                  OnlyUnstable(),
                   AppArchitecture(),
                   PagesCount(),
                   ItemDivider(),
                   GroupHeader(name: 'Apps'),
+                  ShizukuInstaller(),
                   DeleteOldVersions(),
                   OfferDeletingOldApks(),
                   ApkSavePath(),
@@ -85,7 +89,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   ItemDivider(),
                   GroupHeader(name: 'About'),
                   ShowPermissions(),
-                  ShizukuInstaller(),
+                  DisableUpdates(),
                   CheckUpdates(),
                   AboutApp(),
                 ],

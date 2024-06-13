@@ -299,14 +299,29 @@ class ScraperService with ListenableServiceMixin {
       List<VersionLink?> links;
 
       if (!_settings.excludeUnstable) {
-        links = apkList.map(
-          (e) {
-            return (
-              name: _trimVersion(e.text),
-              url: e.attributes['href'] ?? '',
-            );
-          },
-        ).toList();
+        if (_settings.onlyUnstable) {
+          links = apkList.map(
+            (e) {
+              final isUnstable =
+                  e.outerHtml.contains('alpha') || e.outerHtml.contains('beta');
+              if (isUnstable) {
+                return (
+                  name: _trimVersion(e.text),
+                  url: e.attributes['href'] ?? '',
+                );
+              }
+            },
+          ).toList();
+        } else {
+          links = apkList.map(
+            (e) {
+              return (
+                name: _trimVersion(e.text),
+                url: e.attributes['href'] ?? '',
+              );
+            },
+          ).toList();
+        }
       } else {
         links = apkList.map(
           (e) {
@@ -327,8 +342,18 @@ class ScraperService with ListenableServiceMixin {
       }
 
       final List<VersionLink> extraLinks = [];
-      if (_settings.pagesAmount > 1 && !innerFn && !isSinglePage) {
-        for (var i = 2; i < _settings.pagesAmount + 1; i++) {
+      bool shouldFetchMore = false;
+      int extraPages = 0;
+      if (links.nonNulls.length < 15 && !isSinglePage && !innerFn) {
+        shouldFetchMore = true;
+        extraPages = 2;
+      } else if (_settings.pagesAmount > 1 && !innerFn && !isSinglePage) {
+        shouldFetchMore = true;
+      } else {
+        shouldFetchMore = false;
+      }
+      if (shouldFetchMore) {
+        for (var i = 2; i < _settings.pagesAmount + 1 + extraPages; i++) {
           final result = await getVersionList(
             app,
             token,

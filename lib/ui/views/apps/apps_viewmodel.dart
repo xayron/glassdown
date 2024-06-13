@@ -69,7 +69,7 @@ class AppsViewModel extends StreamViewModel {
       return;
     }
     final result = await _updater.checkUpdates();
-    if (result && !_updater.isDev) {
+    if (result && !_updater.isDev && !_settings.disableUpdates) {
       showUpdaterSheet();
     }
   }

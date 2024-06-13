@@ -24,6 +24,9 @@ class PermissionsViewModel extends BaseViewModel {
   bool _shizuku = false;
   bool get shizuku => _shizuku;
 
+  bool _updates = false;
+  bool get updates => _updates;
+
   Future<void> init() async {
     final sdk = await _settings.getSdkVersion();
     bool storageGranted = false;
@@ -38,6 +41,7 @@ class PermissionsViewModel extends BaseViewModel {
     _shizuku = result?.contains('granted') ?? false;
     _storage = storageGranted;
     _install = installGranted;
+    _updates = _settings.disableUpdates;
     rebuildUi();
   }
 
@@ -80,6 +84,12 @@ class PermissionsViewModel extends BaseViewModel {
   Future<void> requestShizukuPermission() async {
     final result = await ShizukuApkInstaller.checkPermission();
     _shizuku = result?.contains('granted') ?? false;
+    rebuildUi();
+  }
+
+  void requestUpdatesPermission() {
+    _updates = !_updates;
+    _settings.setDisableUpdates(_updates);
     rebuildUi();
   }
 }
