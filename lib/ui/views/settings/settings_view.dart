@@ -9,6 +9,7 @@ import 'package:glass_down_v2/ui/views/settings/items/custom_theme/custom_theme.
 import 'package:glass_down_v2/ui/views/settings/items/delete_apps/delete_apps.dart';
 import 'package:glass_down_v2/ui/views/settings/items/delete_logs/delete_logs.dart';
 import 'package:glass_down_v2/ui/views/settings/items/delete_old_versions/delete_old_versions.dart';
+import 'package:glass_down_v2/ui/views/settings/items/disable_updates/disable_updates.dart';
 import 'package:glass_down_v2/ui/views/settings/items/exclude_bundles/exclude_bundles.dart';
 import 'package:glass_down_v2/ui/views/settings/items/exclude_unstable/exclude_unstable.dart';
 import 'package:glass_down_v2/ui/views/settings/items/export_apps/export_apps.dart';
@@ -86,6 +87,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   ItemDivider(),
                   GroupHeader(name: 'About'),
                   ShowPermissions(),
+                  DisableUpdates(),
                   CheckUpdates(),
                   AboutApp(),
                 ],
