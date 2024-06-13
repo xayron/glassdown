@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_logs/flutter_logs.dart';
+import 'package:glass_down_v2/app/app.locator.dart';
 import 'package:glass_down_v2/models/errors/app_error.dart';
 import 'package:glass_down_v2/models/revanced/mapped_names.dart';
 import 'package:glass_down_v2/models/revanced/revanced_app.dart';
+import 'package:glass_down_v2/services/settings_service.dart';
 import 'package:glass_down_v2/util/function_name.dart';
 import 'package:stacked/stacked.dart';
 
@@ -13,11 +15,12 @@ class RevancedService with ListenableServiceMixin {
     listenToReactiveValues([_apps]);
   }
 
-  final _url =
+  String _url =
       'https://api.github.com/repos/ReVanced/revanced-patches/releases/latest';
   final _dio = Dio(
     BaseOptions(method: 'get'),
   );
+  final _settings = locator<SettingsService>();
 
   final List<RevancedApp> _apps = [];
   List<RevancedApp> get allApps => _apps;
@@ -38,6 +41,24 @@ class RevancedService with ListenableServiceMixin {
   bool _loadingPatches = false;
   bool get loadingPatches => _loadingPatches;
 
+  void _getPatchesSource() {
+    final source = _settings.patchesSource;
+    switch (source) {
+      case 'revanced':
+        _url =
+            'https://api.github.com/repos/ReVanced/revanced-patches/releases/latest';
+        return;
+      case 'revanced_extended':
+        _url =
+            'https://api.github.com/repos/inotia00/revanced-patches/releases/latest';
+        return;
+      default:
+        _url =
+            'https://api.github.com/repos/ReVanced/revanced-patches/releases/latest';
+        return;
+    }
+  }
+
   RevancedApp? getRevancedApp(String url) {
     final result = _apps.where((e) => e.mapperData?.url == url).toList();
     return result.isEmpty ? null : result.first;
@@ -48,6 +69,7 @@ class RevancedService with ListenableServiceMixin {
       _apps.clear();
       _loadingPatches = true;
       notifyListeners();
+      _getPatchesSource();
       final ghPatches = await _dio.get<String>(_url);
       if (ghPatches.statusCode != 200 || ghPatches.data == null) {
         throw AppError('Revanced API Error', ghPatches.statusMessage);
