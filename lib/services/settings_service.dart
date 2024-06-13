@@ -282,6 +282,8 @@ class SettingsService
     _shizuku = _prefs.getBool(SettingsKey.shizuku.name) ?? _shizuku;
     _shownPermissions =
         _prefs.getBool(SettingsKey.shownPermissions.name) ?? _shownPermissions;
+    _disableUpdates =
+        _prefs.getBool(SettingsKey.disableUpdates.name) ?? _disableUpdates;
   }
 
   Future<void> ensureAppDirExists() async {
