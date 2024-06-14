@@ -134,7 +134,9 @@ class ScraperService with ListenableServiceMixin {
         final name = _trimAppName(textElement.text);
         final link = textElement.attributes['href'];
 
-        if (!appNames.contains(name) && !name.contains('beta')) {
+        if (!appNames.contains(name) &&
+            !name.contains('beta') &&
+            !name.contains('alpha')) {
           searchResults.add((
             imgLink: 'https://www.apkmirror.com$logoUrl',
             name: name,
@@ -164,31 +166,11 @@ class ScraperService with ListenableServiceMixin {
     }
   }
 
-  Future<VersionLink> getLinkFromAppSearch(SearchResult searchResult) async {
+  VersionLink getLinkFromAppSearch(SearchResult searchResult) {
     try {
-      final response = await _dio.get<String>(searchResult.link);
+      final url = searchResult.link.split('/')[3];
 
-      if (response.statusCode != 200) {
-        throw ScrapeError(
-          'HTTP Error: Failed to fetch search list',
-          response.statusMessage,
-        );
-      }
-
-      final document = parse(response.data);
-      final allLinks = document.getElementsByTagName('a');
-      final linkElement = allLinks.firstWhere(
-        (element) {
-          final href = element.attributes['href'];
-          if (href != null) {
-            return href.contains('appcategory');
-          }
-          return false;
-        },
-      );
-      final link = linkElement.attributes['href']!.split('=').last;
-
-      return (name: searchResult.name, url: link);
+      return (name: searchResult.name, url: url);
     } catch (e) {
       String message = '';
       if (e is ScrapeError) {

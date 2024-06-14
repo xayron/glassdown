@@ -32,7 +32,7 @@ class AddAppSheetModel extends FormViewModel {
       _addingApp = true;
       _appBeingAdded = searchResult;
       rebuildUi();
-      final app = await _scraper.getLinkFromAppSearch(searchResult);
+      final app = _scraper.getLinkFromAppSearch(searchResult);
       await _apps.addApp(app, searchResult.imgLink);
       _snackbar.showCustomSnackBar(
         message: 'App added succesfully',
