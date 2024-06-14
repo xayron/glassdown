@@ -134,7 +134,9 @@ class ScraperService with ListenableServiceMixin {
         final name = _trimAppName(textElement.text);
         final link = textElement.attributes['href'];
 
-        if (!appNames.contains(name) && !name.contains('beta')) {
+        if (!appNames.contains(name) &&
+            !name.contains('beta') &&
+            !name.contains('alpha')) {
           searchResults.add((
             imgLink: 'https://www.apkmirror.com$logoUrl',
             name: name,
