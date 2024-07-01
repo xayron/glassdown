@@ -1,0 +1,3 @@
+- Fix: Exclude alpha versions from app search
+- Fix: error when trying to add such apps like Trakt or Photomath from app search
+- Fix: much faster adding app from app search
