@@ -1,12 +1,8 @@
 # GlassDown
 
-Flutter app which simplifies process of downloading APK files from APKMirror.
+Flutter app which is a client for APKMirror, simplifying process of downloading APK files from there.
 
-You add app you're interested in by tapping "Add app" button. Then you search for i.e. Reddit and tap search icon. After results are visible, you tap on the app name, which then is added to the main screen. From this point, you tap on app name on main screen, which opens a view with list of available version. Tapping on particular version moves you to screen where you pick APK type (since APKMirror offers different DPIs, plain APKs vs bundles and so on). Tapping on type moves you to screen where link for downloading are scraped and app is downloaded. Done!
-
-Besides that, on main screen you can go to Revanced section. There you can see all apps which has patches available in Revanced/revanced Extended. Tapping on one of them also adds it to the main screen, from which you can download the app, but this time on Versions screen you'll see small information, that particular version is supported by latest version of Revanced patches.
-
-In settings page you can browse logs, set theming (app supports Material You, light and dark theme as well as custom colors for people with Android below 12), pick a path where APK should be downloaded, change font used by the app (because sadly Flutter doesn't support system font) as well as option to delete previously downloaded versions of APKs and a few more.
+It has also additional features like integration with Revanced/Extended, multiple settings to finetune which versions are visible, ability to load your own font into the app, as well as Shizuku integration, Material You and many more.
 
 App also includes updater which will notify you when there's new version available.
 
