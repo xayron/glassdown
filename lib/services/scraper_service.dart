@@ -461,8 +461,35 @@ class ScraperService with ListenableServiceMixin {
     CancelToken token,
   ) async {
     try {
-      final response = await _dio.get<String>(
+      final page1Response = await _dio.get<String>(
         downloadPage,
+        cancelToken: token,
+      );
+
+      if (page1Response.statusCode != 200) {
+        throw ScrapeError(
+          "HTTP Error: can't get download button page",
+          page1Response.statusMessage,
+        );
+      }
+
+      final page2Link = parse(page1Response.data)
+          .getElementsByClassName('accent_color')
+          .where((e) =>
+              e.attributes.containsKey('href') &&
+              e.attributes['href']!.endsWith('download/'))
+          .map((e) => e.attributes['href'])
+          .toList()[0];
+
+      if (page2Link == null) {
+        throw ScrapeError(
+          "HTTP Error: can't get download button page",
+          page1Response.statusMessage,
+        );
+      }
+
+      final response = await _dio.get<String>(
+        page2Link,
         cancelToken: token,
       );
 
@@ -474,7 +501,9 @@ class ScraperService with ListenableServiceMixin {
       }
 
       final parsedDlButtonPage = parse(response.data)
-          .getElementsByClassName('downloadButton')[0]
+          .querySelectorAll('[rel="nofollow"]')
+          .where((e) => e.attributes['href']!.contains('download'))
+          .first
           .attributes['href'];
 
       if (parsedDlButtonPage == null) {
